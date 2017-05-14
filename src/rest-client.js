@@ -31,6 +31,15 @@ export default {
     })
   },
 
+  searchTopics (searchTerm, typeUri) {
+    const config = {params: {search: searchTerm, field: typeUri}}
+    return http.get('/core/topic', config).then(response =>
+      utils.instantiateMany(response.data, Topic)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   getAssoc (id, includeChilds) {
     const config = {params: {include_childs: includeChilds}}
     return http.get(`/core/association/${id}`, config).then(response =>
