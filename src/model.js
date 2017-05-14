@@ -9,6 +9,10 @@ class DeepaMehtaObject {
     this.value   = object.value
     this.childs  = utils.instantiateChilds(object.childs)
   }
+
+  get typeName () {
+    return this.getType().value
+  }
 }
 
 class Topic extends DeepaMehtaObject {
