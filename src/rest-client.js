@@ -75,6 +75,12 @@ export default {
     })
   },
 
+  addTopicToTopicmap (topicmapId, topicId, viewProps) {
+    http.post(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps).catch(error => {
+      console.error(error)
+    })
+  },
+
   setTopicPosition (topicmapId, topicId, pos) {
     // ### TODO: drop rounding and let the backend work with floats?
     pos.x = Math.round(pos.x)

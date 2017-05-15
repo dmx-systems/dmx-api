@@ -145,4 +145,4 @@ class TopicmapTopic extends Topic {
   }
 }
 
-export { Topic, Assoc, TopicType, AssocType, Topicmap }
+export { Topic, Assoc, TopicType, AssocType, Topicmap, TopicmapTopic }
