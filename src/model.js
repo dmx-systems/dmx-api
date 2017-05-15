@@ -110,6 +110,20 @@ class Topicmap extends Topic {
     return assoc
   }
 
+  /**
+   * @param   topic   a TopicmapTopic
+   */
+  addTopic (topic) {
+    this.topics[topic.id] = topic
+  }
+
+  /**
+   * @param   assoc   an Association
+   */
+  addAssoc (assoc) {
+    this.assocs[assoc.id] = assoc
+  }
+
   forEachTopic (visitor) {
     this.forEachValue(this.topics, visitor)
   }

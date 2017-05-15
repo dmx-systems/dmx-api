@@ -86,6 +86,10 @@ export default {
   },
 
   addTopicToTopicmap (topicmapId, topicId, viewProps) {
+    // ### TODO: drop rounding and let the backend work with floats?
+    viewProps['dm4.topicmaps.x'] = Math.round(viewProps['dm4.topicmaps.x'])
+    viewProps['dm4.topicmaps.y'] = Math.round(viewProps['dm4.topicmaps.y'])
+    //
     http.post(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps).catch(error => {
       console.error(error)
     })
