@@ -6,5 +6,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jri/dm5.git"
+  },
+  "dependencies": {
+    "axios": "^0.16.1"
   }
 }

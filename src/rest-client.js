@@ -14,6 +14,8 @@ export default {
   // As a workaround we catch here explicitly and log the error at least.
   // Note: the caller continues to work with flawed (undefined) data then!
 
+  // Core
+
   getTopic (id, includeChilds) {
     const config = {params: {include_childs: includeChilds}}
     return http.get(`/core/topic/${id}`, config).then(response =>
@@ -65,6 +67,14 @@ export default {
     })
   },
 
+  getPlugins () {
+    return http.get('/core/plugin').then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   // Topicmaps
 
   getTopicmap (topicmapId) {
@@ -109,6 +119,16 @@ export default {
 
   logout () {
     http.post("/accesscontrol/logout").catch(error => {
+      console.error(error)
+    })
+  },
+
+  // WebSockets
+
+  getWebsocketConfig () {
+    return http.get('/websockets').then(response =>
+      response.data
+    ).catch(error => {
       console.error(error)
     })
   }
