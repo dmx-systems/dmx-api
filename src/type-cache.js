@@ -2,24 +2,27 @@ import restClient from './rest-client'
 import utils from './utils'
 
 const state = {
-  topicTypes: undefined,    // an object: type URI (string) -> TopicType
-  assocTypes: undefined     // an object: type URI (string) -> AssocType
+  topicTypes: {},    // an object: type URI (string) -> TopicType
+  assocTypes: {}     // an object: type URI (string) -> AssocType
+}
+
+const getters = {
+  menuTopicTypes: state => utils.filter(state.topicTypes, topicType =>
+    topicType.getViewConfig('dm4.webclient.show_in_create_menu')
+  )
 }
 
 function init (store) {
   store.registerModule('typeCache', {
-    state
+    state,
+    getters
   })
-  //
+  // init state
   restClient.getAllTopicTypes().then(topicTypes => {
     state.topicTypes = utils.mapByUri(topicTypes)
-  }).catch(error => {
-    console.error(error)
   })
   restClient.getAllAssocTypes().then(assocTypes => {
     state.assocTypes = utils.mapByUri(assocTypes)
-  }).catch(error => {
-    console.error(error)
   })
 }
 

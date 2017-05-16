@@ -50,11 +50,22 @@ class Type extends Topic {
     this.dataType   = type.data_type_uri
     this.indexModes = type.index_mode_uris
     this.assocDefs  = utils.instantiateMany(type.assoc_defs, AssocDef)
-    this.viewConfig = type.view_config_topics
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.view_config_topics, Topic))
   }
 
   isSimple () {
     return this.dataType !== 'dm4.core.composite'
+  }
+
+  getViewConfig (childTypeUri) {
+    // TODO: don't hardcode config type URI
+    const configTopic = this.viewConfig['dm4.webclient.view_config']
+    if (!configTopic) {
+      console.warn(`Type "${this.uri}" has no view config`)
+      return
+    }
+    const topic = configTopic.childs[childTypeUri]
+    return topic && topic.value
   }
 }
 
@@ -114,6 +125,9 @@ class Topicmap extends Topic {
    * @param   topic   a TopicmapTopic
    */
   addTopic (topic) {
+    if (!(topic instanceof TopicmapTopic)) {
+      throw Error(topic + " is not a TopicmapTopic")
+    }
     this.topics[topic.id] = topic
   }
 
@@ -121,21 +135,18 @@ class Topicmap extends Topic {
    * @param   assoc   an Association
    */
   addAssoc (assoc) {
+    if (!(assoc instanceof Association)) {
+      throw Error(assoc + " is not an Association")
+    }
     this.assocs[assoc.id] = assoc
   }
 
   forEachTopic (visitor) {
-    this.forEachValue(this.topics, visitor)
+    utils.forEach(this.topics, visitor)
   }
 
   forEachAssoc (visitor) {
-    this.forEachValue(this.assocs, visitor)
-  }
-
-  forEachValue (map, visitor) {
-    for (var key in map) {
-      visitor(map[key])
-    }
+    utils.forEach(this.assocs, visitor)
   }
 }
 
