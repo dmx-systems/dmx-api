@@ -2,8 +2,8 @@ import restClient from './rest-client'
 import utils from './utils'
 
 const state = {
-  topicTypes: {},    // an object: type URI (string) -> TopicType
-  assocTypes: {}     // an object: type URI (string) -> AssocType
+  topicTypes: undefined,    // an object: type URI (string) -> TopicType
+  assocTypes: undefined     // an object: type URI (string) -> AssocType
 }
 
 const getters = {

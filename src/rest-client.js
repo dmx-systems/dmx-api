@@ -42,6 +42,20 @@ export default {
     })
   },
 
+  createTopic (topic) {
+    return http.post('/core/topic', topic).then(response =>
+      new Topic(response.data)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+  updateTopic (topic) {
+    http.put(`/core/topic/${topic.id}`, topic).catch(error => {
+      console.error(error)
+    })
+  },
+
   getAssoc (id, includeChilds) {
     const config = {params: {include_childs: includeChilds}}
     return http.get(`/core/association/${id}`, config).then(response =>

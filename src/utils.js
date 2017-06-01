@@ -55,8 +55,9 @@ function forEach (object, visitor) {
 function filter (object, predicate) {
   const map = {}
   for (var key in object) {
-    if (predicate(object[key])) {
-      map[key] = object[key]
+    const val = object[key]
+    if (predicate(val)) {
+      map[key] = val
     }
   }
   return map
