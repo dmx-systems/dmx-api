@@ -70,6 +70,29 @@ class Type extends Topic {
 }
 
 class TopicType extends Type {
+
+  newTopicModel (simpleValue) {
+    const topic = _newTopicModel(this.uri)
+    topic.type_uri = this.uri
+    return topic
+
+    function _newTopicModel (typeUri) {
+      const type = typeCache.getTopicType(typeUri)
+      if (type.isSimple()) {
+        return {
+          value: simpleValue
+        }
+      } else {
+        const assocDef = type.assocDefs[0]
+        const child = _newTopicModel(assocDef.childTypeUri)
+        return {
+          childs: {
+            [assocDef.assocDefUri]: assocDef.isOne() ? child : [child]
+          }
+        }
+      }
+    }
+  }
 }
 
 class AssocType extends Type {
@@ -94,6 +117,14 @@ class AssocDef extends Assoc {
 
   getChildType () {
     return typeCache.getTopicType(this.childTypeUri)
+  }
+
+  isOne () {
+    return this.childCard === 'dm4.core.one'
+  }
+
+  isMany () {
+    return this.childCard === 'dm4.core.many'
   }
 }
 

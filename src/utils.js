@@ -1,7 +1,12 @@
 import { Topic } from './model'
 
 /**
- * @param   objects   an array of objects
+ * Instantiates plain objects.
+ *
+ * @param   objects   an array of plain objects
+ * @param   clazz     the class to instantiate
+ *
+ * @return  array of instantiated objects
  */
 function instantiateMany (objects, clazz) {
   return objects.map(object => new clazz(object))

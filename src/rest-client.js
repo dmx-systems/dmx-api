@@ -42,16 +42,16 @@ export default {
     })
   },
 
-  createTopic (topic) {
-    return http.post('/core/topic', topic).then(response =>
+  createTopic (topicModel) {
+    return http.post('/core/topic', topicModel).then(response =>
       new Topic(response.data)
     ).catch(error => {
       console.error(error)
     })
   },
 
-  updateTopic (topic) {
-    http.put(`/core/topic/${topic.id}`, topic).catch(error => {
+  updateTopic (topicModel) {
+    http.put(`/core/topic/${topicModel.id}`, topicModel).catch(error => {
       console.error(error)
     })
   },
