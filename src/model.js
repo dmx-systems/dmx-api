@@ -3,6 +3,9 @@ import utils from './utils'
 
 class DeepaMehtaObject {
   constructor (object) {
+    if (object instanceof DeepaMehtaObject) {
+      throw Error('DeepaMehtaObject constructor called with a DeepaMehtaObject')
+    }
     this.id      = object.id
     this.uri     = object.uri
     this.typeUri = object.type_uri
@@ -13,11 +16,41 @@ class DeepaMehtaObject {
   get typeName () {
     return this.getType().value
   }
+
+  fillChilds () {
+    this.getType().assocDefs.forEach(assocDef => {
+      const childs = this.childs[assocDef.assocDefUri]
+      if (childs) {
+        if (assocDef.isOne()) {
+          childs.fillChilds()
+        } else {
+          childs.forEach(child => {
+            child.fillChilds()
+          })
+        }
+      } else {
+        const child = new Topic(assocDef.getChildType().emptyTopic())
+        this.childs[assocDef.assocDefUri] = assocDef.isOne() ? child : [child]
+      }
+    })
+  }
 }
 
 class Topic extends DeepaMehtaObject {
+
   getType () {
     return typeCache.getTopicType(this.typeUri)
+  }
+
+  newViewTopic (viewProps) {
+    return new ViewTopic({
+      id:       this.id,
+      uri:      this.uri,
+      type_uri: this.typeUri,
+      value:    this.value,
+      childs: {},     // FIXME: childs needed in a ViewTopic?
+      view_props: viewProps
+    })
   }
 }
 
@@ -72,6 +105,7 @@ class Type extends Topic {
 class TopicType extends Type {
 
   newTopicModel (simpleValue) {
+
     const topic = _newTopicModel(this.uri)
     topic.type_uri = this.uri
     return topic
@@ -91,6 +125,27 @@ class TopicType extends Type {
           }
         }
       }
+    }
+  }
+
+  /**
+   * @returns   a plain object.
+   */
+  emptyTopic () {
+
+    const emptyChilds = () => {
+      const childs = {}
+      this.assocDefs.forEach(assocDef => {
+        const child = assocDef.getChildType().emptyTopic()
+        childs[assocDef.assocDefUri] = assocDef.isOne() ? child : [child]
+      })
+      return childs
+    }
+
+    return {
+      type_uri: this.uri,
+      value: '',
+      childs: emptyChilds()
     }
   }
 }
@@ -132,7 +187,7 @@ class Topicmap extends Topic {
 
   constructor (topicmap) {
     super(topicmap.info)
-    this.topics = utils.mapById(utils.instantiateMany(topicmap.topics, TopicmapTopic))
+    this.topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))
     this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, Assoc))
   }
 
@@ -153,11 +208,11 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @param   topic   a TopicmapTopic
+   * @param   topic   a ViewTopic
    */
   addTopic (topic) {
-    if (!(topic instanceof TopicmapTopic)) {
-      throw Error(topic + " is not a TopicmapTopic")
+    if (!(topic instanceof ViewTopic)) {
+      throw Error(topic + " is not a ViewTopic")
     }
     this.topics[topic.id] = topic
   }
@@ -181,7 +236,7 @@ class Topicmap extends Topic {
   }
 }
 
-class TopicmapTopic extends Topic {
+class ViewTopic extends Topic {
 
   constructor (topic) {
     super(topic)
@@ -201,4 +256,4 @@ class TopicmapTopic extends Topic {
   }
 }
 
-export { Topic, Assoc, TopicType, AssocType, Topicmap, TopicmapTopic }
+export { Topic, Assoc, TopicType, AssocType, Topicmap, ViewTopic }
