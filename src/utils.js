@@ -16,12 +16,12 @@ function instantiateMany (objects, clazz) {
 
 function instantiateChilds (childs) {
   for (var assocDefUri in childs) {
-    childs[assocDefUri] = instantiateChild(childs[assocDefUri])
+    childs[assocDefUri] = _instantiateChild(childs[assocDefUri])
   }
   return childs
 }
 
-function instantiateChild (child) {
+function _instantiateChild (child) {
   if (Array.isArray(child)) {
     return child.map(topic => new Topic(topic))
   } else {
@@ -32,18 +32,18 @@ function instantiateChild (child) {
 // ---
 
 function mapById (objects) {
-  return mapByProp(objects, 'id')
+  return _mapByProp(objects, 'id')
 }
 
 function mapByUri (objects) {
-  return mapByProp(objects, 'uri')
+  return _mapByProp(objects, 'uri')
 }
 
 function mapByTypeUri (objects) {
-  return mapByProp(objects, 'typeUri')
+  return _mapByProp(objects, 'typeUri')
 }
 
-function mapByProp (objects, prop) {
+function _mapByProp (objects, prop) {
   var map = {}
   objects.forEach(object => map[object[prop]] = object)
   return map
@@ -70,6 +70,12 @@ function filter (object, predicate) {
 
 // ---
 
+function setCookie (name, value) {
+  document.cookie = `${name}=${value};path=/`
+}
+
+// ---
+
 export default {
   instantiateMany,
   instantiateChilds,
@@ -77,5 +83,6 @@ export default {
   mapByUri,
   mapByTypeUri,
   forEach,
-  filter
+  filter,
+  setCookie
 }
