@@ -8,7 +8,7 @@ class DeepaMehtaObject {
     }
     this.id      = object.id
     this.uri     = object.uri
-    this.typeUri = object.type_uri
+    this.typeUri = object.typeUri
     this.value   = object.value
     this.childs  = utils.instantiateChilds(object.childs)
   }
@@ -44,12 +44,12 @@ class Topic extends DeepaMehtaObject {
 
   newViewTopic (viewProps) {
     return new ViewTopic({
-      id:       this.id,
-      uri:      this.uri,
-      type_uri: this.typeUri,
-      value:    this.value,
+      id:      this.id,
+      uri:     this.uri,
+      typeUri: this.typeUri,
+      value:   this.value,
       childs: {},     // FIXME: childs needed in a ViewTopic?
-      view_props: viewProps
+      viewProps: viewProps
     })
   }
 }
@@ -58,8 +58,8 @@ class Assoc extends DeepaMehtaObject {
 
   constructor (assoc) {
     super(assoc)
-    this.role1 = assoc.role_1
-    this.role2 = assoc.role_2
+    this.role1 = assoc.role1
+    this.role2 = assoc.role2
   }
 
   getType () {
@@ -67,8 +67,8 @@ class Assoc extends DeepaMehtaObject {
   }
 
   getRole (roleTypeUri) {
-    var match1 = this.role1.role_type_uri === roleTypeUri
-    var match2 = this.role2.role_type_uri === roleTypeUri
+    var match1 = this.role1.roleTypeUri === roleTypeUri
+    var match2 = this.role2.roleTypeUri === roleTypeUri
     if (match1 && match2) {
       throw Error(`Both role types of association ${this.id} match ${roleTypeUri}`)
     }
@@ -80,10 +80,10 @@ class Type extends Topic {
 
   constructor (type) {
     super(type)
-    this.dataType   = type.data_type_uri
-    this.indexModes = type.index_mode_uris
-    this.assocDefs  = utils.instantiateMany(type.assoc_defs, AssocDef)
-    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.view_config_topics, Topic))
+    this.dataType   = type.dataTypeUri
+    this.indexModes = type.indexModeUris
+    this.assocDefs  = utils.instantiateMany(type.assocDefs, AssocDef)
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))
   }
 
   isSimple () {
@@ -107,7 +107,7 @@ class TopicType extends Type {
   newTopicModel (simpleValue) {
 
     const topic = _newTopicModel(this.uri)
-    topic.type_uri = this.uri
+    topic.typeUri = this.uri
     return topic
 
     function _newTopicModel (typeUri) {
@@ -143,7 +143,7 @@ class TopicType extends Type {
     }
 
     return {
-      type_uri: this.uri,
+      typeUri: this.uri,
       value: '',
       childs: emptyChilds()
     }
@@ -157,11 +157,11 @@ class AssocDef extends Assoc {
 
   constructor (assocDef) {
     super(assocDef)
-    this.parentCard = assocDef.parent_cardinality_uri
-    this.childCard  = assocDef.child_cardinality_uri
+    this.parentCard = assocDef.parentCardinalityUri
+    this.childCard  = assocDef.childCardinalityUri
     // derived properties
-    this.parentTypeUri = this.getRole('dm4.core.parent_type').topic_uri
-    this.childTypeUri  = this.getRole('dm4.core.child_type').topic_uri
+    this.parentTypeUri = this.getRole('dm4.core.parent_type').topicUri
+    this.childTypeUri  = this.getRole('dm4.core.child_type').topicUri
     //
     const customAssocType = this.childs['dm4.core.assoc_type#dm4.core.custom_assoc_type']
     this.customAssocTypeUri = customAssocType && customAssocType.uri
@@ -240,7 +240,7 @@ class ViewTopic extends Topic {
 
   constructor (topic) {
     super(topic)
-    this.viewProps = topic.view_props
+    this.viewProps = topic.viewProps
   }
 
   getPosition () {
