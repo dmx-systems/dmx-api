@@ -89,6 +89,14 @@ export default {
     })
   },
 
+  getWebsocketConfig () {
+    return http.get('/core/websockets').then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   // Topicmaps
 
   getTopicmap (topicmapId) {
@@ -137,16 +145,6 @@ export default {
 
   logout () {
     http.post("/accesscontrol/logout").catch(error => {
-      console.error(error)
-    })
-  },
-
-  // WebSockets
-
-  getWebsocketConfig () {
-    return http.get('/websockets').then(response =>
-      response.data
-    ).catch(error => {
       console.error(error)
     })
   }
