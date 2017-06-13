@@ -51,7 +51,9 @@ export default {
   },
 
   updateTopic (topicModel) {
-    http.put(`/core/topic/${topicModel.id}`, topicModel).catch(error => {
+    return http.put(`/core/topic/${topicModel.id}`, topicModel).then(response =>
+      response.data
+    ).catch(error => {
       console.error(error)
     })
   },

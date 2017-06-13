@@ -192,19 +192,27 @@ class Topicmap extends Topic {
   }
 
   getTopic (id) {
-    var topic = this.topics[id]
+    var topic = this.getTopicIfExists(id)
     if (!topic) {
       throw Error(`Topic ${id} not found in topicmap ${this.id}`)
     }
     return topic
   }
 
+  getTopicIfExists (id) {
+    return this.topics[id]
+  }
+
   getAssoc (id) {
-    var assoc = this.assocs[id]
+    var assoc = this.getAssocIfExists(id)
     if (!assoc) {
       throw Error(`Assoc ${id} not found in topicmap ${this.id}`)
     }
     return assoc
+  }
+
+  getAssocIfExists (id) {
+    return this.assocs[id]
   }
 
   /**
