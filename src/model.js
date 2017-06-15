@@ -1,4 +1,5 @@
 import typeCache from './type-cache'
+import restClient from './rest-client'
 import utils from './utils'
 
 class DeepaMehtaObject {
@@ -43,13 +44,17 @@ class Topic extends DeepaMehtaObject {
     return typeCache.getTopicType(this.typeUri)
   }
 
+  getRelatedTopics () {
+    return restClient.getTopicRelatedTopics(this.id)
+  }
+
   newViewTopic (viewProps) {
     return new ViewTopic({
       id:      this.id,
       uri:     this.uri,
       typeUri: this.typeUri,
       value:   this.value,
-      childs: {},     // FIXME: childs needed in a ViewTopic?
+      childs: {},     // TODO: childs needed in a ViewTopic?
       viewProps: viewProps
     })
   }
@@ -63,10 +68,6 @@ class Assoc extends DeepaMehtaObject {
     this.role2 = assoc.role2
   }
 
-  getType () {
-    return typeCache.getAssocType(this.typeUri)
-  }
-
   getRole (roleTypeUri) {
     var match1 = this.role1.roleTypeUri === roleTypeUri
     var match2 = this.role2.roleTypeUri === roleTypeUri
@@ -74,6 +75,14 @@ class Assoc extends DeepaMehtaObject {
       throw Error(`Both role types of association ${this.id} match ${roleTypeUri}`)
     }
     return match1 ? this.role1 : match2 ? this.role2 : undefined
+  }
+
+  getType () {
+    return typeCache.getAssocType(this.typeUri)
+  }
+
+  getRelatedTopics () {
+    return restClient.getAssocRelatedTopics(this.id)
   }
 }
 

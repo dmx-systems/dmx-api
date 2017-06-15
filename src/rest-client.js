@@ -38,23 +38,16 @@ export default {
   },
 
   /**
-   * @param   traversalFilter
-   *            Optional: Traversal Filtering.
-   *            An object with 4 properties (each one is optional):
+   * @param   filter
+   *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
    *              "assocTypeUri"
    *              "myRoleTypeUri"
    *              "othersRoleTypeUri"
    *              "othersTopicTypeUri"
    *            If not specified no filter is applied.
    */
-  getTopicRelatedTopics (topicId, traversalFilter) {
-    var params = traversalFilter && {
-      assoc_type_uri:        traversalFilter.assocTypeUri,
-      my_role_type_uri:      traversalFilter.myRoleTypeUri,
-      others_role_type_uri:  traversalFilter.othersRoleTypeUri,
-      others_topic_type_uri: traversalFilter.othersTopicTypeUri,
-    }
-    return http.get(`/core/topic/${topicId}/related_topics`, {params}).then(response =>
+  getTopicRelatedTopics (topicId, filter) {
+    return http.get(`/core/topic/${topicId}/related_topics`, {params: _filter(filter)}).then(response =>
       utils.instantiateMany(response.data, RelatedTopic)
     ).catch(error => {
       console.error(error)
@@ -92,6 +85,23 @@ export default {
     const config = {params: {include_childs: includeChilds}}
     return http.get(`/core/association/${id}`, config).then(response =>
       new Assoc(response.data)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+  /**
+   * @param   filter
+   *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
+   *              "assocTypeUri"
+   *              "myRoleTypeUri"
+   *              "othersRoleTypeUri"
+   *              "othersTopicTypeUri"
+   *            If not specified no filter is applied.
+   */
+  getAssocRelatedTopics (assocId, filter) {
+    return http.get(`/core/association/${assocId}/related_topics`, {params: _filter(filter)}).then(response =>
+      utils.instantiateMany(response.data, RelatedTopic)
     ).catch(error => {
       console.error(error)
     })
@@ -195,5 +205,14 @@ export default {
     http.post("/accesscontrol/logout").catch(error => {
       console.error(error)
     })
+  }
+}
+
+function _filter (filter) {
+  return filter && {
+    assoc_type_uri:        filter.assocTypeUri,
+    my_role_type_uri:      filter.myRoleTypeUri,
+    others_role_type_uri:  filter.othersRoleTypeUri,
+    others_topic_type_uri: filter.othersTopicTypeUri,
   }
 }
