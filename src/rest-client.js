@@ -14,7 +14,11 @@ export default {
   // As a workaround we catch here explicitly and log the error at least.
   // Note: the caller continues to work with flawed (undefined) data then!
 
-  // Core
+
+
+  // === Core ===
+
+  // Topics
 
   getTopic (id, includeChilds) {
     const config = {params: {include_childs: includeChilds}}
@@ -28,6 +32,30 @@ export default {
   getTopicsByType (typeUri) {
     return http.get(`/core/topic/by_type/${typeUri}`).then(response =>
       utils.instantiateMany(response.data, Topic)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+  /**
+   * @param   traversalFilter
+   *            Optional: Traversal Filtering.
+   *            An object with 4 properties (each one is optional):
+   *              "assocTypeUri"
+   *              "myRoleTypeUri"
+   *              "othersRoleTypeUri"
+   *              "othersTopicTypeUri"
+   *            If not specified no filter is applied.
+   */
+  getTopicRelatedTopics (topicId, traversalFilter) {
+    var params = traversalFilter && {
+      assoc_type_uri:        traversalFilter.assocTypeUri,
+      my_role_type_uri:      traversalFilter.myRoleTypeUri,
+      others_role_type_uri:  traversalFilter.othersRoleTypeUri,
+      others_topic_type_uri: traversalFilter.othersTopicTypeUri,
+    }
+    return http.get(`/core/topic/${topicId}/related_topics`, {params}).then(response =>
+      utils.instantiateMany(response.data, Topic)   // ### TODO: RelatedTopic
     ).catch(error => {
       console.error(error)
     })
@@ -58,6 +86,8 @@ export default {
     })
   },
 
+  // Associations
+
   getAssoc (id, includeChilds) {
     const config = {params: {include_childs: includeChilds}}
     return http.get(`/core/association/${id}`, config).then(response =>
@@ -66,6 +96,8 @@ export default {
       console.error(error)
     })
   },
+
+  // Types
 
   getAllTopicTypes () {
     return http.get('/core/topictype/all').then(response =>
@@ -83,6 +115,8 @@ export default {
     })
   },
 
+  // Plugins
+
   getPlugins () {
     return http.get('/core/plugin').then(response =>
       response.data
@@ -90,6 +124,8 @@ export default {
       console.error(error)
     })
   },
+
+  // WebSockets
 
   getWebsocketConfig () {
     return http.get('/core/websockets').then(response =>
@@ -99,7 +135,9 @@ export default {
     })
   },
 
-  // Topicmaps
+
+
+  // === Topicmaps ===
 
   getTopicmap (topicmapId) {
     return http.get(`/topicmap/${topicmapId}`).then(response =>
@@ -129,7 +167,9 @@ export default {
     })
   },
 
-  // Access Control
+
+
+  // === Access Control ===
 
   getUsername () {
     return http.get("/accesscontrol/user").then(response =>
