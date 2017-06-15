@@ -1,8 +1,9 @@
-import { Topic, Assoc, TopicType, AssocType, Topicmap, ViewTopic } from './src/model'
+import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, ViewTopic } from './src/model'
 
 export default {
   Topic,
   Assoc,
+  RelatedTopic,
   TopicType,
   AssocType,
   Topicmap,

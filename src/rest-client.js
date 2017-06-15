@@ -1,6 +1,6 @@
 import http from 'axios'
 import utils from './utils'
-import { Topic, Assoc, TopicType, AssocType, Topicmap } from './model'
+import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap } from './model'
 
 export default {
 
@@ -55,7 +55,7 @@ export default {
       others_topic_type_uri: traversalFilter.othersTopicTypeUri,
     }
     return http.get(`/core/topic/${topicId}/related_topics`, {params}).then(response =>
-      utils.instantiateMany(response.data, Topic)   // ### TODO: RelatedTopic
+      utils.instantiateMany(response.data, RelatedTopic)
     ).catch(error => {
       console.error(error)
     })
@@ -153,6 +153,12 @@ export default {
     viewProps['dm4.topicmaps.y'] = Math.round(viewProps['dm4.topicmaps.y'])
     //
     http.post(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps).catch(error => {
+      console.error(error)
+    })
+  },
+
+  addAssocToTopicmap (topicmapId, assocId) {
+    http.post(`/topicmap/${topicmapId}/association/${assocId}`).catch(error => {
       console.error(error)
     })
   },

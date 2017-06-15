@@ -2,6 +2,7 @@ import typeCache from './type-cache'
 import utils from './utils'
 
 class DeepaMehtaObject {
+
   constructor (object) {
     if (object instanceof DeepaMehtaObject) {
       throw Error('DeepaMehtaObject constructor called with a DeepaMehtaObject')
@@ -73,6 +74,13 @@ class Assoc extends DeepaMehtaObject {
       throw Error(`Both role types of association ${this.id} match ${roleTypeUri}`)
     }
     return match1 ? this.role1 : match2 ? this.role2 : undefined
+  }
+}
+
+class RelatedTopic extends Topic {
+  constructor (topic) {
+    super(topic)
+    this.assoc = new Assoc(topic.assoc)
   }
 }
 
@@ -226,11 +234,11 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @param   assoc   an Association
+   * @param   assoc   an Assoc
    */
   addAssoc (assoc) {
-    if (!(assoc instanceof Association)) {
-      throw Error(assoc + " is not an Association")
+    if (!(assoc instanceof Assoc)) {
+      throw Error(assoc + " is not an Assoc")
     }
     this.assocs[assoc.id] = assoc
   }
@@ -264,4 +272,4 @@ class ViewTopic extends Topic {
   }
 }
 
-export { Topic, Assoc, TopicType, AssocType, Topicmap, ViewTopic }
+export { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, ViewTopic }

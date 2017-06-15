@@ -1,4 +1,4 @@
-# DeepaMehta 5 base types and API as a Node.js module
+# DeepaMehta 5 base types and API
 
 ## Version History
 
