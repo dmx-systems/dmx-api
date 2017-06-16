@@ -208,6 +208,8 @@ class Topicmap extends Topic {
     this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, Assoc))
   }
 
+  // Topics
+
   getTopic (id) {
     var topic = this.getTopicIfExists(id)
     if (!topic) {
@@ -219,6 +221,31 @@ class Topicmap extends Topic {
   getTopicIfExists (id) {
     return this.topics[id]
   }
+
+  hasTopic (id) {
+    return this.getTopicIfExists(id)
+  }
+
+  /**
+   * @param   topic   a ViewTopic
+   *
+   * @return  true if the topic is added. Falsish if not added because already added before.
+   */
+  addTopic (topic) {
+    if (!(topic instanceof ViewTopic)) {
+      throw Error(topic + " is not a ViewTopic")
+    }
+    if (!this.hasTopic(topic.id)) {
+      this.topics[topic.id] = topic
+      return true
+    }
+  }
+
+  forEachTopic (visitor) {
+    utils.forEach(this.topics, visitor)
+  }
+
+  // Associations
 
   getAssoc (id) {
     var assoc = this.getAssocIfExists(id)
@@ -232,28 +259,23 @@ class Topicmap extends Topic {
     return this.assocs[id]
   }
 
-  /**
-   * @param   topic   a ViewTopic
-   */
-  addTopic (topic) {
-    if (!(topic instanceof ViewTopic)) {
-      throw Error(topic + " is not a ViewTopic")
-    }
-    this.topics[topic.id] = topic
+  hasAssoc (id) {
+    return this.getAssocIfExists(id)
   }
 
   /**
    * @param   assoc   an Assoc
+   *
+   * @return  true if the assoc is added. Falsish if not added because already added before.
    */
   addAssoc (assoc) {
     if (!(assoc instanceof Assoc)) {
       throw Error(assoc + " is not an Assoc")
     }
-    this.assocs[assoc.id] = assoc
-  }
-
-  forEachTopic (visitor) {
-    utils.forEach(this.topics, visitor)
+    if (!this.hasAssoc(assoc.id)) {
+      this.assocs[assoc.id] = assoc
+      return true
+    }
   }
 
   forEachAssoc (visitor) {
