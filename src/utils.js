@@ -31,20 +31,29 @@ function _instantiateChild (child) {
 
 // ---
 
-function mapById (objects) {
-  return _mapByProp(objects, 'id')
+/**
+ * @param   map   optional
+ */
+function mapById (objects, map) {
+  return _mapByProp(objects, 'id', map)
 }
 
-function mapByUri (objects) {
-  return _mapByProp(objects, 'uri')
+/**
+ * @param   map   optional
+ */
+function mapByUri (objects, map) {
+  return _mapByProp(objects, 'uri', map)
 }
 
-function mapByTypeUri (objects) {
-  return _mapByProp(objects, 'typeUri')
+/**
+ * @param   map   optional
+ */
+function mapByTypeUri (objects, map) {
+  return _mapByProp(objects, 'typeUri', map)
 }
 
-function _mapByProp (objects, prop) {
-  var map = {}
+function _mapByProp (objects, prop, map) {
+  map = map || {}
   objects.forEach(object => map[object[prop]] = object)
   return map
 }
