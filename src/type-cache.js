@@ -55,7 +55,7 @@ function putAssocType(assocType) {
   if (!(assocType instanceof AssocType)) {
     throw Error(assocType + " is not a AssocType")
   }
-  state.topicTypes[assocType.uri] = assocType
+  state.assocTypes[assocType.uri] = assocType
 }
 
 function _bootstrap() {
