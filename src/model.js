@@ -2,6 +2,9 @@ import typeCache from './type-cache'
 import restClient from './rest-client'
 import utils from './utils'
 
+// TODO: inject
+const DEFAULT_TOPIC_ICON = "/de.deepamehta.webclient/images/ball-gray.png"
+
 class DeepaMehtaObject {
 
   constructor (object) {
@@ -42,6 +45,10 @@ class Topic extends DeepaMehtaObject {
 
   getType () {
     return typeCache.getTopicType(this.typeUri)
+  }
+
+  getIcon () {
+    return this.getType().getViewConfig('dm4.webclient.icon') || DEFAULT_TOPIC_ICON
   }
 
   getRelatedTopics () {
