@@ -1,6 +1,7 @@
 import { TopicType } from './model'
 import restClient from './rest-client'
 import utils from './utils'
+import Vue from 'vue'
 
 const state = {
   topicTypes: {},    // type URI (string) -> TopicType
@@ -19,12 +20,16 @@ function init (store) {
     getters
   })
   // init state
-  _bootstrap()
+  putTopicType(bootstrapType())
   restClient.getAllTopicTypes().then(topicTypes => {
-    utils.mapByUri(topicTypes, state.topicTypes)
+    topicTypes.forEach(topicType => {
+      putTopicType(topicType)
+    })
   })
   restClient.getAllAssocTypes().then(assocTypes => {
-    utils.mapByUri(assocTypes, state.assocTypes)
+    assocTypes.forEach(assocType => {
+      putAssocType(assocType)
+    })
   })
 }
 
@@ -48,25 +53,27 @@ function putTopicType(topicType) {
   if (!(topicType instanceof TopicType)) {
     throw Error(topicType + " is not a TopicType")
   }
-  state.topicTypes[topicType.uri] = topicType
+  // Note: type cache must be reactive
+  Vue.set(state.topicTypes, topicType.uri, topicType)
 }
 
 function putAssocType(assocType) {
   if (!(assocType instanceof AssocType)) {
     throw Error(assocType + " is not a AssocType")
   }
-  state.assocTypes[assocType.uri] = assocType
+  // Note: type cache must be reactive
+  Vue.set(state.assocTypes, assocType.uri, assocType)
 }
 
-function _bootstrap() {
-  putTopicType(new TopicType({
+function bootstrapType() {
+  return new TopicType({
     uri: "dm4.core.meta_meta_type",
     typeUri: "dm4.core.meta_meta_meta_type",
     value: "Meta Meta Type",
     dataTypeUri: "dm4.core.text",
     assocDefs: [],
     viewConfigTopics: []
-  }))
+  })
 }
 
 export default {
