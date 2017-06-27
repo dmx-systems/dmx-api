@@ -1,4 +1,4 @@
-import { TopicType } from './model'
+import { TopicType, AssocType } from './model'
 import restClient from './rest-client'
 import utils from './utils'
 import Vue from 'vue'
