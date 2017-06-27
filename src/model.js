@@ -3,7 +3,7 @@ import restClient from './rest-client'
 import utils from './utils'
 
 // TODO: inject
-const DEFAULT_TOPIC_ICON = "/de.deepamehta.webclient/images/ball-gray.png"
+const DEFAULT_TOPIC_ICON = '\uf10c'
 
 class DeepaMehtaObject {
 

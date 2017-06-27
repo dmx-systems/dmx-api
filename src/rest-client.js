@@ -16,6 +16,18 @@ export default {
 
 
 
+  // === Generic ===
+
+  getXML (url) {
+    return http.get(url).then(response =>
+      response.request.responseXML.documentElement
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+
+
   // === Core ===
 
   // Topics
