@@ -119,6 +119,14 @@ export default {
     })
   },
 
+  createAssoc (assocModel) {
+    return http.post('/core/association', assocModel).then(response =>
+      new Assoc(response.data)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   // Types
 
   getAllTopicTypes () {
