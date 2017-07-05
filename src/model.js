@@ -55,6 +55,10 @@ class Topic extends DeepaMehtaObject {
     return restClient.getTopicRelatedTopics(this.id)
   }
 
+  update () {
+    return restClient.updateTopic(this)
+  }
+
   newViewTopic (viewProps) {
     return new ViewTopic({
       id:      this.id,
@@ -90,6 +94,10 @@ class Assoc extends DeepaMehtaObject {
 
   getRelatedTopics () {
     return restClient.getAssocRelatedTopics(this.id)
+  }
+
+  update () {
+    return restClient.updateAssoc(this)
   }
 }
 

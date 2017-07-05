@@ -127,6 +127,14 @@ export default {
     })
   },
 
+  updateAssoc (assocModel) {
+    return http.put(`/core/association/${assocModel.id}`, assocModel).then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   // Types
 
   getAllTopicTypes () {
