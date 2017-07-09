@@ -126,7 +126,7 @@ class Type extends Topic {
     // TODO: don't hardcode config type URI
     const configTopic = this.viewConfig['dm4.webclient.view_config']
     if (!configTopic) {
-      console.warn(`Type "${this.uri}" has no view config`)
+      // console.warn(`Type "${this.uri}" has no view config`)
       return
     }
     const topic = configTopic.childs[childTypeUri]
@@ -243,17 +243,16 @@ class Topicmap extends Topic {
 
   /**
    * @param   topic   a ViewTopic
-   *
-   * @return  true if the topic is added. Falsish if not added because already added before.
    */
   addTopic (topic) {
     if (!(topic instanceof ViewTopic)) {
       throw Error(topic + " is not a ViewTopic")
     }
-    if (!this.hasTopic(topic.id)) {
-      this.topics[topic.id] = topic
-      return true
-    }
+    this.topics[topic.id] = topic
+  }
+
+  removeTopic (id) {
+    delete this.topics[id]
   }
 
   forEachTopic (visitor) {
@@ -280,17 +279,16 @@ class Topicmap extends Topic {
 
   /**
    * @param   assoc   an Assoc
-   *
-   * @return  true if the assoc is added. Falsish if not added because already added before.
    */
   addAssoc (assoc) {
     if (!(assoc instanceof Assoc)) {
       throw Error(assoc + " is not an Assoc")
     }
-    if (!this.hasAssoc(assoc.id)) {
-      this.assocs[assoc.id] = assoc
-      return true
-    }
+    this.assocs[assoc.id] = assoc
+  }
+
+  removeAssoc (id) {
+    delete this.assocs[id]
   }
 
   forEachAssoc (visitor) {
@@ -312,9 +310,17 @@ class ViewTopic extends Topic {
     }
   }
 
+  isVisible () {
+    return this.viewProps['dm4.topicmaps.visibility']
+  }
+
   setPosition (pos) {
     this.viewProps['dm4.topicmaps.x'] = pos.x
     this.viewProps['dm4.topicmaps.y'] = pos.y
+  }
+
+  setVisibility (visibility) {
+    this.viewProps['dm4.topicmaps.visibility'] = visibility
   }
 }
 

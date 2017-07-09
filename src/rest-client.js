@@ -211,6 +211,18 @@ export default {
     })
   },
 
+  setTopicVisibility (topicmapId, topicId, visibility) {
+    http.put(`/topicmap/${topicmapId}/topic/${topicId}/${visibility}`).catch(error => {
+      console.error(error)
+    })
+  },
+
+  removeAssociationFromTopicmap (topicmapId, assocId) {
+    http.delete(`/topicmap/${topicmapId}/association/${assocId}`).catch(error => {
+      console.error(error)
+    })
+  },
+
 
 
   // === Access Control ===
