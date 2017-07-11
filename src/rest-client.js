@@ -217,7 +217,7 @@ export default {
     })
   },
 
-  removeAssociationFromTopicmap (topicmapId, assocId) {
+  removeAssocFromTopicmap (topicmapId, assocId) {
     http.delete(`/topicmap/${topicmapId}/association/${assocId}`).catch(error => {
       console.error(error)
     })

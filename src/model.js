@@ -308,6 +308,15 @@ class Topicmap extends Topic {
     delete this.assocs[id]
   }
 
+  /**
+   * Removes all associations the given topic is a player in.
+   */
+  removeAssocs (topicId) {
+    this.getAssocs(topicId).forEach(assoc => {
+      this.removeAssoc(assoc.id)
+    })
+  }
+
   forEachAssoc (visitor) {
     utils.forEach(this.assocs, visitor)
   }
