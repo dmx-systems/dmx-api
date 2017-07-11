@@ -88,6 +88,10 @@ class Assoc extends DeepaMehtaObject {
     return match1 ? this.role1 : match2 ? this.role2 : undefined
   }
 
+  isTopicPlayer (topicId) {
+    return this.role1.topicId === topicId || this.role2.topicId === topicId
+  }
+
   getType () {
     return typeCache.getAssocType(this.typeUri)
   }
@@ -267,6 +271,19 @@ class Topicmap extends Topic {
       throw Error(`Assoc ${id} not found in topicmap ${this.id}`)
     }
     return assoc
+  }
+
+  /**
+   * Returns all associations the given topic is a player in.
+   */
+  getAssocs (topicId) {
+    const assocs = []
+    this.forEachAssoc(assoc => {
+      if (assoc.isTopicPlayer(topicId)) {
+        assocs.push(assoc)
+      }
+    })
+    return assocs
   }
 
   getAssocIfExists (id) {
