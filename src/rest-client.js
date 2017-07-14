@@ -91,6 +91,14 @@ export default {
     })
   },
 
+  deleteTopic (id) {
+    return http.delete(`/core/topic/${id}`).then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   // Associations
 
   getAssoc (id, includeChilds) {
@@ -129,6 +137,14 @@ export default {
 
   updateAssoc (assocModel) {
     return http.put(`/core/association/${assocModel.id}`, assocModel).then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+  deleteAssoc (id) {
+    return http.delete(`/core/association/${id}`).then(response =>
       response.data
     ).catch(error => {
       console.error(error)
