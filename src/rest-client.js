@@ -202,10 +202,7 @@ export default {
   },
 
   addTopicToTopicmap (topicmapId, topicId, viewProps) {
-    // ### TODO: drop rounding and let the backend work with floats?
-    viewProps['dm4.topicmaps.x'] = Math.round(viewProps['dm4.topicmaps.x'])
-    viewProps['dm4.topicmaps.y'] = Math.round(viewProps['dm4.topicmaps.y'])
-    //
+    roundPos(viewProps, 'dm4.topicmaps.x', 'dm4.topicmaps.y')
     http.post(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps).catch(error => {
       console.error(error)
     })
@@ -217,11 +214,19 @@ export default {
     })
   },
 
+  addRelatedTopicToTopicmap (topicmapId, topicId, assocId, viewProps) {
+    if (viewProps) {
+      roundPos(viewProps, 'dm4.topicmaps.x', 'dm4.topicmaps.y')
+    } else {
+      viewProps = {}    // let axios send a proper Content-Type header
+    }
+    http.post(`/topicmap/${topicmapId}/topic/${topicId}/association/${assocId}`, viewProps).catch(error => {
+      console.error(error)
+    })
+  },
+
   setTopicPosition (topicmapId, topicId, pos) {
-    // ### TODO: drop rounding and let the backend work with floats?
-    pos.x = Math.round(pos.x)
-    pos.y = Math.round(pos.y)
-    //
+    roundPos(pos, 'x', 'y')
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${pos.x}/${pos.y}`).catch(error => {
       console.error(error)
     })
@@ -271,4 +276,10 @@ function _filter (filter) {
     others_role_type_uri:  filter.othersRoleTypeUri,
     others_topic_type_uri: filter.othersTopicTypeUri,
   }
+}
+
+// ### TODO: drop rounding and let the backend work with floats?
+function roundPos (pos, x, y) {
+  pos[x] = Math.round(pos[x])
+  pos[y] = Math.round(pos[y])
 }
