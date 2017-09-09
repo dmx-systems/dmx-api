@@ -14,22 +14,27 @@ const getters = {
   )
 }
 
-function init (store) {
+function init (store, readyHandler) {
   store.registerModule('typeCache', {
     state,
     getters
   })
   // init state
   putTopicType(bootstrapType())
-  restClient.getAllTopicTypes().then(topicTypes => {
-    topicTypes.forEach(topicType => {
-      putTopicType(topicType)
+  Promise.all([
+    restClient.getAllTopicTypes().then(topicTypes => {
+      topicTypes.forEach(topicType => {
+        putTopicType(topicType)
+      })
+    }),
+    restClient.getAllAssocTypes().then(assocTypes => {
+      assocTypes.forEach(assocType => {
+        putAssocType(assocType)
+      })
     })
-  })
-  restClient.getAllAssocTypes().then(assocTypes => {
-    assocTypes.forEach(assocType => {
-      putAssocType(assocType)
-    })
+  ]).then(() => {
+    console.log('### Type cache ready!')
+    readyHandler()
   })
 }
 

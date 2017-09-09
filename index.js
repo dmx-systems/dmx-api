@@ -1,4 +1,7 @@
 import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, ViewTopic } from './src/model'
+import restClient from './src/rest-client'
+import typeCache  from './src/type-cache'
+import utils      from './src/utils'
 
 export default {
   Topic,
@@ -9,7 +12,14 @@ export default {
   Topicmap,
   ViewTopic,
   //
-  restClient: require('./src/rest-client').default,
-  typeCache:  require('./src/type-cache').default,
-  utils:      require('./src/utils').default
+  restClient,
+  typeCache: {
+    getTopicType: typeCache.getTopicType,
+    getAssocType: typeCache.getAssocType
+  },
+  utils,
+  //
+  init (store, readyHandler) {
+    typeCache.init(store, readyHandler)
+  }
 }
