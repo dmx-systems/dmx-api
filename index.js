@@ -4,6 +4,7 @@ import typeCache  from './src/type-cache'
 import utils      from './src/utils'
 
 export default {
+
   Topic,
   Assoc,
   RelatedTopic,
@@ -11,15 +12,20 @@ export default {
   AssocType,
   Topicmap,
   ViewTopic,
-  //
+
   restClient,
   typeCache: {
     getTopicType: typeCache.getTopicType,
-    getAssocType: typeCache.getAssocType
+    getAssocType: typeCache.getAssocType,
   },
   utils,
-  //
+
   init (store) {
-    return typeCache.init(store)
+    typeCache.init(store)
+  },
+
+  // synchronization helper
+  getPromise () {
+    return typeCache.getPromise()
   }
 }
