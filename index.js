@@ -19,7 +19,7 @@ export default {
   },
   utils,
   //
-  init (store, readyHandler) {
-    typeCache.init(store, readyHandler)
+  init (store) {
+    return typeCache.init(store)
   }
 }

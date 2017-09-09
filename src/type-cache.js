@@ -14,14 +14,14 @@ const getters = {
   )
 }
 
-function init (store, readyHandler) {
+function init (store) {
   store.registerModule('typeCache', {
     state,
     getters
   })
   // init state
   putTopicType(bootstrapType())
-  Promise.all([
+  return Promise.all([
     restClient.getAllTopicTypes().then(topicTypes => {
       topicTypes.forEach(topicType => {
         putTopicType(topicType)
@@ -34,7 +34,6 @@ function init (store, readyHandler) {
     })
   ]).then(() => {
     console.log('### Type cache ready!')
-    readyHandler()
   })
 }
 
