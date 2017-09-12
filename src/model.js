@@ -223,8 +223,8 @@ class Topicmap extends Topic {
 
   constructor (topicmap) {
     super(topicmap.info)
-    this.topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))
-    this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, Assoc))
+    this.topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))  // map: ID -> dm5.ViewTopic
+    this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, Assoc))      // map: ID -> dm5.Assoc
   }
 
   // Topics
@@ -253,6 +253,31 @@ class Topicmap extends Topic {
       throw Error(topic + " is not a ViewTopic")
     }
     this.topics[topic.id] = topic
+  }
+
+  /**
+   * @param   topic   a dm5.Topic object
+   * @param   pos     the topic position (an object with "x", "y" properties).
+   */
+  revealTopic (topic, pos) {
+    const op = {}
+    const viewTopic = this.getTopicIfExists(topic.id)
+    if (!viewTopic) {
+      const viewProps = {
+        'dm4.topicmaps.x': pos.x,
+        'dm4.topicmaps.y': pos.y,
+        'dm4.topicmaps.visibility': true,
+      }
+      this.addTopic(topic.newViewTopic(viewProps))
+      op.type = 'add'
+      op.viewProps = viewProps
+    } else {
+      if (!viewTopic.isVisible()) {
+        viewTopic.setVisibility(true)
+        op.type = 'show'
+      }
+    }
+    return op
   }
 
   removeTopic (id) {
@@ -302,6 +327,19 @@ class Topicmap extends Topic {
       throw Error(assoc + " is not an Assoc")
     }
     this.assocs[assoc.id] = assoc
+  }
+
+  /**
+   * @param   assoc   a dm5.Assoc object
+   */
+  revealAssoc (assoc) {
+    const op = {}
+    const viewAssoc = this.getAssocIfExists(assoc.id)
+    if (!viewAssoc) {
+      this.addAssoc(assoc)
+      op.type = 'add'
+    }
+    return op
   }
 
   removeAssoc (id) {
