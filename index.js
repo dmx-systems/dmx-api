@@ -25,7 +25,7 @@ export default {
   },
 
   // synchronization helper
-  getPromise () {
-    return typeCache.getPromise()
+  ready () {
+    return typeCache.ready()
   }
 }
