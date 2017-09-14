@@ -79,6 +79,20 @@ function filter (object, predicate) {
 
 // ---
 
+/**
+ * Returns a cookie value.
+ *
+ * @param   name    the name of the cookie, e.g. "dm4_workspace_id".
+ *
+ * @return  the cookie value (string) or undefined if no such cookie exist.
+ */
+function getCookie(name) {
+  // Note: document.cookie contains all cookies as one string, e.g. "dm4_workspace_id=123; dm4_topicmap_id=234"
+  if (document.cookie.match(new RegExp(`\\b${name}=(\\w*)`))) {
+      return RegExp.$1
+  }
+}
+
 function setCookie (name, value) {
   document.cookie = `${name}=${value};path=/`
 }
@@ -93,5 +107,6 @@ export default {
   mapByTypeUri,
   forEach,
   filter,
+  getCookie,
   setCookie
 }
