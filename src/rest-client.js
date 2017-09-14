@@ -246,10 +246,22 @@ export default {
 
 
 
+  // === Workspaces ===
+
+  getAssignedWorkspace (objectId) {
+    return http.get(`/workspace/object/${objectId}`).then(response =>
+      new Topic(response.data)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+
+
   // === Access Control ===
 
   getUsername () {
-    return http.get("/accesscontrol/user").then(response =>
+    return http.get('/accesscontrol/user').then(response =>
       response.data
     ).catch(error => {
       console.error(error)
@@ -257,13 +269,13 @@ export default {
   },
 
   login (credentials) {
-    return http.post("/accesscontrol/login", undefined, {
+    return http.post('/accesscontrol/login', undefined, {
       auth: credentials
     })
   },
 
   logout () {
-    http.post("/accesscontrol/logout").catch(error => {
+    http.post('/accesscontrol/logout').catch(error => {
       console.error(error)
     })
   }
