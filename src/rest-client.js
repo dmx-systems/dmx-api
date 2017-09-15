@@ -248,6 +248,15 @@ export default {
 
   // === Workspaces ===
 
+  getAssignedTopics (workspaceId, topicTypeUri, includeChilds) {
+    const config = {params: {include_childs: includeChilds}}
+    return http.get(`/workspace/${workspaceId}/topics/${topicTypeUri}`, config).then(response =>
+      utils.instantiateMany(response.data, Topic)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   getAssignedWorkspace (objectId) {
     return http.get(`/workspace/object/${objectId}`).then(response =>
       new Topic(response.data)

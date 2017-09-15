@@ -88,9 +88,8 @@ function filter (object, predicate) {
  */
 function getCookie(name) {
   // Note: document.cookie contains all cookies as one string, e.g. "dm4_workspace_id=123; dm4_topicmap_id=234"
-  if (document.cookie.match(new RegExp(`\\b${name}=(\\w*)`))) {
-      return RegExp.$1
-  }
+  const match = document.cookie.match(new RegExp(`\\b${name}=(\\w*)`))
+  return match && match[1]
 }
 
 function setCookie (name, value) {
