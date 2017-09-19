@@ -193,6 +193,20 @@ export default {
 
   // === Topicmaps ===
 
+  createTopicmap (name, topicmapRendererUri, isPrivate) {
+    return http.post('/topicmap', undefined, {
+      params: {
+        name,
+        renderer_uri: topicmapRendererUri,
+        private: isPrivate
+      }
+    }).then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   getTopicmap (topicmapId) {
     return http.get(`/topicmap/${topicmapId}`).then(response =>
       new Topicmap(response.data)
