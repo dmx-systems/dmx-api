@@ -22,6 +22,10 @@ class DeepaMehtaObject {
     return this.getType().value
   }
 
+  getChildTopic (assocDefUri) {
+    return this.childs[assocDefUri]
+  }
+
   fillChilds () {
     this.getType().assocDefs.forEach(assocDef => {
       const childs = this.childs[assocDef.assocDefUri]
