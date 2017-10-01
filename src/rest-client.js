@@ -262,6 +262,17 @@ export default {
 
   // === Workspaces ===
 
+  /**
+   * @param   uri   optional
+   */
+  createWorkspace (name, uri, sharingModeUri) {
+    return http.post('/workspace', undefined, {params: {name, uri, sharing_mode_uri: sharingModeUri}}).then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   getAssignedTopics (workspaceId, topicTypeUri, includeChilds) {
     const config = {params: {include_childs: includeChilds}}
     return http.get(`/workspace/${workspaceId}/topics/${topicTypeUri}`, config).then(response =>
