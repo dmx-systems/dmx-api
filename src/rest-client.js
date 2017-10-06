@@ -16,18 +16,6 @@ export default {
 
 
 
-  // === Generic ===
-
-  getXML (url) {
-    return http.get(url).then(response =>
-      response.request.responseXML.documentElement
-    ).catch(error => {
-      console.error(error)
-    })
-  },
-
-
-
   // === Core ===
 
   // Topics
@@ -151,7 +139,7 @@ export default {
     })
   },
 
-  // Types
+  // Topic Types
 
   getAllTopicTypes () {
     return http.get('/core/topictype/all').then(response =>
@@ -160,6 +148,16 @@ export default {
       console.error(error)
     })
   },
+
+  createTopicType (typeModel) {
+    return http.post('/core/topictype', typeModel).then(response =>
+      new TopicType(response.data)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+  // Association Types
 
   getAllAssocTypes () {
     return http.get('/core/assoctype/all').then(response =>
@@ -310,6 +308,18 @@ export default {
 
   logout () {
     http.post('/accesscontrol/logout').catch(error => {
+      console.error(error)
+    })
+  },
+
+
+
+  // === XML ===
+
+  getXML (url) {
+    return http.get(url).then(response =>
+      response.request.responseXML.documentElement
+    ).catch(error => {
       console.error(error)
     })
   }
