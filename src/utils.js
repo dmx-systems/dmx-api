@@ -31,23 +31,14 @@ function _instantiateChild (child) {
 
 // ---
 
-/**
- * @param   map   optional
- */
 function mapById (objects) {
   return _mapByProp(objects, 'id')
 }
 
-/**
- * @param   map   optional
- */
 function mapByUri (objects) {
   return _mapByProp(objects, 'uri')
 }
 
-/**
- * @param   map   optional
- */
 function mapByTypeUri (objects) {
   return _mapByProp(objects, 'typeUri')
 }

@@ -8,6 +8,17 @@ const state = {
   assocTypes: {}     // type URI (string) -> AssocType
 }
 
+const actions = {
+
+  putTopicType (_, topicType) {
+    putTopicType(topicType)
+  },
+
+  putAssocType (_, assocType) {
+    putAssocType(assocType)
+  }
+}
+
 const getters = {
   menuTopicTypes: state => utils.filter(state.topicTypes, topicType =>
     topicType.getViewConfig('dm4.webclient.show_in_create_menu')
@@ -19,6 +30,7 @@ var _ready
 function init (store) {
   store.registerModule('typeCache', {
     state,
+    actions,
     getters
   })
   // init state
@@ -73,11 +85,13 @@ function putTopicType(topicType) {
 
 function putAssocType(assocType) {
   if (!(assocType instanceof AssocType)) {
-    throw Error(assocType + " is not a AssocType")
+    throw Error(assocType + " is not an AssocType")
   }
   // Note: type cache must be reactive
   Vue.set(state.assocTypes, assocType.uri, assocType)
 }
+
+// ---
 
 function bootstrapType() {
   return new TopicType({
