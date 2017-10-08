@@ -191,6 +191,9 @@ class TopicType extends Type {
 }
 
 class AssocType extends Type {
+  getColor () {
+    return this.getViewConfig('dm4.webclient.color')
+  }
 }
 
 class AssocDef extends Assoc {
