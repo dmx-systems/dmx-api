@@ -16,6 +16,16 @@ const actions = {
 
   putAssocType (_, assocType) {
     putAssocType(assocType)
+  },
+
+  // WebSocket messages
+
+  _newTopicType (_, {topicType}) {
+    putTopicType(new TopicType(topicType))
+  },
+
+  _newAssocType (_, {assocType}) {
+    putAssocType(new AssocType(assocType))
   }
 }
 
