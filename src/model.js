@@ -51,6 +51,10 @@ class Topic extends DeepaMehtaObject {
     return typeCache.getTopicType(this.typeUri)
   }
 
+  asType () {
+    return typeCache.getTopicType(this.uri)
+  }
+
   getIcon () {
     return this.getType().getViewConfig('dm4.webclient.icon') || DEFAULT_TOPIC_ICON
   }
@@ -100,6 +104,10 @@ class Assoc extends DeepaMehtaObject {
     return typeCache.getAssocType(this.typeUri)
   }
 
+  asType () {
+    return typeCache.getAssocType(this.uri)
+  }
+
   getRelatedTopics () {
     return restClient.getAssocRelatedTopics(this.id)
   }
@@ -128,6 +136,10 @@ class Type extends Topic {
 
   isSimple () {
     return this.dataType !== 'dm4.core.composite'
+  }
+
+  getDataType () {
+    return typeCache.getDataType(this.dataType)
   }
 
   getViewConfig (childTypeUri) {

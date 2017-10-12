@@ -4,8 +4,9 @@ import utils from './utils'
 import Vue from 'vue'
 
 const state = {
-  topicTypes: {},    // type URI (string) -> TopicType
-  assocTypes: {}     // type URI (string) -> AssocType
+  topicTypes: {},         // type URI (string) -> TopicType
+  assocTypes: {},         // type URI (string) -> AssocType
+  dataTypes: undefined    // data type URI (string) -> data type (a Topic object)
 }
 
 const actions = {
@@ -29,6 +30,7 @@ const actions = {
   }
 }
 
+// TODO: move to Webclient?
 const getters = {
   menuTopicTypes: state => utils.filter(state.topicTypes, topicType =>
     topicType.getViewConfig('dm4.webclient.show_in_create_menu')
@@ -37,6 +39,7 @@ const getters = {
 
 var _ready
 
+// TODO: return promise directly, drop _ready
 function init (store) {
   store.registerModule('typeCache', {
     state,
@@ -55,6 +58,9 @@ function init (store) {
       assocTypes.forEach(assocType => {
         putAssocType(assocType)
       })
+    }),
+    restClient.getTopicsByType('dm4.core.data_type').then(dataTypes => {
+      state.dataTypes = utils.mapByUri(dataTypes)
     })
   ]).then(() => {
     console.log('### Type cache ready!')
@@ -70,7 +76,7 @@ function ready () {
 function getTopicType (uri) {
   const type = state.topicTypes[uri]
   if (!type) {
-    throw Error(`Topic type ${uri} not found in type cache`)
+    throw Error(`Topic type "${uri}" not found in type cache`)
   }
   return type
 }
@@ -78,9 +84,17 @@ function getTopicType (uri) {
 function getAssocType (uri) {
   const type = state.assocTypes[uri]
   if (!type) {
-    throw Error(`Assoc type ${uri} not found in type cache`)
+    throw Error(`Assoc type "${uri}" not found in type cache`)
   }
   return type
+}
+
+function getDataType (uri) {
+  const dataType = state.dataTypes[uri]
+  if (!dataType) {
+    throw Error(`Data type "${uri}" not found in type cache`)
+  }
+  return dataType
 }
 
 // ---
@@ -119,5 +133,6 @@ export default {
   ready,
   //
   getTopicType,
-  getAssocType
+  getAssocType,
+  getDataType
 }
