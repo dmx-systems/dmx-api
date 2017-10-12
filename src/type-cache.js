@@ -37,9 +37,6 @@ const getters = {
   )
 }
 
-var _ready
-
-// TODO: return promise directly, drop _ready
 function init (store) {
   store.registerModule('typeCache', {
     state,
@@ -48,7 +45,7 @@ function init (store) {
   })
   // init state
   putTopicType(bootstrapType())
-  _ready = Promise.all([
+  return Promise.all([
     restClient.getAllTopicTypes().then(topicTypes => {
       topicTypes.forEach(topicType => {
         putTopicType(topicType)
@@ -65,10 +62,6 @@ function init (store) {
   ]).then(() => {
     console.log('### Type cache ready!')
   })
-}
-
-function ready () {
-  return _ready
 }
 
 // ---
@@ -130,7 +123,6 @@ function bootstrapType() {
 
 export default {
   init,
-  ready,
   //
   getTopicType,
   getAssocType,

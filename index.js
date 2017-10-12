@@ -14,18 +14,9 @@ export default {
   ViewTopic,
 
   restClient,
-  typeCache: {
-    getTopicType: typeCache.getTopicType,
-    getAssocType: typeCache.getAssocType,
-  },
   utils,
 
   init (store) {
-    typeCache.init(store)
-  },
-
-  // synchronization helper
-  ready () {
-    return typeCache.ready()
+    return typeCache.init(store)
   }
 }
