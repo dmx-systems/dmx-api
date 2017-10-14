@@ -220,11 +220,20 @@ class TopicType extends Type {
       childs: emptyChilds()
     }
   }
+
+  update () {
+    return restClient.updateTopicType(this.toExternalForm())
+  }
 }
 
 class AssocType extends Type {
+
   getColor () {
     return this.getViewConfig('dm4.webclient.color')
+  }
+
+  update () {
+    return restClient.updateAssocType(this.toExternalForm())
   }
 }
 

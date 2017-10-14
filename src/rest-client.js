@@ -157,11 +157,27 @@ export default {
     })
   },
 
+  updateTopicType (typeModel) {
+    return http.put('/core/topictype', typeModel).then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
   // Association Types
 
   getAllAssocTypes () {
     return http.get('/core/assoctype/all').then(response =>
       utils.instantiateMany(response.data, AssocType)
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+  updateAssocType (typeModel) {
+    return http.put('/core/assoctype', typeModel).then(response =>
+      response.data
     ).catch(error => {
       console.error(error)
     })
