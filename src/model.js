@@ -52,7 +52,18 @@ class Topic extends DeepaMehtaObject {
   }
 
   asType () {
-    return typeCache.getTopicType(this.uri)
+    if (this.typeUri === 'dm4.core.topic_type') {
+      return typeCache.getTopicType(this.uri)
+    } else if (this.typeUri === 'dm4.core.assoc_type') {
+      return typeCache.getAssocType(this.uri)
+    } else {
+      throw Error(`Not a type: ${this}`)
+    }
+  }
+
+  isType () {
+    return this.typeUri === 'dm4.core.topic_type' ||
+           this.typeUri === 'dm4.core.assoc_type'
   }
 
   getIcon () {
@@ -104,8 +115,8 @@ class Assoc extends DeepaMehtaObject {
     return typeCache.getAssocType(this.typeUri)
   }
 
-  asType () {
-    return typeCache.getAssocType(this.uri)
+  isType () {
+    return false    // assocs are never types
   }
 
   getRelatedTopics () {
@@ -128,18 +139,18 @@ class Type extends Topic {
 
   constructor (type) {
     super(type)
-    this.dataType   = type.dataTypeUri
-    this.indexModes = type.indexModeUris
-    this.assocDefs  = utils.instantiateMany(type.assocDefs, AssocDef)
-    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))
+    this.dataTypeUri = type.dataTypeUri
+    this.indexModes  = type.indexModeUris                                                         // TODO: rename prop
+    this.assocDefs   = utils.instantiateMany(type.assocDefs, AssocDef)
+    this.viewConfig  = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop
   }
 
   isSimple () {
-    return this.dataType !== 'dm4.core.composite'
+    return this.dataTypeUri !== 'dm4.core.composite'
   }
 
   getDataType () {
-    return typeCache.getDataType(this.dataType)
+    return typeCache.getDataType(this.dataTypeUri)
   }
 
   getViewConfig (childTypeUri) {
@@ -151,6 +162,15 @@ class Type extends Topic {
     }
     const topic = configTopic.childs[childTypeUri]
     return topic && topic.value
+  }
+
+  toExternalForm () {
+    const type = JSON.parse(JSON.stringify(this))
+    type.assocDefs.forEach(assocDef => {
+      assocDef.assocTypeUri = assocDef.typeUri
+      delete assocDef.typeUri
+    })
+    return type
   }
 }
 
@@ -212,8 +232,8 @@ class AssocDef extends Assoc {
 
   constructor (assocDef) {
     super(assocDef)
-    this.parentCard = assocDef.parentCardinalityUri
-    this.childCard  = assocDef.childCardinalityUri
+    this.parentCardinalityUri = assocDef.parentCardinalityUri
+    this.childCardinalityUri  = assocDef.childCardinalityUri
     // derived properties
     this.parentTypeUri = this.getRole('dm4.core.parent_type').topicUri
     this.childTypeUri  = this.getRole('dm4.core.child_type').topicUri
@@ -230,11 +250,11 @@ class AssocDef extends Assoc {
   }
 
   isOne () {
-    return this.childCard === 'dm4.core.one'
+    return this.childCardinalityUri === 'dm4.core.one'
   }
 
   isMany () {
-    return this.childCard === 'dm4.core.many'
+    return this.childCardinalityUri === 'dm4.core.many'
   }
 }
 
