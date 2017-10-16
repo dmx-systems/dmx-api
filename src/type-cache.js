@@ -4,9 +4,10 @@ import utils from './utils'
 import Vue from 'vue'
 
 const state = {
-  topicTypes: {},         // type URI (string) -> TopicType
-  assocTypes: {},         // type URI (string) -> AssocType
-  dataTypes: undefined    // data type URI (string) -> data type (a Topic object)
+  topicTypes: undefined,    // type URI (string) -> TopicType
+  assocTypes: undefined,    // type URI (string) -> AssocType
+  dataTypes: undefined,     // data type URI (string) -> data type (a Topic object)
+  roleTypes: undefined      // role type URI (string) -> role type (a Topic object)
 }
 
 const actions = {
@@ -44,20 +45,19 @@ function init (store) {
     getters
   })
   // init state
-  putTopicType(bootstrapType())
   return Promise.all([
     restClient.getAllTopicTypes().then(topicTypes => {
-      topicTypes.forEach(topicType => {
-        putTopicType(topicType)
-      })
+      state.topicTypes = utils.mapByUri(topicTypes)
+      putTopicType(bootstrapType())
     }),
     restClient.getAllAssocTypes().then(assocTypes => {
-      assocTypes.forEach(assocType => {
-        putAssocType(assocType)
-      })
+      state.assocTypes = utils.mapByUri(assocTypes)
     }),
     restClient.getTopicsByType('dm4.core.data_type').then(dataTypes => {
       state.dataTypes = utils.mapByUri(dataTypes)
+    }),
+    restClient.getTopicsByType('dm4.core.role_type').then(roleTypes => {
+      state.roleTypes = utils.mapByUri(roleTypes)
     })
   ]).then(() => {
     console.log('### Type cache ready!')
