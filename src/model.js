@@ -436,4 +436,4 @@ class ViewTopic extends Topic {
   }
 }
 
-export { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, ViewTopic }
+export { DeepaMehtaObject, Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, ViewTopic }
