@@ -140,9 +140,9 @@ class AssocRole {
 
   constructor (role) {
     this.topicId     = role.topicId
+    this.topicUri    = role.topicUri
     this.assocId     = role.assocId
     this.roleTypeUri = role.roleTypeUri
-    // TODO: topicUri?
   }
 
   getType () {
