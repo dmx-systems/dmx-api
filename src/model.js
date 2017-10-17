@@ -113,6 +113,10 @@ class Assoc extends DeepaMehtaObject {
     return this.role1.topicId === topicId || this.role2.topicId === topicId
   }
 
+  hasAssocPlayer () {
+    return this.role1.hasAssocPlayer() || this.role2.hasAssocPlayer()
+  }
+
   // ---
 
   getType () {
@@ -136,8 +140,9 @@ class AssocRole {
 
   constructor (role) {
     this.topicId     = role.topicId
+    this.assocId     = role.assocId
     this.roleTypeUri = role.roleTypeUri
-    // TODO: topicUri, assocId?
+    // TODO: topicUri?
   }
 
   getType () {
@@ -148,9 +153,13 @@ class AssocRole {
     return this.getType().value
   }
 
+  hasAssocPlayer () {
+    return this.assocId
+  }
+
   getPlayer () {
     if (!this.topicId) {
-      throw Error(`${this} has no topic player`)
+      throw Error(`Assoc role ${JSON.stringify(this)} has no topic player`)
     }
     return restClient.getTopic(this.topicId)
   }
