@@ -51,6 +51,21 @@ class Topic extends DeepaMehtaObject {
     return typeCache.getTopicType(this.typeUri)
   }
 
+  isType () {
+    return this.typeUri === 'dm4.core.topic_type' ||
+           this.typeUri === 'dm4.core.assoc_type'
+  }
+
+  getRelatedTopics () {
+    return restClient.getTopicRelatedTopics(this.id)
+  }
+
+  update () {
+    return restClient.updateTopic(this)
+  }
+
+  // ---
+
   asType () {
     if (this.typeUri === 'dm4.core.topic_type') {
       return typeCache.getTopicType(this.uri)
@@ -61,21 +76,8 @@ class Topic extends DeepaMehtaObject {
     }
   }
 
-  isType () {
-    return this.typeUri === 'dm4.core.topic_type' ||
-           this.typeUri === 'dm4.core.assoc_type'
-  }
-
   getIcon () {
     return this.getType().getViewConfig('dm4.webclient.icon') || DEFAULT_TOPIC_ICON
-  }
-
-  getRelatedTopics () {
-    return restClient.getTopicRelatedTopics(this.id)
-  }
-
-  update () {
-    return restClient.updateTopic(this)
   }
 
   newViewTopic (viewProps) {
@@ -94,8 +96,8 @@ class Assoc extends DeepaMehtaObject {
 
   constructor (assoc) {
     super(assoc)
-    this.role1 = assoc.role1
-    this.role2 = assoc.role2
+    this.role1 = new AssocRole(assoc.role1)
+    this.role2 = new AssocRole(assoc.role2)
   }
 
   getRole (roleTypeUri) {
@@ -111,6 +113,8 @@ class Assoc extends DeepaMehtaObject {
     return this.role1.topicId === topicId || this.role2.topicId === topicId
   }
 
+  // ---
+
   getType () {
     return typeCache.getAssocType(this.typeUri)
   }
@@ -125,6 +129,30 @@ class Assoc extends DeepaMehtaObject {
 
   update () {
     return restClient.updateAssoc(this)
+  }
+}
+
+class AssocRole {
+
+  constructor (role) {
+    this.topicId     = role.topicId
+    this.roleTypeUri = role.roleTypeUri
+    // TODO: topicUri, assocId?
+  }
+
+  getType () {
+    return typeCache.getRoleType(this.roleTypeUri)
+  }
+
+  get typeName () {
+    return this.getType().value
+  }
+
+  getPlayer () {
+    if (!this.topicId) {
+      throw Error(`${this} has no topic player`)
+    }
+    return restClient.getTopic(this.topicId)
   }
 }
 
@@ -436,4 +464,4 @@ class ViewTopic extends Topic {
   }
 }
 
-export { DeepaMehtaObject, Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, ViewTopic }
+export { DeepaMehtaObject, Topic, Assoc, AssocRole, RelatedTopic, TopicType, AssocType, Topicmap, ViewTopic }

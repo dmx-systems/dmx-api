@@ -66,28 +66,19 @@ function init (store) {
 
 // ---
 
-function getTopicType (uri) {
-  const type = state.topicTypes[uri]
-  if (!type) {
-    throw Error(`Topic type "${uri}" not found in type cache`)
-  }
-  return type
-}
+const getTopicType = getType('topicTypes', 'Topic type')
+const getAssocType = getType('assocTypes', 'Assoc type')
+const getDataType  = getType('dataTypes',  'Data type')
+const getRoleType  = getType('roleTypes',  'Role type')
 
-function getAssocType (uri) {
-  const type = state.assocTypes[uri]
-  if (!type) {
-    throw Error(`Assoc type "${uri}" not found in type cache`)
+function getType (prop, name) {
+  return uri => {
+    const type = state[prop][uri]
+    if (!type) {
+      throw Error(`${name} "${uri}" not found in type cache`)
+    }
+    return type
   }
-  return type
-}
-
-function getDataType (uri) {
-  const dataType = state.dataTypes[uri]
-  if (!dataType) {
-    throw Error(`Data type "${uri}" not found in type cache`)
-  }
-  return dataType
 }
 
 // ---
@@ -126,5 +117,6 @@ export default {
   //
   getTopicType,
   getAssocType,
-  getDataType
+  getDataType,
+  getRoleType
 }
