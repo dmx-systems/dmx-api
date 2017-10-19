@@ -1,8 +1,9 @@
 {
   "name": "dm5",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "DeepaMehta 5 base types and API",
   "author": "Jörg Richter",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/jri/dm5.git"

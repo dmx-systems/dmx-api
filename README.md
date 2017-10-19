@@ -2,10 +2,13 @@
 
 ## Version History
 
+**0.6** -- Oct 19, 2017
+
+* Create/edit types
+
 **0.5** -- Oct 3, 2017
 
-* Initialization synchronization
-* API: create topicmaps/workspaces
+* Create topicmaps/workspaces
 
 **0.4** -- Jul 17, 2017
 
@@ -17,4 +20,4 @@
 
 ------------
 Jörg Richter  
-Oct 3, 2017
+Oct 19, 2017
