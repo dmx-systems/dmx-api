@@ -13,21 +13,43 @@ const state = {
 const actions = {
 
   putTopicType (_, topicType) {
-    putTopicType(topicType)
+    _putTopicType(topicType)
   },
 
   putAssocType (_, assocType) {
-    putAssocType(assocType)
+    _putAssocType(assocType)
   },
 
   // WebSocket messages
 
   _newTopicType (_, {topicType}) {
-    putTopicType(new TopicType(topicType))
+    putTopicType(topicType)
   },
 
   _newAssocType (_, {assocType}) {
-    putAssocType(new AssocType(assocType))
+    putAssocType(assocType)
+  },
+
+  _processDirectives ({dispatch}, directives) {
+    console.log(`Type-cache: processing ${directives.length} directives`, directives)
+    directives.forEach(dir => {
+      switch (dir.type) {
+      case "UPDATE_TOPIC_TYPE":
+        putTopicType(dir.arg)
+        break
+      case "DELETE_TOPIC_TYPE":
+        // TODO
+        console.warn('Directive DELETE_TOPIC_TYPE not yet implemented')
+        break
+      case "UPDATE_ASSOCIATION_TYPE":
+        putAssocType(dir.arg)
+        break
+      case "DELETE_ASSOCIATION_TYPE":
+        // TODO
+        console.warn('Directive DELETE_ASSOCIATION_TYPE not yet implemented')
+        break
+      }
+    })
   }
 }
 
@@ -48,7 +70,7 @@ function init (store) {
   return Promise.all([
     restClient.getAllTopicTypes().then(topicTypes => {
       state.topicTypes = utils.mapByUri(topicTypes)
-      putTopicType(bootstrapType())
+      _putTopicType(bootstrapType())
     }),
     restClient.getAllAssocTypes().then(assocTypes => {
       state.assocTypes = utils.mapByUri(assocTypes)
@@ -84,6 +106,16 @@ function getType (prop, name) {
 // ---
 
 function putTopicType(topicType) {
+  _putTopicType(new TopicType(topicType))
+}
+
+function putAssocType(assocType) {
+  _putAssocType(new AssocType(assocType))
+}
+
+// ---
+
+function _putTopicType(topicType) {
   if (!(topicType instanceof TopicType)) {
     throw Error(topicType + " is not a TopicType")
   }
@@ -91,7 +123,7 @@ function putTopicType(topicType) {
   Vue.set(state.topicTypes, topicType.uri, topicType)
 }
 
-function putAssocType(assocType) {
+function _putAssocType(assocType) {
   if (!(assocType instanceof AssocType)) {
     throw Error(assocType + " is not an AssocType")
   }
