@@ -177,6 +177,7 @@ class Type extends Topic {
   constructor (type) {
     super(type)
     this.dataTypeUri = type.dataTypeUri
+    this.isValueType = type.isValueType
     this.indexModes  = type.indexModeUris                                                         // TODO: rename prop
     this.assocDefs   = utils.instantiateMany(type.assocDefs, AssocDef)
     this.viewConfig  = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop
@@ -288,7 +289,14 @@ class AssocDef extends Assoc {
     this.customAssocTypeUri = customAssocType && customAssocType.uri
     this.assocDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
     //
-    this.includeInLabel = this.childs['dm4.core.include_in_label'].value
+    const includeInLabel = this.childs['dm4.core.include_in_label']
+    if (includeInLabel) {
+      this.includeInLabel = includeInLabel.value
+    } else {
+      // ### FIXME: a includeInLabel child should always exist
+      console.warn(`Assoc def ${this.assocDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
+      this.includeInLabel = false
+    }
   }
 
   getChildType () {
