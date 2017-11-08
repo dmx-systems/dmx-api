@@ -177,14 +177,16 @@ class Type extends Topic {
   constructor (type) {
     super(type)
     this.dataTypeUri = type.dataTypeUri
-    this.isValueType = type.isValueType
+    this.isValueType = type.isValueType     // boolean
     this.indexModes  = type.indexModeUris                                                         // TODO: rename prop
     this.assocDefs   = utils.instantiateMany(type.assocDefs, AssocDef)
     this.viewConfig  = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop
   }
 
   isSimple () {
-    return this.dataTypeUri !== 'dm4.core.composite'
+    return [
+      'dm4.core.text', 'dm4.core.html', 'dm4.core.number', 'dm4.core.boolean'
+    ].includes(this.dataTypeUri)
   }
 
   getDataType () {
@@ -208,6 +210,7 @@ class Type extends Topic {
       assocDef.assocTypeUri = assocDef.typeUri
       delete assocDef.typeUri
     })
+    console.log('toExternalForm', type)
     return type
   }
 }
@@ -281,7 +284,9 @@ class AssocDef extends Assoc {
     super(assocDef)
     this.parentCardinalityUri = assocDef.parentCardinalityUri
     this.childCardinalityUri  = assocDef.childCardinalityUri
+    //
     // derived properties
+    //
     this.parentTypeUri = this.getRole('dm4.core.parent_type').topicUri
     this.childTypeUri  = this.getRole('dm4.core.child_type').topicUri
     //
@@ -293,8 +298,8 @@ class AssocDef extends Assoc {
     if (includeInLabel) {
       this.includeInLabel = includeInLabel.value
     } else {
-      // ### FIXME: a includeInLabel child should always exist
-      console.warn(`Assoc def ${this.assocDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
+      // ### TODO: should an includeInLabel child always exist?
+      //console.warn(`Assoc def ${this.assocDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
       this.includeInLabel = false
     }
   }
