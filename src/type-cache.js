@@ -53,7 +53,7 @@ const actions = {
   }
 }
 
-// TODO: move to Webclient?
+// TODO: move to Webclient? => YES!
 const getters = {
   menuTopicTypes: state => utils.filter(state.topicTypes, topicType =>
     topicType.getViewConfig('dm4.webclient.show_in_create_menu')

@@ -52,6 +52,7 @@ class Topic extends DeepaMehtaObject {
   }
 
   isType () {
+    // TODO: meta type?
     return this.typeUri === 'dm4.core.topic_type' ||
            this.typeUri === 'dm4.core.assoc_type'
   }
@@ -293,6 +294,15 @@ class AssocDef extends Assoc {
     const customAssocType = this.childs['dm4.core.assoc_type#dm4.core.custom_assoc_type']
     this.customAssocTypeUri = customAssocType && customAssocType.uri
     this.assocDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
+    //
+    const isIdentityAttr = this.childs['dm4.core.identity_attr']
+    if (isIdentityAttr) {
+      this.isIdentityAttr = isIdentityAttr.value
+    } else {
+      // ### TODO: should an isIdentityAttr child always exist?
+      // console.warn(`Assoc def ${this.assocDefUri} has no identity_attr child (parent type: ${this.parentTypeUri})`)
+      this.isIdentityAttr = false
+    }
     //
     const includeInLabel = this.childs['dm4.core.include_in_label']
     if (includeInLabel) {
