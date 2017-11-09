@@ -179,9 +179,9 @@ class Type extends Topic {
     super(type)
     this.dataTypeUri = type.dataTypeUri
     this.isValueType = type.isValueType     // boolean
-    this.indexModes  = type.indexModeUris                                                         // TODO: rename prop
+    this.indexModes  = type.indexModeUris                                                         // TODO: rename prop?
     this.assocDefs   = utils.instantiateMany(type.assocDefs, AssocDef)
-    this.viewConfig  = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop
+    this.viewConfig  = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
   }
 
   isSimple () {
@@ -194,6 +194,7 @@ class Type extends Topic {
     return typeCache.getDataType(this.dataTypeUri)
   }
 
+  // ### TODO: copy in AssocDef
   getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
     const configTopic = this.viewConfig['dm4.webclient.view_config']
@@ -285,6 +286,7 @@ class AssocDef extends Assoc {
     super(assocDef)
     this.parentCardinalityUri = assocDef.parentCardinalityUri
     this.childCardinalityUri  = assocDef.childCardinalityUri
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(assocDef.viewConfigTopics, Topic))  // TODO: rename prop?
     //
     // derived properties
     //
@@ -325,6 +327,24 @@ class AssocDef extends Assoc {
   isMany () {
     return this.childCardinalityUri === 'dm4.core.many'
   }
+
+  getViewConfig (childTypeUri) {
+    const topic = _getViewConfig(childTypeUri)
+    return topic && topic.value
+  }
+
+  // ### TODO: principal copy in Type
+  _getViewConfig (childTypeUri) {
+    // TODO: don't hardcode config type URI
+    const configTopic = this.viewConfig['dm4.webclient.view_config']
+    if (!configTopic) {
+      // console.warn(`Type "${this.uri}" has no view config`)
+      return
+    }
+    return configTopic.childs[childTypeUri]
+  }
+
+  // TODO: a getViewConfig() form that falls back to the child type view config?
 }
 
 class Topicmap extends Topic {
