@@ -178,7 +178,6 @@ class Type extends Topic {
   constructor (type) {
     super(type)
     this.dataTypeUri = type.dataTypeUri
-    this.isValueType = type.isValueType     // boolean
     this.indexModes  = type.indexModeUris                                                         // TODO: rename prop?
     this.assocDefs   = utils.instantiateMany(type.assocDefs, AssocDef)
     this.viewConfig  = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
@@ -258,6 +257,8 @@ class TopicType extends Type {
     }
 
     return {
+      id: -1,
+      uri: '',
       typeUri: this.uri,
       value: '',
       childs: emptyChilds()
