@@ -337,7 +337,7 @@ class AssocDef extends Assoc {
   }
 
   getViewConfig (childTypeUri) {
-    const topic = _getViewConfig(childTypeUri)
+    const topic = this._getViewConfig(childTypeUri)
     return topic && topic.value
   }
 

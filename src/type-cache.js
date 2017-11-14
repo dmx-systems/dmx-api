@@ -82,7 +82,7 @@ function init (store) {
       state.roleTypes = utils.mapByUri(roleTypes)
     })
   ]).then(() => {
-    console.log('### Type cache ready!')
+    // console.log('### Type cache ready!')
   })
 }
 
