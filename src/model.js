@@ -295,7 +295,7 @@ class AssocDef extends Assoc {
     this.childTypeUri  = this.getRole('dm4.core.child_type').topicUri
     //
     const customAssocType = this.childs['dm4.core.assoc_type#dm4.core.custom_assoc_type']
-    this.customAssocTypeUri = customAssocType && customAssocType.uri
+    this.customAssocTypeUri = customAssocType && customAssocType.uri    // may be undefined
     this.assocDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
     //
     const isIdentityAttr = this.childs['dm4.core.identity_attr']
@@ -319,6 +319,13 @@ class AssocDef extends Assoc {
 
   getChildType () {
     return typeCache.getTopicType(this.childTypeUri)
+  }
+
+  /**
+   * Returns the custom assoc type (a dm5.AssocType object), or undefined if no one is set.
+   */
+  getCustomAssocType () {
+    return this.customAssocTypeUri && typeCache.getAssocType(this.customAssocTypeUri)
   }
 
   isOne () {
