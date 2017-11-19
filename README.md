@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.7** -- Nov 19, 2017
+
+* Client-synchronization for types
+
 **0.6** -- Oct 19, 2017
 
 * Create/edit types
@@ -20,4 +24,4 @@
 
 ------------
 Jörg Richter  
-Oct 19, 2017
+Nov 19, 2017

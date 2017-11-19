@@ -62,6 +62,7 @@ class Topic extends DeepaMehtaObject {
   }
 
   update () {
+    console.log('update', this)
     return restClient.updateTopic(this)
   }
 
@@ -133,6 +134,7 @@ class Assoc extends DeepaMehtaObject {
   }
 
   update () {
+    console.log('update', this)
     return restClient.updateAssoc(this)
   }
 }
