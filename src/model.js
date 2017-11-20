@@ -299,6 +299,7 @@ class AssocDef extends Assoc {
     const customAssocType = this.childs['dm4.core.assoc_type#dm4.core.custom_assoc_type']
     this.customAssocTypeUri = customAssocType && customAssocType.uri    // may be undefined
     this.assocDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
+    this.instanceLevelAssocTypeUri = this.customAssocTypeUri || this._defaultInstanceLevelAssocTypeUri()
     //
     const isIdentityAttr = this.childs['dm4.core.identity_attr']
     if (isIdentityAttr) {
@@ -319,8 +320,14 @@ class AssocDef extends Assoc {
     }
   }
 
+  // TODO: make these 5 derived properties?
+
   getChildType () {
     return typeCache.getTopicType(this.childTypeUri)
+  }
+
+  getInstanceLevelAssocType () {
+    return typeCache.getAssocType(this.instanceLevelAssocTypeUri)
   }
 
   /**
@@ -337,6 +344,8 @@ class AssocDef extends Assoc {
   isMany () {
     return this.childCardinalityUri === 'dm4.core.many'
   }
+
+  // ---
 
   getViewConfig (childTypeUri) {
     const topic = this._getViewConfig(childTypeUri)
@@ -355,6 +364,16 @@ class AssocDef extends Assoc {
   }
 
   // TODO: a getViewConfig() form that falls back to the child type view config?
+
+  _defaultInstanceLevelAssocTypeUri () {
+    if (this.typeUri === 'dm4.core.aggregation_def') {
+      return 'dm4.core.aggregation';
+    } else if (this.typeUri === 'dm4.core.composition_def') {
+      return 'dm4.core.composition';
+    } else {
+      throw Error(`Unexpected association type URI: "${this.typeUri}"`);
+    }
+  }
 }
 
 class Topicmap extends Topic {
