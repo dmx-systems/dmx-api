@@ -28,18 +28,33 @@ class DeepaMehtaObject {
 
   fillChilds () {
     this.getType().assocDefs.forEach(assocDef => {
-      const childs = this.childs[assocDef.assocDefUri]
-      if (childs) {
-        if (assocDef.isOne()) {
+      let childs = this.childs[assocDef.assocDefUri]
+      let child
+      if (!childs) {
+        // Note: child instantiation is done by the Topic constructor (recursively)
+        child = new Topic(assocDef.getChildType().emptyInstance())
+      }
+      if (assocDef.isOne()) {
+        if (childs) {
           childs.fillChilds()
         } else {
+          childs = child
+        }
+        childs.fillRelatingAssoc(assocDef)
+      } else {
+        if (childs) {
           childs.forEach(child => {
             child.fillChilds()
           })
+        } else {
+          childs = [child]
         }
-      } else {
-        const child = new Topic(assocDef.getChildType().emptyTopic())
-        this.childs[assocDef.assocDefUri] = assocDef.isOne() ? child : [child]
+        childs.forEach(child => {
+          child.fillRelatingAssoc(assocDef)
+        })
+      }
+      if (child) {
+        this.childs[assocDef.assocDefUri] = childs
       }
     })
   }
@@ -92,14 +107,28 @@ class Topic extends DeepaMehtaObject {
       viewProps: viewProps
     })
   }
+
+  fillRelatingAssoc (assocDef) {
+    if (this.assoc) {
+      this.assoc.fillChilds()
+    } else {
+      this.assoc = new Assoc(assocDef.getInstanceLevelAssocType().emptyInstance())
+    }
+  }
 }
 
 class Assoc extends DeepaMehtaObject {
 
   constructor (assoc) {
     super(assoc)
-    this.role1 = new AssocRole(assoc.role1)
-    this.role2 = new AssocRole(assoc.role2)
+    // Note: for update models the roles are optional.
+    // Compare to ModelFactoryImpl.newAssociationModel(JSONObject assoc).
+    if (assoc.role1) {
+      this.role1 = new AssocRole(assoc.role1)
+    }
+    if (assoc.role2) {
+      this.role2 = new AssocRole(assoc.role2)
+    }
   }
 
   getRole (roleTypeUri) {
@@ -207,6 +236,29 @@ class Type extends Topic {
     return topic && topic.value
   }
 
+  /**
+   * @returns   a plain object.
+   */
+  emptyInstance () {
+
+    const emptyChilds = () => {
+      const childs = {}
+      this.assocDefs.forEach(assocDef => {
+        const child = assocDef.getChildType().emptyInstance()
+        childs[assocDef.assocDefUri] = assocDef.isOne() ? child : [child]
+      })
+      return childs
+    }
+
+    return {
+      id: -1,
+      uri: '',
+      typeUri: this.uri,
+      value: '',
+      childs: emptyChilds()
+    }
+  }
+
   toExternalForm () {
     const type = JSON.parse(JSON.stringify(this))
     type.assocDefs.forEach(assocDef => {
@@ -241,29 +293,6 @@ class TopicType extends Type {
           }
         }
       }
-    }
-  }
-
-  /**
-   * @returns   a plain object.
-   */
-  emptyTopic () {
-
-    const emptyChilds = () => {
-      const childs = {}
-      this.assocDefs.forEach(assocDef => {
-        const child = assocDef.getChildType().emptyTopic()
-        childs[assocDef.assocDefUri] = assocDef.isOne() ? child : [child]
-      })
-      return childs
-    }
-
-    return {
-      id: -1,
-      uri: '',
-      typeUri: this.uri,
-      value: '',
-      childs: emptyChilds()
     }
   }
 
