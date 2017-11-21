@@ -1,6 +1,7 @@
 import typeCache from './type-cache'
 import restClient from './rest-client'
 import utils from './utils'
+import Vue from 'vue'
 
 // TODO: inject
 const DEFAULT_TOPIC_ICON = '\uf10c'
@@ -54,13 +55,21 @@ class DeepaMehtaObject {
         })
       }
       if (child) {
-        this.childs[assocDef.assocDefUri] = childs
+        // Note: this object might be on display. Setting the childs must be reactive.
+        Vue.set(this.childs, assocDef.assocDefUri, childs)
       }
     })
   }
 }
 
 class Topic extends DeepaMehtaObject {
+
+  constructor (topic) {
+    super(topic)
+    if (topic.assoc) {
+      this.assoc = new Assoc(topic.assoc)
+    }
+  }
 
   getType () {
     return typeCache.getTopicType(this.typeUri)
@@ -215,9 +224,11 @@ class Type extends Topic {
   }
 
   isSimple () {
-    return [
-      'dm4.core.text', 'dm4.core.html', 'dm4.core.number', 'dm4.core.boolean'
-    ].includes(this.dataTypeUri)
+    return ['dm4.core.text', 'dm4.core.html', 'dm4.core.number', 'dm4.core.boolean'].includes(this.dataTypeUri)
+  }
+
+  isComposite () {
+    return ['dm4.core.value', 'dm4.core.identity'].includes(this.dataTypeUri)
   }
 
   getDataType () {
