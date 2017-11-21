@@ -20,9 +20,11 @@ export default {
 
   // Topics
 
-  getTopic (id, includeChilds) {
-    const config = {params: {include_childs: includeChilds}}
-    return http.get(`/core/topic/${id}`, config).then(response =>
+  getTopic (id, includeChilds, includeAssocChilds) {
+    return http.get(`/core/topic/${id}`, {params: {
+      include_childs: includeChilds,
+      include_assoc_childs: includeAssocChilds
+    }}).then(response =>
       new Topic(response.data)
     ).catch(error => {
       console.error(error)
@@ -89,9 +91,11 @@ export default {
 
   // Associations
 
-  getAssoc (id, includeChilds) {
-    const config = {params: {include_childs: includeChilds}}
-    return http.get(`/core/association/${id}`, config).then(response =>
+  getAssoc (id, includeChilds, includeAssocChilds) {
+    return http.get(`/core/association/${id}`, {params: {
+      include_childs: includeChilds,
+      include_assoc_childs: includeAssocChilds
+    }}).then(response =>
       new Assoc(response.data)
     ).catch(error => {
       console.error(error)
@@ -287,9 +291,11 @@ export default {
     })
   },
 
-  getAssignedTopics (workspaceId, topicTypeUri, includeChilds) {
-    const config = {params: {include_childs: includeChilds}}
-    return http.get(`/workspace/${workspaceId}/topics/${topicTypeUri}`, config).then(response =>
+  getAssignedTopics (workspaceId, topicTypeUri, includeChilds, includeAssocChilds) {
+    return http.get(`/workspace/${workspaceId}/topics/${topicTypeUri}`, {params: {
+      include_childs: includeChilds,
+      include_assoc_childs: includeAssocChilds
+    }}).then(response =>
       utils.instantiateMany(response.data, Topic)
     ).catch(error => {
       console.error(error)
