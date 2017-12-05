@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.8** -- Dec 5, 2017
+
+* Support for "relating associations"
+
 **0.7** -- Nov 19, 2017
 
 * Client-synchronization for types
@@ -24,4 +28,4 @@
 
 ------------
 Jörg Richter  
-Nov 19, 2017
+Dec 5, 2017

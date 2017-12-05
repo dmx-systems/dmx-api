@@ -56,6 +56,7 @@ class DeepaMehtaObject {
       }
       if (child) {
         // Note: this object might be on display. Setting the childs must be reactive.
+        // this.childs[assocDef.assocDefUri] = childs
         Vue.set(this.childs, assocDef.assocDefUri, childs)
       }
     })
@@ -66,6 +67,7 @@ class Topic extends DeepaMehtaObject {
 
   constructor (topic) {
     super(topic)
+    // relating assoc
     if (topic.assoc) {
       this.assoc = new Assoc(topic.assoc)
     }
@@ -122,6 +124,8 @@ class Topic extends DeepaMehtaObject {
       this.assoc.fillChilds()
     } else {
       this.assoc = new Assoc(assocDef.getInstanceLevelAssocType().emptyInstance())
+      // Note: reactivity seems not be an issue here. I don't know why.
+      // Vue.set(this, 'assoc', new Assoc(assocDef.getInstanceLevelAssocType().emptyInstance()))
     }
   }
 }
