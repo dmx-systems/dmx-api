@@ -4,10 +4,10 @@ import utils from './utils'
 import Vue from 'vue'
 
 const state = {
-  topicTypes: undefined,    // type URI (string) -> TopicType
-  assocTypes: undefined,    // type URI (string) -> AssocType
-  dataTypes: undefined,     // data type URI (string) -> data type (a Topic object)
-  roleTypes: undefined      // role type URI (string) -> role type (a Topic object)
+  topicTypes: undefined,    // object: type URI (string) -> TopicType
+  assocTypes: undefined,    // object: type URI (string) -> AssocType
+  dataTypes: undefined,     // object: data type URI (string) -> data type (Topic)
+  roleTypes: undefined      // object: role type URI (string) -> role type (Topic)
 }
 
 const actions = {

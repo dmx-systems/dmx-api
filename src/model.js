@@ -418,6 +418,12 @@ class AssocDef extends Assoc {
       throw Error(`Unexpected association type URI: "${this.typeUri}"`);
     }
   }
+
+  emptyChildInstance () {
+    const topic = this.getChildType().emptyInstance()
+    topic.assoc = this.getInstanceLevelAssocType().emptyInstance()
+    return new Topic(topic)
+  }
 }
 
 class Topicmap extends Topic {
