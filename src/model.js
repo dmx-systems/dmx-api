@@ -105,7 +105,7 @@ class Topic extends DeepaMehtaObject {
   }
 
   getIcon () {
-    return this.getType().getViewConfig('dm4.webclient.icon') || DEFAULT_TOPIC_ICON
+    return this.getType().getIcon() || DEFAULT_TOPIC_ICON
   }
 
   newViewTopic (viewProps) {
@@ -309,6 +309,10 @@ class TopicType extends Type {
         }
       }
     }
+  }
+
+  getIcon () {
+    return this.getViewConfig('dm4.webclient.icon')
   }
 
   update () {
