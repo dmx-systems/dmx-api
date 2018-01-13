@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.9** -- Jan 13, 2018
+
+* Support for cardinality "many"
+
 **0.8** -- Dec 5, 2017
 
 * Support for "relating associations"
@@ -28,4 +32,4 @@
 
 ------------
 Jörg Richter  
-Dec 5, 2017
+Jan 13, 2018
