@@ -314,14 +314,6 @@ export default {
 
   // === Access Control ===
 
-  getUsername () {
-    return http.get('/accesscontrol/user').then(response =>
-      response.data
-    ).catch(error => {
-      console.error(error)
-    })
-  },
-
   login (credentials) {
     return http.post('/accesscontrol/login', undefined, {
       auth: credentials
@@ -330,6 +322,30 @@ export default {
 
   logout () {
     http.post('/accesscontrol/logout').catch(error => {
+      console.error(error)
+    })
+  },
+
+  getUsername () {
+    return http.get('/accesscontrol/user').then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+  getTopicPermissions (id) {
+    return http.get(`/accesscontrol/topic/${id}`).then(response =>
+      response.data
+    ).catch(error => {
+      console.error(error)
+    })
+  },
+
+  getAssocPermissions (id) {
+    return http.get(`/accesscontrol/association/${id}`).then(response =>
+      response.data
+    ).catch(error => {
       console.error(error)
     })
   },
