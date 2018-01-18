@@ -73,6 +73,8 @@ class Topic extends DeepaMehtaObject {
     }
   }
 
+  // ---
+
   getType () {
     return typeCache.getTopicType(this.typeUri)
   }
@@ -143,6 +145,8 @@ class Assoc extends DeepaMehtaObject {
       this.role2 = new AssocRole(assoc.role2)
     }
   }
+
+  // ---
 
   getRole (roleTypeUri) {
     var match1 = this.role1.roleTypeUri === roleTypeUri

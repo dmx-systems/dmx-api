@@ -3,6 +3,7 @@ import {
 } from './src/model'
 import restClient from './src/rest-client'
 import typeCache  from './src/type-cache'
+import permCache  from './src/permission-cache'
 import utils      from './src/utils'
 
 export default {
@@ -10,6 +11,7 @@ export default {
   DeepaMehtaObject, Topic, Assoc, AssocRole, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic,
 
   restClient,
+  permCache,
   utils,
 
   init (store) {

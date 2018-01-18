@@ -3,6 +3,9 @@ import restClient from './rest-client'
 import utils from './utils'
 import Vue from 'vue'
 
+// Note: the type cache is reactive state (e.g. new topic types appear in the type menu automatically,
+// see "menuTopicTypes" getter below), manipulated by the "putTopicType" and "putAssocType" actions.
+
 const state = {
   topicTypes: undefined,    // object: type URI (string) -> TopicType
   assocTypes: undefined,    // object: type URI (string) -> AssocType
@@ -146,7 +149,6 @@ function bootstrapType() {
 
 export default {
   init,
-  //
   getTopicType,
   getAssocType,
   getDataType,
