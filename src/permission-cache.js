@@ -16,21 +16,21 @@ var permissionCache = {}
 /**
  * @return  a promise for a permissions object
  */
-function getTopicPermissions (id) {
-  return getPermissions(id, restClient.getTopicPermissions)
+function isTopicWritable (id) {
+  return _isWritable(id, restClient.getTopicPermissions)
 }
 
 /**
  * @return  a promise for a permissions object
  */
-function getAssocPermissions (id) {
-  return getPermissions(id, restClient.getAssocPermissions)
+function isAssocWritable (id) {
+  return _isWritable(id, restClient.getAssocPermissions)
 }
 
-function getPermissions (id, retrievalFunc) {
-  return permissionCache[id] || (permissionCache[id] = retrievalFunc(id).catch(error => {
-    console.error(error)
-  }))
+function _isWritable (id, retrievalFunc) {
+  return (permissionCache[id] || (permissionCache[id] = retrievalFunc(id))).then(permissions =>
+    permissions['dm4.accesscontrol.operation.write']
+  )
 }
 
 function clear () {
@@ -38,7 +38,7 @@ function clear () {
 }
 
 export default {
-  getTopicPermissions,
-  getAssocPermissions,
+  isTopicWritable,
+  isAssocWritable,
   clear
 }

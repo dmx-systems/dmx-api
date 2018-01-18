@@ -1,5 +1,6 @@
-import typeCache from './type-cache'
 import restClient from './rest-client'
+import typeCache from './type-cache'
+import permCache from './permission-cache'
 import utils from './utils'
 import Vue from 'vue'
 
@@ -94,6 +95,10 @@ class Topic extends DeepaMehtaObject {
     return restClient.updateTopic(this)
   }
 
+  isWritable () {
+    return permCache.isTopicWritable(this.id)
+  }
+
   // ---
 
   asType () {
@@ -182,6 +187,10 @@ class Assoc extends DeepaMehtaObject {
   update () {
     console.log('update', this)
     return restClient.updateAssoc(this)
+  }
+
+  isWritable () {
+    return permCache.isAssocWritable(this.id)
   }
 }
 
