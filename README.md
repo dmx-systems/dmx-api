@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.10** -- Feb 3, 2018
+
+* Support for access control
+
 **0.9** -- Jan 13, 2018
 
 * Support for cardinality "many"
@@ -32,4 +36,4 @@
 
 ------------
 Jörg Richter  
-Jan 13, 2018
+Feb 3, 2018
