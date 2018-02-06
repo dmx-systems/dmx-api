@@ -99,6 +99,10 @@ class Topic extends DeepaMehtaObject {
     return permCache.isTopicWritable(this.id)
   }
 
+  isTopic () {
+    return true
+  }
+
   // ---
 
   asType () {
@@ -191,6 +195,10 @@ class Assoc extends DeepaMehtaObject {
 
   isWritable () {
     return permCache.isAssocWritable(this.id)
+  }
+
+  isTopic () {
+    return false
   }
 }
 
