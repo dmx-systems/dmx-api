@@ -3,6 +3,7 @@ import typeCache from './type-cache'
 import permCache from './permission-cache'
 import utils from './utils'
 import Vue from 'vue'
+import cloneDeep from 'lodash.clonedeep'
 
 // TODO: inject
 const DEFAULT_TOPIC_ICON = '\uf10c'
@@ -28,6 +29,11 @@ class DeepaMehtaObject {
     return this.childs[assocDefUri]
   }
 
+  /**
+   * Operates in-place
+   *
+   * @return    this object
+   */
   fillChilds () {
     this.getType().assocDefs.forEach(assocDef => {
       let childs = this.childs[assocDef.assocDefUri]
@@ -61,6 +67,11 @@ class DeepaMehtaObject {
         Vue.set(this.childs, assocDef.assocDefUri, childs)
       }
     })
+    return this
+  }
+
+  clone () {
+    return cloneDeep(this)
   }
 }
 
@@ -101,6 +112,10 @@ class Topic extends DeepaMehtaObject {
 
   isTopic () {
     return true
+  }
+
+  isAssoc () {
+    return false
   }
 
   // ---
@@ -199,6 +214,10 @@ class Assoc extends DeepaMehtaObject {
 
   isTopic () {
     return false
+  }
+
+  isAssoc () {
+    return true
   }
 }
 
