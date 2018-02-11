@@ -321,7 +321,7 @@ export default {
   },
 
   logout () {
-    http.post('/accesscontrol/logout').catch(error => {
+    return http.post('/accesscontrol/logout').catch(error => {
       console.error(error)
     })
   },
