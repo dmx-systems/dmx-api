@@ -102,26 +102,6 @@ export default {
     })
   },
 
-  getAssocWithPlayers (id, includeChilds, includeAssocChilds) {
-    let assoc
-    return new Promise(resolve => {
-      this.getAssoc(id, includeChilds, includeAssocChilds).then(_assoc => {
-        assoc = _assoc
-      }).then(() =>
-        Promise.all([
-          assoc.role1.getPlayer().then(topic => {
-            assoc.role1.player = topic
-          }),
-          assoc.role2.getPlayer().then(topic => {
-            assoc.role2.player = topic
-          })
-        ])
-      ).then(() => {
-        resolve(assoc)
-      })
-    })
-  },
-
   /**
    * @param   filter
    *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
