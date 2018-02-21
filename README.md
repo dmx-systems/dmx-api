@@ -2,6 +2,11 @@
 
 ## Version History
 
+**0.11** -- Feb 21, 2018
+
+* Model: `DeepaMehtaObject` has `isTopic()`, `isAssoc()`, `clone()`
+* REST client: `logout()` returns a promise.
+
 **0.10** -- Feb 3, 2018
 
 * Support for access control
@@ -36,4 +41,4 @@
 
 ------------
 Jörg Richter  
-Feb 3, 2018
+Feb 21, 2018
