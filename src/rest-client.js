@@ -257,6 +257,13 @@ export default {
     })
   },
 
+  setViewProps (topicmapId, topicId, viewProps) {
+    // TODO: round coordinates?
+    http.put(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps).catch(error => {
+      console.error(error)
+    })
+  },
+
   setTopicPosition (topicmapId, topicId, pos) {
     roundPos(pos, 'x', 'y')
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${pos.x}/${pos.y}`).catch(error => {

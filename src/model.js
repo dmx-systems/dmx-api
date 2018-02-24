@@ -535,6 +535,10 @@ class Topicmap extends Topic {
     delete this.topics[id]
   }
 
+  setTopicViewProp (id, propUri, value) {
+    this.getTopic(id).setViewProp(propUri, value)
+  }
+
   forEachTopic (visitor) {
     utils.forEach(this.topics, visitor)
   }
@@ -620,22 +624,31 @@ class ViewTopic extends Topic {
 
   getPosition () {
     return {
-      x: this.viewProps['dm4.topicmaps.x'],
-      y: this.viewProps['dm4.topicmaps.y']
+      x: this.getViewProp('dm4.topicmaps.x'),
+      y: this.getViewProp('dm4.topicmaps.y')
     }
   }
 
   isVisible () {
-    return this.viewProps['dm4.topicmaps.visibility']
+    return this.getViewProp('dm4.topicmaps.visibility')
+  }
+
+  getViewProp (propUri) {
+    return this.viewProps[propUri]
   }
 
   setPosition (pos) {
-    this.viewProps['dm4.topicmaps.x'] = pos.x
-    this.viewProps['dm4.topicmaps.y'] = pos.y
+    this.setViewProp('dm4.topicmaps.x', pos.x)
+    this.setViewProp('dm4.topicmaps.y', pos.y)
   }
 
   setVisibility (visibility) {
-    this.viewProps['dm4.topicmaps.visibility'] = visibility
+    this.setViewProp('dm4.topicmaps.visibility', visibility)
+  }
+
+  setViewProp (propUri, value) {
+    // Note: some view props must be reactive, e.g. 'dm5.pinning.pinned' reflects pin button state
+    Vue.set(this.viewProps, propUri, value)
   }
 }
 

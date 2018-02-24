@@ -56,18 +56,10 @@ const actions = {
   }
 }
 
-// TODO: move to Webclient? => YES!
-const getters = {
-  menuTopicTypes: state => utils.filter(state.topicTypes, topicType =>
-    topicType.getViewConfig('dm4.webclient.show_in_create_menu')
-  )
-}
-
 function init (store) {
   store.registerModule('typeCache', {
     state,
-    actions,
-    getters
+    actions
   })
   // init state
   return Promise.all([
