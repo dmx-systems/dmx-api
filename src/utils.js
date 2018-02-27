@@ -68,6 +68,10 @@ function filter (object, predicate) {
   return map
 }
 
+function isEmpty (object) {
+  return !Object.keys(object).length
+}
+
 // ---
 
 /**
@@ -97,6 +101,7 @@ export default {
   mapByTypeUri,
   forEach,
   filter,
+  isEmpty,
   getCookie,
   setCookie
 }
