@@ -106,6 +106,9 @@ class Topic extends DeepaMehtaObject {
     return restClient.updateTopic(this)
   }
 
+  /**
+   * @return  a promise for a true/false value
+   */
   isWritable () {
     return permCache.isTopicWritable(this.id)
   }
@@ -208,6 +211,9 @@ class Assoc extends DeepaMehtaObject {
     return restClient.updateAssoc(this)
   }
 
+  /**
+   * @return  a promise for a true/false value
+   */
   isWritable () {
     return permCache.isAssocWritable(this.id)
   }
@@ -654,6 +660,10 @@ class ViewTopic extends Topic {
     // Note: some view props must be reactive, e.g. 'dm5.pinning.pinned' reflects pin button state.
     // Test it with topics which don't have a 'dm5.pinning.pinned' setting yet.
     Vue.set(this.viewProps, propUri, value)
+  }
+
+  fetchObject () {
+    return restClient.getTopic(this.id, true, true)
   }
 }
 

@@ -14,19 +14,22 @@ import restClient from './rest-client'
 var permissionCache = {}
 
 /**
- * @return  a promise for a permissions object
+ * @return  a promise for a true/false value
  */
 function isTopicWritable (id) {
   return _isWritable(id, restClient.getTopicPermissions)
 }
 
 /**
- * @return  a promise for a permissions object
+ * @return  a promise for a true/false value
  */
 function isAssocWritable (id) {
   return _isWritable(id, restClient.getAssocPermissions)
 }
 
+/**
+ * @return  a promise for a true/false value
+ */
 function _isWritable (id, retrievalFunc) {
   return (permissionCache[id] || (permissionCache[id] = retrievalFunc(id))).then(permissions =>
     permissions['dm4.accesscontrol.operation.write']
