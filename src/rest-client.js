@@ -240,8 +240,8 @@ export default {
     })
   },
 
-  addAssocToTopicmap (topicmapId, assocId) {
-    http.post(`/topicmap/${topicmapId}/association/${assocId}`).catch(error => {
+  addAssocToTopicmap (topicmapId, assocId, viewProps) {
+    http.post(`/topicmap/${topicmapId}/association/${assocId}`, viewProps).catch(error => {
       console.error(error)
     })
   },
@@ -257,9 +257,15 @@ export default {
     })
   },
 
-  setViewProps (topicmapId, topicId, viewProps) {
+  setTopicViewProps (topicmapId, topicId, viewProps) {
     // TODO: round coordinates?
     http.put(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps).catch(error => {
+      console.error(error)
+    })
+  },
+
+  setAssocViewProps (topicmapId, assocId, viewProps) {
+    http.put(`/topicmap/${topicmapId}/association/${assocId}`, viewProps).catch(error => {
       console.error(error)
     })
   },

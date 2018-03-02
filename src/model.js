@@ -121,6 +121,17 @@ class Topic extends DeepaMehtaObject {
     return false
   }
 
+  newViewTopic (viewProps) {
+    return new ViewTopic({
+      id:      this.id,
+      uri:     this.uri,
+      typeUri: this.typeUri,
+      value:   this.value,
+      childs: {},     // TODO: childs needed in a ViewTopic?
+      viewProps: viewProps
+    })
+  }
+
   // ---
 
   asType () {
@@ -135,17 +146,6 @@ class Topic extends DeepaMehtaObject {
 
   getIcon () {
     return this.getType().getIcon() || DEFAULT_TOPIC_ICON
-  }
-
-  newViewTopic (viewProps) {
-    return new ViewTopic({
-      id:      this.id,
-      uri:     this.uri,
-      typeUri: this.typeUri,
-      value:   this.value,
-      childs: {},     // TODO: childs needed in a ViewTopic?
-      viewProps: viewProps
-    })
   }
 
   fillRelatingAssoc (assocDef) {
@@ -224,6 +224,19 @@ class Assoc extends DeepaMehtaObject {
 
   isAssoc () {
     return true
+  }
+
+  newViewAssoc (viewProps) {
+    return new ViewAssoc({
+      id:      this.id,
+      uri:     this.uri,
+      typeUri: this.typeUri,
+      value:   this.value,
+      childs: {},     // TODO: childs needed in a ViewTopic?
+      role1:   this.role1,
+      role2:   this.role2,
+      viewProps: viewProps
+    })
   }
 }
 
@@ -481,7 +494,7 @@ class Topicmap extends Topic {
   constructor (topicmap) {
     super(topicmap.info)
     this.topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))  // map: ID -> dm5.ViewTopic
-    this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, Assoc))      // map: ID -> dm5.Assoc
+    this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))  // map: ID -> dm5.Assoc
   }
 
   // Topics
@@ -511,7 +524,7 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @param   topic   a ViewTopic
+   * @param   topic   a dm5.ViewTopic
    */
   addTopic (topic) {
     if (!(topic instanceof ViewTopic)) {
@@ -521,7 +534,7 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @param   topic   a dm5.Topic object
+   * @param   topic   a dm5.Topic
    * @param   pos     the topic position (an object with "x", "y" properties).
    */
   revealTopic (topic, pos) {
@@ -532,6 +545,7 @@ class Topicmap extends Topic {
         'dm4.topicmaps.x': pos.x,
         'dm4.topicmaps.y': pos.y,
         'dm4.topicmaps.visibility': true,
+        'dm4.topicmaps.pinned': false
       }
       this.addTopic(topic.newViewTopic(viewProps))
       op.type = 'add'
@@ -584,25 +598,37 @@ class Topicmap extends Topic {
     return this.getAssocIfExists(id)
   }
 
+  getAssocViewProp (id, propUri) {
+    return this.getAssoc(id).getViewProp(propUri)
+  }
+
+  setAssocViewProp (id, propUri, value) {
+    this.getAssoc(id).setViewProp(propUri, value)
+  }
+
   /**
-   * @param   assoc   an Assoc
+   * @param   assoc   a dm5.ViewAssoc
    */
   addAssoc (assoc) {
-    if (!(assoc instanceof Assoc)) {
-      throw Error(assoc + " is not an Assoc")
+    if (!(assoc instanceof ViewAssoc)) {
+      throw Error(assoc + " is not a ViewAssoc")
     }
     this.assocs[assoc.id] = assoc
   }
 
   /**
-   * @param   assoc   a dm5.Assoc object
+   * @param   assoc   a dm5.Assoc
    */
   revealAssoc (assoc) {
     const op = {}
     const viewAssoc = this.getAssocIfExists(assoc.id)
     if (!viewAssoc) {
-      this.addAssoc(assoc)
+      const viewProps = {
+        'dm4.topicmaps.pinned': false
+      }
+      this.addAssoc(assoc.newViewAssoc(viewProps))
       op.type = 'add'
+      op.viewProps = viewProps
     }
     return op
   }
@@ -624,6 +650,8 @@ class Topicmap extends Topic {
     utils.forEach(this.assocs, visitor)
   }
 }
+
+// TODO: common base class for ViewTopic and ViewAssoc
 
 class ViewTopic extends Topic {
 
@@ -657,8 +685,8 @@ class ViewTopic extends Topic {
   }
 
   setViewProp (propUri, value) {
-    // Note: some view props must be reactive, e.g. 'dm5.pinning.pinned' reflects pin button state.
-    // Test it with topics which don't have a 'dm5.pinning.pinned' setting yet.
+    // Note: some view props must be reactive, e.g. 'dm4.topicmaps.pinned' reflects pin button state.
+    // Test it with topics which don't have a 'dm4.topicmaps.pinned' setting yet. ### FIXDOC
     Vue.set(this.viewProps, propUri, value)
   }
 
@@ -667,4 +695,38 @@ class ViewTopic extends Topic {
   }
 }
 
-export { DeepaMehtaObject, Topic, Assoc, AssocRole, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic }
+class ViewAssoc extends Assoc {
+
+  constructor (assoc) {
+    super(assoc)
+    this.viewProps = assoc.viewProps
+  }
+
+  getViewProp (propUri) {
+    return this.viewProps[propUri]
+  }
+
+  setViewProp (propUri, value) {
+    // Note: some view props must be reactive, e.g. 'dm4.topicmaps.pinned' reflects pin button state.
+    // Test it with assocs which don't have a 'dm4.topicmaps.pinned' setting yet. ### FIXDOC
+    Vue.set(this.viewProps, propUri, value)
+  }
+
+  fetchObject () {
+    return restClient.getAssoc(this.id, true, true)
+  }
+}
+
+export {
+  DeepaMehtaObject,
+  Topic,
+  Assoc,
+  AssocRole,
+  RelatedTopic,
+  Type,
+  TopicType,
+  AssocType,
+  Topicmap,
+  ViewTopic,
+  ViewAssoc
+}
