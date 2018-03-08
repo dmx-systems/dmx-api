@@ -11,8 +11,8 @@ const DEFAULT_TOPIC_ICON = '\uf10c'
 class DeepaMehtaObject {
 
   constructor (object) {
-    if (object instanceof DeepaMehtaObject) {
-      throw Error('DeepaMehtaObject constructor called with a DeepaMehtaObject')
+    if (object.constructor.name !== 'Object') {
+      throw Error(`DeepaMehtaObject constructor expects plain object but got ${object.constructor.name}`)
     }
     this.id      = object.id
     this.uri     = object.uri

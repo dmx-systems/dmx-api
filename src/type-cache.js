@@ -33,8 +33,8 @@ const actions = {
     putAssocType(assocType)
   },
 
-  _processDirectives ({dispatch}, directives) {
-    // console.log(`Type-cache: processing ${directives.length} directives`)
+  _processDirectives (_, directives) {
+    console.log(`Type-cache: processing ${directives.length} directives`)
     directives.forEach(dir => {
       switch (dir.type) {
       case "UPDATE_TOPIC_TYPE":
