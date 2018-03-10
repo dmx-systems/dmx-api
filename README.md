@@ -2,6 +2,13 @@
 
 ## Version History
 
+**0.12** -- Mar 10, 2018
+
+* Model + REST client: support for "view props"
+* Model: `ViewTopic` and `ViewAssoc` have `fetchObject()`
+* Utils: `isEmpty()`
+* Utils fix: `instantiateChilds()` has no side effect
+
 **0.11** -- Feb 21, 2018
 
 * Model: `DeepaMehtaObject` has `isTopic()`, `isAssoc()`, `clone()`
@@ -41,4 +48,4 @@
 
 ------------
 Jörg Richter  
-Feb 21, 2018
+Mar 10, 2018
