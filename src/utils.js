@@ -1,4 +1,5 @@
 import { Topic } from './model'
+import cloneDeep from 'lodash.clonedeep'
 
 /**
  * Instantiates plain objects.
@@ -28,6 +29,12 @@ function _instantiateChild (child) {
   } else {
     return new Topic(child)
   }
+}
+
+// ---
+
+function clone (o) {
+  return cloneDeep(o)
 }
 
 // ---
@@ -97,6 +104,7 @@ function setCookie (name, value) {
 export default {
   instantiateMany,
   instantiateChilds,
+  clone,
   mapById,
   mapByUri,
   mapByTypeUri,

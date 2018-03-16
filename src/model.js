@@ -3,7 +3,6 @@ import typeCache from './type-cache'
 import permCache from './permission-cache'
 import utils from './utils'
 import Vue from 'vue'
-import cloneDeep from 'lodash.clonedeep'
 
 // TODO: inject
 const DEFAULT_TOPIC_ICON = '\uf10c'
@@ -12,7 +11,7 @@ class DeepaMehtaObject {
 
   constructor (object) {
     if (object.constructor.name !== 'Object') {
-      throw Error(`DeepaMehtaObject constructor expects plain object but got ${object.constructor.name}`)
+      throw Error(`DeepaMehtaObject constructor expects plain object, got ${object.constructor.name}`)
     }
     this.id      = object.id
     this.uri     = object.uri
@@ -71,7 +70,7 @@ class DeepaMehtaObject {
   }
 
   clone () {
-    return cloneDeep(this)
+    return utils.clone(this)
   }
 }
 
