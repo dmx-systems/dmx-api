@@ -1,5 +1,5 @@
 import { Topic } from './model'
-import cloneDeep from 'lodash.clonedeep'
+import _clone from 'clone'
 
 /**
  * Instantiates plain objects.
@@ -34,7 +34,7 @@ function _instantiateChild (child) {
 // ---
 
 function clone (o) {
-  return cloneDeep(o)
+  return _clone(o)
 }
 
 // ---
