@@ -534,15 +534,18 @@ class Topicmap extends Topic {
 
   /**
    * @param   topic   a dm5.Topic
-   * @param   pos     the topic position (an object with "x", "y" properties).
+   * @param   pos     Optional: the topic position (an object with "x", "y" properties).
+   *                  If not given it's up to the topicmap renderer to position the topic.
    */
   revealTopic (topic, pos) {
     const op = {}
     const viewTopic = this.getTopicIfExists(topic.id)
     if (!viewTopic) {
       const viewProps = {
-        'dm4.topicmaps.x': pos.x,
-        'dm4.topicmaps.y': pos.y,
+        ... pos ? {
+          'dm4.topicmaps.x': pos.x,
+          'dm4.topicmaps.y': pos.y
+        } : undefined,
         'dm4.topicmaps.visibility': true,
         'dm4.topicmaps.pinned': false
       }
