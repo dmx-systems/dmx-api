@@ -2,6 +2,12 @@
 
 ## Version History
 
+**0.13** -- Mar 25, 2018
+
+* Model: `Topicmap.revealTopic()`'s `pos` param is optional. If not given it's up to the topicmap renderer to position the topic.
+* Utils: `clone()` for deep-cloning arbitrary objects
+* Depends on module `clone` instead `lodash.clonedeep`
+
 **0.12** -- Mar 10, 2018
 
 * Model + REST client: support for "view props"
@@ -48,4 +54,4 @@
 
 ------------
 Jörg Richter  
-Mar 10, 2018
+Mar 25, 2018
