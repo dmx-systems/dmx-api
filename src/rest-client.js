@@ -211,11 +211,11 @@ export default {
 
   // === Topicmaps ===
 
-  createTopicmap (name, topicmapRendererUri, isPrivate) {
+  createTopicmap (name, topicmapTypeUri, isPrivate) {
     return http.post('/topicmap', undefined, {
       params: {
         name,
-        renderer_uri: topicmapRendererUri,
+        renderer_uri: topicmapTypeUri,
         private: isPrivate
       }
     }).then(response =>
