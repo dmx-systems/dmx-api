@@ -219,7 +219,7 @@ export default {
         private: isPrivate
       }
     }).then(response =>
-      response.data
+      new Topic(response.data)
     ).catch(error => {
       console.error(error)
     })
@@ -297,7 +297,13 @@ export default {
    * @param   uri   optional
    */
   createWorkspace (name, uri, sharingModeUri) {
-    return http.post('/workspace', undefined, {params: {name, uri, sharing_mode_uri: sharingModeUri}}).then(response =>
+    return http.post('/workspace', undefined, {
+      params: {
+        name,
+        uri,
+        sharing_mode_uri: sharingModeUri
+      }
+    }).then(response =>
       response.data
     ).catch(error => {
       console.error(error)
