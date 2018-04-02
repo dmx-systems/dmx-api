@@ -3,8 +3,8 @@ import restClient from './rest-client'
 import utils from './utils'
 import Vue from 'vue'
 
-// Note: the type cache is reactive state (e.g. new topic types appear in the type menu automatically,
-// see "menuTopicTypes" getter below), manipulated by the "putTopicType" and "putAssocType" actions.
+// Note: the type cache is reactive state. E.g. new topic types appear in the Search Widget's
+// type menu automatically (see computed property "menuTopicTypes" in dm5-webclient.vue).
 
 const state = {
   topicTypes: undefined,    // object: type URI (string) -> TopicType

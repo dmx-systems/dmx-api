@@ -496,10 +496,6 @@ class Topicmap extends Topic {
     this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))  // map: ID -> dm5.Assoc
   }
 
-  getTopicmapTypeUri () {
-    return this.getChildTopic('dm4.topicmaps.topicmap_renderer_uri').value
-  }
-
   // Topics
 
   getTopic (id) {
