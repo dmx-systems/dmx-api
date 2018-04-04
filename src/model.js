@@ -493,7 +493,7 @@ class Topicmap extends Topic {
   constructor (topicmap) {
     super(topicmap.info)
     this.topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))  // map: ID -> dm5.ViewTopic
-    this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))  // map: ID -> dm5.Assoc
+    this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))  // map: ID -> dm5.ViewAssoc
   }
 
   // Topics
@@ -527,7 +527,7 @@ class Topicmap extends Topic {
    */
   addTopic (topic) {
     if (!(topic instanceof ViewTopic)) {
-      throw Error(topic + " is not a ViewTopic")
+      throw Error(`addTopic() expects a ViewTopic, got ${topic.constructor.name}`)
     }
     this.topics[topic.id] = topic
   }
@@ -613,7 +613,7 @@ class Topicmap extends Topic {
    */
   addAssoc (assoc) {
     if (!(assoc instanceof ViewAssoc)) {
-      throw Error(assoc + " is not a ViewAssoc")
+      throw Error(`addAssoc() expects a ViewAssoc, got ${assoc.constructor.name}`)
     }
     this.assocs[assoc.id] = assoc
   }
