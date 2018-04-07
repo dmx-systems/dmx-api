@@ -14,7 +14,8 @@ export default {
   permCache,
   utils,
 
-  init (store) {
-    return typeCache.init(store)
+  init (config) {
+    restClient.setErrorHandler(config.onHttpError)
+    return typeCache.init(config.store)
   }
 }

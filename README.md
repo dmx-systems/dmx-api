@@ -4,7 +4,7 @@
 
 **0.14** -- Apr 7, 2018
 
-* Model: `ViewAssoc` class is exported
+* Model: class `ViewAssoc` is exported
 * REST client fix: `createTopicmap()` returns a `Topic` object
 
 **0.13** -- Mar 25, 2018
