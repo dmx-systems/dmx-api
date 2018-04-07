@@ -2,6 +2,11 @@
 
 ## Version History
 
+**0.14** -- Apr 7, 2018
+
+* Model: `ViewAssoc` class is exported
+* REST client fix: `createTopicmap()` returns a `Topic` object
+
 **0.13** -- Mar 25, 2018
 
 * Model: `Topicmap.revealTopic()`'s `pos` param is optional. If not given it's up to the topicmap renderer to position the topic.
@@ -54,4 +59,4 @@
 
 ------------
 Jörg Richter  
-Mar 25, 2018
+Apr 7, 2018
