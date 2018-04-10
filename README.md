@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.15** -- Apr 10, 2018
+
+* Init option `onHttpError` allows the host application to handle HTTP errors.
+
 **0.14** -- Apr 7, 2018
 
 * Model: class `ViewAssoc` is exported
@@ -59,4 +63,4 @@
 
 ------------
 Jörg Richter  
-Apr 7, 2018
+Apr 10, 2018

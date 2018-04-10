@@ -11,7 +11,7 @@ class DeepaMehtaObject {
 
   constructor (object) {
     if (object.constructor.name !== 'Object') {
-      throw Error(`DeepaMehtaObject constructor expects plain object, got ${object.constructor.name}: ${object}`)
+      throw Error(`DeepaMehtaObject constructor expects plain Object, got ${object.constructor.name} (${object})`)
     }
     this.id      = object.id
     this.uri     = object.uri
