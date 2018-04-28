@@ -4,9 +4,14 @@
   "description": "DeepaMehta 5 base types and API",
   "author": "Jörg Richter",
   "license": "MIT",
+  "main": "dist/dm5.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/jri/dm5.git"
+  },
+  "scripts": {
+    "build": "../../node_modules/.bin/webpack -p --hide-modules",
+    "stats": "../../node_modules/.bin/webpack -p --json > stats.json && ../../node_modules/.bin/webpack-bundle-analyzer stats.json dist"
   },
   "dependencies": {
     "axios": "^0.18.0",

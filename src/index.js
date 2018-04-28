@@ -1,10 +1,10 @@
 import {
   DeepaMehtaObject, Topic, Assoc, AssocRole, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic, ViewAssoc
-} from './src/model'
-import restClient from './src/rest-client'
-import typeCache  from './src/type-cache'
-import permCache  from './src/permission-cache'
-import utils      from './src/utils'
+} from './model'
+import restClient from './rest-client'
+import typeCache  from './type-cache'
+import permCache  from './permission-cache'
+import utils      from './utils'
 
 export default {
 
