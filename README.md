@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.16** -- May 1, 2018
+
+* Distribute in pre-compiled form
+
 **0.15** -- Apr 10, 2018
 
 * Init option `onHttpError` allows the host application to handle HTTP errors.
@@ -63,4 +67,4 @@
 
 ------------
 Jörg Richter  
-Apr 10, 2018
+May 1, 2018
