@@ -514,14 +514,6 @@ class Topicmap extends Topic {
     return this.getTopicIfExists(id)
   }
 
-  getTopicViewProp (id, propUri) {
-    return this.getTopic(id).getViewProp(propUri)
-  }
-
-  setTopicViewProp (id, propUri, value) {
-    this.getTopic(id).setViewProp(propUri, value)
-  }
-
   /**
    * @param   topic   a dm5.ViewTopic
    */
@@ -600,14 +592,6 @@ class Topicmap extends Topic {
     return this.getAssocIfExists(id)
   }
 
-  getAssocViewProp (id, propUri) {
-    return this.getAssoc(id).getViewProp(propUri)
-  }
-
-  setAssocViewProp (id, propUri, value) {
-    this.getAssoc(id).setViewProp(propUri, value)
-  }
-
   /**
    * @param   assoc   a dm5.ViewAssoc
    */
@@ -653,7 +637,7 @@ class Topicmap extends Topic {
   }
 }
 
-// TODO: common base class for ViewTopic and ViewAssoc
+// TODO: common base class for ViewTopic and ViewAssoc?
 
 class ViewTopic extends Topic {
 
@@ -673,6 +657,11 @@ class ViewTopic extends Topic {
     return this.getViewProp('dm4.topicmaps.visibility')
   }
 
+  // TODO: avoid copy in ViewAssoc
+  isPinned () {
+    return this.getViewProp('dm4.topicmaps.pinned')
+  }
+
   setPosition (pos) {
     this.setViewProp('dm4.topicmaps.x', pos.x)
     this.setViewProp('dm4.topicmaps.y', pos.y)
@@ -682,10 +671,17 @@ class ViewTopic extends Topic {
     this.setViewProp('dm4.topicmaps.visibility', visibility)
   }
 
+  // TODO: avoid copy in ViewAssoc
+  setPinned (pinned) {
+    this.setViewProp('dm4.topicmaps.pinned', pinned)
+  }
+
+  // TODO: avoid copy in ViewAssoc
   getViewProp (propUri) {
     return this.viewProps[propUri]
   }
 
+  // TODO: avoid copy in ViewAssoc
   setViewProp (propUri, value) {
     // Note: some view props must be reactive, e.g. 'dm4.topicmaps.pinned' reflects pin button state.
     // Test it with topics which don't have a 'dm4.topicmaps.pinned' setting yet. ### FIXDOC
@@ -704,10 +700,22 @@ class ViewAssoc extends Assoc {
     this.viewProps = assoc.viewProps
   }
 
+  // TODO: avoid copy in ViewTopic
+  isPinned () {
+    return this.getViewProp('dm4.topicmaps.pinned')
+  }
+
+  // TODO: avoid copy in ViewTopic
+  setPinned (pinned) {
+    this.setViewProp('dm4.topicmaps.pinned', pinned)
+  }
+
+  // TODO: avoid copy in ViewTopic
   getViewProp (propUri) {
     return this.viewProps[propUri]
   }
 
+  // TODO: avoid copy in ViewTopic
   setViewProp (propUri, value) {
     // Note: some view props must be reactive, e.g. 'dm4.topicmaps.pinned' reflects pin button state.
     // Test it with assocs which don't have a 'dm4.topicmaps.pinned' setting yet. ### FIXDOC
