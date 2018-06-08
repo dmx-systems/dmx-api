@@ -107,6 +107,14 @@ export default {
     )
   },
 
+  // Multi Topic/Assoc
+
+  deleteMulti (idLists) {
+    return http.delete('/core' + toPath(idLists)).then(response =>
+      response.data
+    )
+  },
+
   // Topic Types
 
   getAllTopicTypes () {
@@ -298,6 +306,17 @@ export default {
       }
     )
   }
+}
+
+function toPath(idLists) {
+  let path = ''
+  if (idLists.topicIds.length) {
+    path += `/topics/${idLists.topicIds}`
+  }
+  if (idLists.assocIds.length) {
+    path += `/assocs/${idLists.assocIds}`
+  }
+  return path
 }
 
 function _filter (filter) {
