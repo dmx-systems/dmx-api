@@ -225,6 +225,11 @@ export default {
     http.delete(`/topicmap/${topicmapId}/association/${assocId}`)
   },
 
+  setTopicPositions (topicmapId, coords) {
+    // TODO: roundPos(pos, 'x', 'y')
+    http.put(`/topicmap/${topicmapId}`, coords)
+  },
+
   // === Workspaces ===
 
   /**
