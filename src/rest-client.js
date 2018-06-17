@@ -225,8 +225,12 @@ export default {
     http.delete(`/topicmap/${topicmapId}/association/${assocId}`)
   },
 
+  hideMulti (topicmapId, idLists) {
+    http.put(`/topicmap/${topicmapId}${toPath(idLists)}/visibility/false`)
+  },
+
   setTopicPositions (topicmapId, coords) {
-    // TODO: roundPos(pos, 'x', 'y')
+    // TODO?: roundPos(pos, 'x', 'y')
     http.put(`/topicmap/${topicmapId}`, coords)
   },
 
