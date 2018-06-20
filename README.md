@@ -2,6 +2,12 @@
 
 ## Version History
 
+**0.17** -- Jun 20, 2018
+
+* Support for backend "multi" API:
+    * New in REST client: `hideMulti()`, `deleteMulti()`, `setTopicPositions()`
+* Model: new in `ViewTopic`/`ViewAssoc`: `isPinned()`, `setPinned()`
+
 **0.16** -- May 1, 2018
 
 * Distribute in pre-compiled form
@@ -24,13 +30,13 @@
 **0.12** -- Mar 10, 2018
 
 * Model + REST client: support for "view props"
-* Model: `ViewTopic` and `ViewAssoc` have `fetchObject()`
+* Model: new in `ViewTopic`/`ViewAssoc`: `fetchObject()`
 * Utils: `isEmpty()`
 * Utils fix: `instantiateChilds()` has no side effect
 
 **0.11** -- Feb 21, 2018
 
-* Model: `DeepaMehtaObject` has `isTopic()`, `isAssoc()`, `clone()`
+* Model: new in `DeepaMehtaObject`: `isTopic()`, `isAssoc()`, `clone()`
 * REST client: `logout()` returns a promise.
 
 **0.10** -- Feb 3, 2018
@@ -67,4 +73,4 @@
 
 ------------
 Jörg Richter  
-May 1, 2018
+Jun 20, 2018
