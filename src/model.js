@@ -239,6 +239,7 @@ class Assoc extends DeepaMehtaObject {
   }
 }
 
+// TODO: rename to "AssocPlayer", "Player"?
 class AssocRole {
 
   constructor (role) {
@@ -248,18 +249,33 @@ class AssocRole {
     this.roleTypeUri = role.roleTypeUri
   }
 
+  // TODO: rename to "getRoleType"?
   getType () {
     return typeCache.getRoleType(this.roleTypeUri)
   }
 
+  // TODO: rename to "roleTypeName"?
   get typeName () {
     return this.getType().value
   }
 
+  // TODO: rename to "isAssocPlayer"?
   hasAssocPlayer () {
     return this.assocId
   }
 
+  // TODO: rename to "getId"?
+  getPlayerId () {
+    if (this.hasAssocPlayer()) {
+      return this.assocId
+    } else if (this.topicId !== undefined) {
+      return this.topicId
+    } else {
+      throw Error('getPlayerId() called when a topic player is specified by URI')
+    }
+  }
+
+  // TODO: rename to "fetch"?
   getPlayer () {
     if (!this.topicId) {
       throw Error(`Assoc role ${JSON.stringify(this)} has no topic player`)
@@ -634,6 +650,36 @@ class Topicmap extends Topic {
 
   forEachAssoc (visitor) {
     utils.forEach(this.assocs, visitor)
+  }
+
+  // Generic
+
+  getObject (id) {
+    const o = this.getTopicIfExists(id) || this.getAssocIfExists(id)
+    if (!o) {
+      throw Error(`Topic/assoc ${id} not found in topicmap ${this.id}`)
+    }
+    return o
+  }
+
+  /**
+   * Returns the position of the given topic/assoc.
+   *
+   * Note: ViewTopic has getPosition() too but ViewAssoc has not
+   * as a ViewAssoc doesn't know the Topicmap it belongs to.
+   */
+  getPosition (id) {
+    const o = this.getObject(id)
+    if (o.isTopic()) {
+      return o.getPosition()
+    } else {
+      const pos1 = this.getPosition(o.role1.getPlayerId())
+      const pos2 = this.getPosition(o.role2.getPlayerId())
+      return {
+        x: (pos1.x + pos2.x) / 2,
+        y: (pos1.y + pos2.y) / 2
+      }
+    }
   }
 }
 
