@@ -34,22 +34,20 @@ const actions = {
   },
 
   _processDirectives (_, directives) {
-    // console.log(`Type-cache: processing ${directives.length} directives`)
+    console.log(`Type-cache: processing ${directives.length} directives`)
     directives.forEach(dir => {
       switch (dir.type) {
       case "UPDATE_TOPIC_TYPE":
         putTopicType(dir.arg)
         break
       case "DELETE_TOPIC_TYPE":
-        // TODO
-        console.warn('Directive DELETE_TOPIC_TYPE not yet implemented')
+        removeTopicType(dir.arg.uri)
         break
       case "UPDATE_ASSOCIATION_TYPE":
         putAssocType(dir.arg)
         break
       case "DELETE_ASSOCIATION_TYPE":
-        // TODO
-        console.warn('Directive DELETE_ASSOCIATION_TYPE not yet implemented')
+        removeAssocType(dir.arg.uri)
         break
       }
     })
@@ -100,17 +98,17 @@ function getType (prop, name) {
 
 // ---
 
-function putTopicType(topicType) {
+function putTopicType (topicType) {
   _putTopicType(new TopicType(topicType))
 }
 
-function putAssocType(assocType) {
+function putAssocType (assocType) {
   _putAssocType(new AssocType(assocType))
 }
 
 // ---
 
-function _putTopicType(topicType) {
+function _putTopicType (topicType) {
   if (!(topicType instanceof TopicType)) {
     throw Error(topicType + " is not a TopicType")
   }
@@ -118,7 +116,7 @@ function _putTopicType(topicType) {
   Vue.set(state.topicTypes, topicType.uri, topicType)
 }
 
-function _putAssocType(assocType) {
+function _putAssocType (assocType) {
   if (!(assocType instanceof AssocType)) {
     throw Error(assocType + " is not an AssocType")
   }
@@ -128,7 +126,19 @@ function _putAssocType(assocType) {
 
 // ---
 
-function bootstrapType() {
+function removeTopicType (uri) {
+  // Note: type cache must be reactive
+  Vue.delete(state.topicTypes, uri)
+}
+
+function removeAssocType (uri) {
+  // Note: type cache must be reactive
+  Vue.delete(state.assocTypes, uri)
+}
+
+// ---
+
+function bootstrapType () {
   return new TopicType({
     uri: "dm4.core.meta_meta_type",
     typeUri: "dm4.core.meta_meta_meta_type",
