@@ -2,6 +2,11 @@
 
 ## Version History
 
+**0.18** -- Jul 17, 2018
+
+* Model extension: `AssocRole.getPlayerId()`, `Topicmap.getObject(id)`, `Topicmap.getPosition(id)`
+* Type cache: process delete-type directives
+
 **0.17** -- Jun 20, 2018
 
 * Support for backend "multi" API:
@@ -73,4 +78,4 @@
 
 ------------
 Jörg Richter  
-Jun 20, 2018
+Jul 17, 2018
