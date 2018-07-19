@@ -6,6 +6,8 @@ import typeCache  from './type-cache'
 import permCache  from './permission-cache'
 import utils      from './utils'
 
+console.log('DM5 API 2018/07/19')
+
 export default {
 
   DeepaMehtaObject, Topic, Assoc, AssocRole, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic, ViewAssoc,
