@@ -1,6 +1,7 @@
 trigger:
   tags:
     - bash
+  stage: deploy
   before_script:
     - MY_TOKEN_ID="$(</home/gitlab-runner/.after-nodejs-build.token)"
   script:
