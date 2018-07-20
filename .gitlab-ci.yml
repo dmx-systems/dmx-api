@@ -1,4 +1,3 @@
 trigger_dmx_platform_build:
   script:
-    - JOB_TOKEN="$(</home/gitlab-runner/.after-nodejs-build.token)"
-    - curl -X POST -F token="${JOB_TOKEN}" -F ref=master https://git.dmx.systems/api/v4/projects/13/trigger/pipeline
+    - curl -X POST -F token=${DMX_PLATFORM_TOKEN} -F ref=master https://git.dmx.systems/api/v4/projects/13/trigger/pipeline
