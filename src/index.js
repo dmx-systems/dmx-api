@@ -6,7 +6,7 @@ import typeCache  from './type-cache'
 import permCache  from './permission-cache'
 import utils      from './utils'
 
-console.log('DM5 API 2018/07/20')
+console.log('DM5 API 2018/07/20.1')
 
 export default {
 
