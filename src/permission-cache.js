@@ -3,7 +3,7 @@ import restClient from './rest-client'
 // Key is a topic/association ID.
 // Value is a promise for a permissions object:
 //   {
-//     "dm4.accesscontrol.operation.write": true|false
+//     "dmx.accesscontrol.operation.write": true|false
 //   }
 //
 // Note: at client-side there is no explicit READ permission.
@@ -32,7 +32,7 @@ function isAssocWritable (id) {
  */
 function _isWritable (id, retrievalFunc) {
   return (permissionCache[id] || (permissionCache[id] = retrievalFunc(id))).then(permissions =>
-    permissions['dm4.accesscontrol.operation.write']
+    permissions['dmx.accesscontrol.operation.write']
   )
 }
 

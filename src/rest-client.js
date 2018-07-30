@@ -186,7 +186,7 @@ export default {
   },
 
   addTopicToTopicmap (topicmapId, topicId, viewProps) {
-    roundPos(viewProps, 'dm4.topicmaps.x', 'dm4.topicmaps.y')
+    roundPos(viewProps, 'dmx.topicmaps.x', 'dmx.topicmaps.y')
     http.post(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps)
   },
 
@@ -196,7 +196,7 @@ export default {
 
   addRelatedTopicToTopicmap (topicmapId, topicId, assocId, viewProps) {
     if (viewProps) {
-      roundPos(viewProps, 'dm4.topicmaps.x', 'dm4.topicmaps.y')
+      roundPos(viewProps, 'dmx.topicmaps.x', 'dmx.topicmaps.y')
     } else {
       viewProps = {}    // let axios send a proper Content-Type header
     }

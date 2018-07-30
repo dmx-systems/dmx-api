@@ -85,12 +85,12 @@ function isEmpty (object) {
 /**
  * Returns a cookie value.
  *
- * @param   name    the name of the cookie, e.g. "dm4_workspace_id".
+ * @param   name    the name of the cookie, e.g. "dmx_workspace_id".
  *
  * @return  the cookie value (string) or <code>null</code> if no such cookie exist.
  */
 function getCookie(name) {
-  // Note: document.cookie contains all cookies as one string, e.g. "dm4_workspace_id=123; dm4_topicmap_id=234"
+  // Note: document.cookie contains all cookies as one string, e.g. "dmx_workspace_id=1234; dmx_topicmap_id=2345"
   const match = document.cookie.match(new RegExp(`\\b${name}=(\\w*)`))
   return match && match[1]
 }

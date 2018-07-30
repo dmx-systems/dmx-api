@@ -81,10 +81,10 @@ function init (store) {
     restClient.getAllAssocTypes().then(assocTypes => {
       state.assocTypes = utils.mapByUri(assocTypes)
     }),
-    restClient.getTopicsByType('dm4.core.data_type').then(dataTypes => {
+    restClient.getTopicsByType('dmx.core.data_type').then(dataTypes => {
       state.dataTypes = utils.mapByUri(dataTypes)
     }),
-    restClient.getTopicsByType('dm4.core.role_type').then(roleTypes => {
+    restClient.getTopicsByType('dmx.core.role_type').then(roleTypes => {
       state.roleTypes = utils.mapByUri(roleTypes)
     })
   ]).then(() => {
@@ -153,10 +153,10 @@ function removeAssocType (uri) {
 
 function bootstrapType () {
   return new TopicType({
-    uri: "dm4.core.meta_meta_type",
-    typeUri: "dm4.core.meta_meta_meta_type",
+    uri: "dmx.core.meta_meta_type",
+    typeUri: "dmx.core.meta_meta_meta_type",
     value: "Meta Meta Type",
-    dataTypeUri: "dm4.core.text",
+    dataTypeUri: "dmx.core.text",
     assocDefs: [],
     viewConfigTopics: []
   })

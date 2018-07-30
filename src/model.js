@@ -92,8 +92,8 @@ class Topic extends DeepaMehtaObject {
 
   isType () {
     // TODO: meta type?
-    return this.typeUri === 'dm4.core.topic_type' ||
-           this.typeUri === 'dm4.core.assoc_type'
+    return this.typeUri === 'dmx.core.topic_type' ||
+           this.typeUri === 'dmx.core.assoc_type'
   }
 
   getRelatedTopics () {
@@ -134,9 +134,9 @@ class Topic extends DeepaMehtaObject {
   // ---
 
   asType () {
-    if (this.typeUri === 'dm4.core.topic_type') {
+    if (this.typeUri === 'dmx.core.topic_type') {
       return typeCache.getTopicType(this.uri)
-    } else if (this.typeUri === 'dm4.core.assoc_type') {
+    } else if (this.typeUri === 'dmx.core.assoc_type') {
       return typeCache.getAssocType(this.uri)
     } else {
       throw Error(`Not a type: ${this}`)
@@ -302,11 +302,11 @@ class Type extends Topic {
   }
 
   isSimple () {
-    return ['dm4.core.text', 'dm4.core.html', 'dm4.core.number', 'dm4.core.boolean'].includes(this.dataTypeUri)
+    return ['dmx.core.text', 'dmx.core.html', 'dmx.core.number', 'dmx.core.boolean'].includes(this.dataTypeUri)
   }
 
   isComposite () {
-    return ['dm4.core.value', 'dm4.core.identity'].includes(this.dataTypeUri)
+    return ['dmx.core.value', 'dmx.core.identity'].includes(this.dataTypeUri)
   }
 
   getDataType () {
@@ -316,7 +316,7 @@ class Type extends Topic {
   // ### TODO: copy in AssocDef
   getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
-    const configTopic = this.viewConfig['dm4.webclient.view_config']
+    const configTopic = this.viewConfig['dmx.webclient.view_config']
     if (!configTopic) {
       // console.warn(`Type "${this.uri}" has no view config`)
       return
@@ -386,7 +386,7 @@ class TopicType extends Type {
   }
 
   getIcon () {
-    return this.getViewConfig('dm4.webclient.icon')
+    return this.getViewConfig('dmx.webclient.icon')
   }
 
   update () {
@@ -397,7 +397,7 @@ class TopicType extends Type {
 class AssocType extends Type {
 
   getColor () {
-    return this.getViewConfig('dm4.webclient.color')
+    return this.getViewConfig('dmx.webclient.color')
   }
 
   update () {
@@ -415,15 +415,15 @@ class AssocDef extends Assoc {
     //
     // derived properties
     //
-    this.parentTypeUri = this.getRole('dm4.core.parent_type').topicUri
-    this.childTypeUri  = this.getRole('dm4.core.child_type').topicUri
+    this.parentTypeUri = this.getRole('dmx.core.parent_type').topicUri
+    this.childTypeUri  = this.getRole('dmx.core.child_type').topicUri
     //
-    const customAssocType = this.childs['dm4.core.assoc_type#dm4.core.custom_assoc_type']
+    const customAssocType = this.childs['dmx.core.assoc_type#dmx.core.custom_assoc_type']
     this.customAssocTypeUri = customAssocType && customAssocType.uri    // may be undefined
     this.assocDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
     this.instanceLevelAssocTypeUri = this.customAssocTypeUri || this._defaultInstanceLevelAssocTypeUri()
     //
-    const isIdentityAttr = this.childs['dm4.core.identity_attr']
+    const isIdentityAttr = this.childs['dmx.core.identity_attr']
     if (isIdentityAttr) {
       this.isIdentityAttr = isIdentityAttr.value
     } else {
@@ -432,7 +432,7 @@ class AssocDef extends Assoc {
       this.isIdentityAttr = false
     }
     //
-    const includeInLabel = this.childs['dm4.core.include_in_label']
+    const includeInLabel = this.childs['dmx.core.include_in_label']
     if (includeInLabel) {
       this.includeInLabel = includeInLabel.value
     } else {
@@ -460,11 +460,11 @@ class AssocDef extends Assoc {
   }
 
   isOne () {
-    return this.childCardinalityUri === 'dm4.core.one'
+    return this.childCardinalityUri === 'dmx.core.one'
   }
 
   isMany () {
-    return this.childCardinalityUri === 'dm4.core.many'
+    return this.childCardinalityUri === 'dmx.core.many'
   }
 
   // ---
@@ -477,7 +477,7 @@ class AssocDef extends Assoc {
   // ### TODO: principal copy in Type
   _getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
-    const configTopic = this.viewConfig['dm4.webclient.view_config']
+    const configTopic = this.viewConfig['dmx.webclient.view_config']
     if (!configTopic) {
       // console.warn(`Type "${this.uri}" has no view config`)
       return
@@ -488,10 +488,10 @@ class AssocDef extends Assoc {
   // TODO: a getViewConfig() form that falls back to the child type view config?
 
   _defaultInstanceLevelAssocTypeUri () {
-    if (this.typeUri === 'dm4.core.aggregation_def') {
-      return 'dm4.core.aggregation';
-    } else if (this.typeUri === 'dm4.core.composition_def') {
-      return 'dm4.core.composition';
+    if (this.typeUri === 'dmx.core.aggregation_def') {
+      return 'dmx.core.aggregation';
+    } else if (this.typeUri === 'dmx.core.composition_def') {
+      return 'dmx.core.composition';
     } else {
       throw Error(`Unexpected association type URI: "${this.typeUri}"`);
     }
@@ -551,11 +551,11 @@ class Topicmap extends Topic {
     if (!viewTopic) {
       const viewProps = {
         ...pos ? {
-          'dm4.topicmaps.x': pos.x,
-          'dm4.topicmaps.y': pos.y
+          'dmx.topicmaps.x': pos.x,
+          'dmx.topicmaps.y': pos.y
         } : undefined,
-        'dm4.topicmaps.visibility': true,
-        'dm4.topicmaps.pinned': false
+        'dmx.topicmaps.visibility': true,
+        'dmx.topicmaps.pinned': false
       }
       this.addTopic(topic.newViewTopic(viewProps))
       op.type = 'add'
@@ -626,7 +626,7 @@ class Topicmap extends Topic {
     const viewAssoc = this.getAssocIfExists(assoc.id)
     if (!viewAssoc) {
       const viewProps = {
-        'dm4.topicmaps.pinned': false
+        'dmx.topicmaps.pinned': false
       }
       this.addAssoc(assoc.newViewAssoc(viewProps))
       op.type = 'add'
@@ -694,32 +694,32 @@ class ViewTopic extends Topic {
 
   getPosition () {
     return {
-      x: this.getViewProp('dm4.topicmaps.x'),
-      y: this.getViewProp('dm4.topicmaps.y')
+      x: this.getViewProp('dmx.topicmaps.x'),
+      y: this.getViewProp('dmx.topicmaps.y')
     }
   }
 
   isVisible () {
-    return this.getViewProp('dm4.topicmaps.visibility')
+    return this.getViewProp('dmx.topicmaps.visibility')
   }
 
   // TODO: avoid copy in ViewAssoc
   isPinned () {
-    return this.getViewProp('dm4.topicmaps.pinned')
+    return this.getViewProp('dmx.topicmaps.pinned')
   }
 
   setPosition (pos) {
-    this.setViewProp('dm4.topicmaps.x', pos.x)
-    this.setViewProp('dm4.topicmaps.y', pos.y)
+    this.setViewProp('dmx.topicmaps.x', pos.x)
+    this.setViewProp('dmx.topicmaps.y', pos.y)
   }
 
   setVisibility (visibility) {
-    this.setViewProp('dm4.topicmaps.visibility', visibility)
+    this.setViewProp('dmx.topicmaps.visibility', visibility)
   }
 
   // TODO: avoid copy in ViewAssoc
   setPinned (pinned) {
-    this.setViewProp('dm4.topicmaps.pinned', pinned)
+    this.setViewProp('dmx.topicmaps.pinned', pinned)
   }
 
   // TODO: avoid copy in ViewAssoc
@@ -729,8 +729,8 @@ class ViewTopic extends Topic {
 
   // TODO: avoid copy in ViewAssoc
   setViewProp (propUri, value) {
-    // Note: some view props must be reactive, e.g. 'dm4.topicmaps.pinned' reflects pin button state.
-    // Test it with topics which don't have a 'dm4.topicmaps.pinned' setting yet. ### FIXDOC
+    // Note: some view props must be reactive, e.g. 'dmx.topicmaps.pinned' reflects pin button state.
+    // Test it with topics which don't have a 'dmx.topicmaps.pinned' setting yet. ### FIXDOC
     Vue.set(this.viewProps, propUri, value)
   }
 
@@ -748,12 +748,12 @@ class ViewAssoc extends Assoc {
 
   // TODO: avoid copy in ViewTopic
   isPinned () {
-    return this.getViewProp('dm4.topicmaps.pinned')
+    return this.getViewProp('dmx.topicmaps.pinned')
   }
 
   // TODO: avoid copy in ViewTopic
   setPinned (pinned) {
-    this.setViewProp('dm4.topicmaps.pinned', pinned)
+    this.setViewProp('dmx.topicmaps.pinned', pinned)
   }
 
   // TODO: avoid copy in ViewTopic
@@ -763,8 +763,8 @@ class ViewAssoc extends Assoc {
 
   // TODO: avoid copy in ViewTopic
   setViewProp (propUri, value) {
-    // Note: some view props must be reactive, e.g. 'dm4.topicmaps.pinned' reflects pin button state.
-    // Test it with assocs which don't have a 'dm4.topicmaps.pinned' setting yet. ### FIXDOC
+    // Note: some view props must be reactive, e.g. 'dmx.topicmaps.pinned' reflects pin button state.
+    // Test it with assocs which don't have a 'dmx.topicmaps.pinned' setting yet. ### FIXDOC
     Vue.set(this.viewProps, propUri, value)
   }
 
