@@ -2,6 +2,11 @@
 
 ## Version History
 
+**0.19** -- Jul 31, 2018
+
+* Change type URI prefixes `dm4` -> `dmx`
+* Add GitLab CI/CD
+
 **0.18** -- Jul 17, 2018
 
 * Model extension: `AssocRole.getPlayerId()`, `Topicmap.getObject(id)`, `Topicmap.getPosition(id)`
@@ -78,4 +83,4 @@
 
 ------------
 Jörg Richter  
-Jul 17, 2018
+Jul 31, 2018
