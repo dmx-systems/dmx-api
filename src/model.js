@@ -488,9 +488,7 @@ class AssocDef extends Assoc {
   // TODO: a getViewConfig() form that falls back to the child type view config?
 
   _defaultInstanceLevelAssocTypeUri () {
-    if (this.typeUri === 'dmx.core.aggregation_def') {
-      return 'dmx.core.aggregation';
-    } else if (this.typeUri === 'dmx.core.composition_def') {
+    if (this.typeUri === 'dmx.core.composition_def') {
       return 'dmx.core.composition';
     } else {
       throw Error(`Unexpected association type URI: "${this.typeUri}"`);
