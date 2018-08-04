@@ -409,7 +409,6 @@ class AssocDef extends Assoc {
 
   constructor (assocDef) {
     super(assocDef)
-    this.parentCardinalityUri = assocDef.parentCardinalityUri
     this.childCardinalityUri  = assocDef.childCardinalityUri
     this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(assocDef.viewConfigTopics, Topic))  // TODO: rename prop?
     //
