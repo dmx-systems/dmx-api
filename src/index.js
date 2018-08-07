@@ -6,7 +6,7 @@ import typeCache  from './type-cache'
 import permCache  from './permission-cache'
 import utils      from './utils'
 
-console.log('[DM5] Web API 2018/08/04.1')
+console.log('[DMX] Web API 2018/08/07')
 
 export default {
 
@@ -17,7 +17,7 @@ export default {
   utils,
 
   init (config) {
-    restClient.setErrorHandler(config.onHttpError)
+    config.onHttpError && restClient.setErrorHandler(config.onHttpError)
     return typeCache.init(config.store)
   }
 }
