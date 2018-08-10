@@ -409,7 +409,6 @@ class AssocDef extends Assoc {
 
   constructor (assocDef) {
     super(assocDef)
-    this.childCardinalityUri  = assocDef.childCardinalityUri
     this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(assocDef.viewConfigTopics, Topic))  // TODO: rename prop?
     //
     // derived properties
@@ -421,6 +420,13 @@ class AssocDef extends Assoc {
     this.customAssocTypeUri = customAssocType && customAssocType.uri    // may be undefined
     this.assocDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
     this.instanceLevelAssocTypeUri = this.customAssocTypeUri || this._defaultInstanceLevelAssocTypeUri()
+    //
+    const cardinality = this.childs['dmx.core.cardinality']
+    if (cardinality) {
+      this.childCardinalityUri = cardinality.uri
+    } else {
+      throw Error(`Assoc def ${this.assocDefUri} has no cardinality child (parent type: ${this.parentTypeUri})`)
+    }
     //
     const isIdentityAttr = this.childs['dmx.core.identity_attr']
     if (isIdentityAttr) {
