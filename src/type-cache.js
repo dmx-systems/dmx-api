@@ -34,29 +34,45 @@ const actions = {
   },
 
   _processDirectives (_, directives) {
+    // DELETE_TYPE directives must be processed in the *next* tick.
+    // UPDATE_TYPE directives must be processed in the *same* tick.
+    //
     // Consider deleting a selected type in the webclient. 2 directives are processed: delete-topic and delete-type.
-    // Delete-topic triggers a route change, causing the webclient's "object" state to reset.
-    // Delete-type removes the type from cache, triggering recalculation of the webclient's "object" getter.
-    // At that moment webclient's "object" state is still set as route changes perform asynchronously (through the route
-    // watcher). Recalculation of the "object" getter fails ("type not found in type cache") as the type is already
-    // removed but "object" state is still set.
-    // As a workaround we postpone processing the delete-type directive to the next tick. At that moment "object" state
+    // Delete-topic triggers a route change, causing the webclient's "object" state to reset. Delete-type removes the
+    // type from cache, triggering recalculation of the webclient's "object" getter. At that moment webclient's "object"
+    // state is still set as route changes perform asynchronously (through the route watcher). Recalculation of the
+    // "object" getter fails ("type not found in type cache") as the type is already removed but "object" state is still
+    // set.
+    // As a workaround processing the delete-type directive is postponed to the next tick. At that moment "object" state
     // is reset.
     // TODO: proper synchronization of route change and directives processing. This is supposed to be the sole
     // responsibility of the webclient. The dm5 library must not participate in synchronization. The dm5 library
     // is supposed to have no knowledge about the webclient.
+    //
+    // Consider updating a type URI in the webclient. 3 directives are processed: delete-type, update-type, and
+    // update-topic. update-topic triggers recalculation of the webclient's "object" getter. The getter callback is
+    // executed in next tick (as getters work asynchronously). At that time the type -- with the new URI -- must already
+    // exist in type cache. (Otherwise recalculation of the "object" getter would fail with "type not found in type
+    // cache".)
+    // Processing the update-type directive in the *same* tick ensures the type cache is up-to-date *before* the getter
+    // callback executes.
+    console.log(`Type-cache: processing ${directives.length} directives (UPDATE_TYPE)`)
+    directives.forEach(dir => {
+      switch (dir.type) {
+      case "UPDATE_TOPIC_TYPE":
+        putTopicType(dir.arg)
+        break
+      case "UPDATE_ASSOCIATION_TYPE":
+        putAssocType(dir.arg)
+        break
+      }
+    })
     Vue.nextTick(() => {
-      console.log(`Type-cache: processing ${directives.length} directives`)
+      console.log(`Type-cache: processing ${directives.length} directives (DELETE_TYPE)`)
       directives.forEach(dir => {
         switch (dir.type) {
-        case "UPDATE_TOPIC_TYPE":
-          putTopicType(dir.arg)
-          break
         case "DELETE_TOPIC_TYPE":
           removeTopicType(dir.arg.uri)
-          break
-        case "UPDATE_ASSOCIATION_TYPE":
-          putAssocType(dir.arg)
           break
         case "DELETE_ASSOCIATION_TYPE":
           removeAssocType(dir.arg.uri)
