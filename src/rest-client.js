@@ -46,9 +46,11 @@ export default {
   },
 
   createTopic (topicModel) {
-    return http.post('/core/topic', topicModel).then(response =>
-      new Topic(response.data)
-    )
+    return http.post('/core/topic', topicModel).then(response => {
+      const topic = new Topic(response.data)
+      topic.directives = response.data.directives
+      return topic
+    })
   },
 
   updateTopic (topicModel) {
@@ -90,9 +92,11 @@ export default {
   },
 
   createAssoc (assocModel) {
-    return http.post('/core/association', assocModel).then(response =>
-      new Assoc(response.data)
-    )
+    return http.post('/core/association', assocModel).then(response => {
+      const assoc = new Assoc(response.data)
+      assoc.directives = response.data.directives
+      return assoc
+    })
   },
 
   updateAssoc (assocModel) {
