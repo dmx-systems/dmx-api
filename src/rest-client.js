@@ -147,6 +147,12 @@ export default {
     )
   },
 
+  createAssocType (typeModel) {
+    return http.post('/core/assoctype', typeModel).then(response =>
+      new AssocType(response.data)
+    )
+  },
+
   updateAssocType (typeModel) {
     return http.put('/core/assoctype', typeModel).then(response =>
       response.data
