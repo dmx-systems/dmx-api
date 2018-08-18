@@ -2,6 +2,18 @@
 
 ## Version History
 
+**0.20** -- Aug 18, 2018
+
+* Model:
+    * Drop assoc types "Aggregation Definition" and "Aggregation"
+    * "Cardinality" definition makes use of type system
+    * Drop concept "Parent Cardinality"
+* REST client:
+    * New function: `createAssocType()`
+    * `createTopic()` and `createAssoc()` return directives too
+    * Config property `onHttpError` is optional
+* Type cache: fix synchronization of `UPDATE_TYPE` directives
+
 **0.19** -- Jul 31, 2018
 
 * Change type URI prefixes `dm4` -> `dmx`
@@ -83,4 +95,4 @@
 
 ------------
 Jörg Richter  
-Jul 31, 2018
+Aug 18, 2018
