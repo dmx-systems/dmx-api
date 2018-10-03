@@ -580,6 +580,10 @@ class Topicmap extends Topic {
     utils.forEach(this.topics, visitor)
   }
 
+  visibleTopicIds () {
+    return Object.values(this.topics).filter(topic => topic.isVisible()).map(topic => topic.id)
+  }
+
   // Associations
 
   getAssoc (id) {
