@@ -540,7 +540,8 @@ class Topicmap extends Topic {
     if (!(topic instanceof ViewTopic)) {
       throw Error(`addTopic() expects a ViewTopic, got ${topic.constructor.name}`)
     }
-    this.topics[topic.id] = topic
+    // reactivity is required to trigger "visibleTopicIds" getter (module dm5-cytoscape-renderer)
+    Vue.set(this.topics, topic.id, topic)
   }
 
   /**
@@ -573,7 +574,8 @@ class Topicmap extends Topic {
   }
 
   removeTopic (id) {
-    delete this.topics[id]
+    // reactivity is required to trigger "visibleTopicIds" getter (module dm5-cytoscape-renderer)
+    Vue.delete(this.topics, id)
   }
 
   forEachTopic (visitor) {
