@@ -2,6 +2,11 @@
 
 ## Version History
 
+**0.21** -- Oct 6, 2018
+
+* Model extension: `Topicmap.visibleTopicIds()`
+* Model fix: `Topicmap` reactivity
+
 **0.20** -- Aug 18, 2018
 
 * Model:
@@ -95,4 +100,4 @@
 
 ------------
 Jörg Richter  
-Aug 18, 2018
+Oct 6, 2018
