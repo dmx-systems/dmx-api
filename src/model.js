@@ -582,8 +582,13 @@ class Topicmap extends Topic {
     utils.forEach(this.topics, visitor)
   }
 
+  filterTopics (filter) {
+    return Object.values(this.topics).filter(filter)
+  }
+
+  // ### TODO: drop it in favor for more generic filterTopics()
   visibleTopicIds () {
-    return Object.values(this.topics).filter(topic => topic.isVisible()).map(topic => topic.id)
+    return this.filterTopics(topic => topic.isVisible()).map(topic => topic.id)
   }
 
   // Associations
