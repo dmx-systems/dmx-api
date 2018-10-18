@@ -6,6 +6,7 @@ import Vue from 'vue'
 
 // TODO: inject
 const DEFAULT_TOPIC_ICON = '\uf10c'
+const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches color-picker gray
 
 class DeepaMehtaObject {
 
@@ -236,6 +237,10 @@ class Assoc extends DeepaMehtaObject {
       role2:   this.role2,
       viewProps: viewProps
     })
+  }
+
+  getColor () {
+    return this.getType().getColor() || DEFAULT_ASSOC_COLOR
   }
 }
 
