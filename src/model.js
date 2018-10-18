@@ -671,6 +671,10 @@ class Topicmap extends Topic {
     utils.forEach(this.assocs, visitor)
   }
 
+  filterAssocs (filter) {
+    return Object.values(this.assocs).filter(filter)
+  }
+
   // Generic
 
   getObject (id) {
