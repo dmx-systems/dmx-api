@@ -591,11 +591,6 @@ class Topicmap extends Topic {
     return Object.values(this.topics).filter(filter)
   }
 
-  // ### TODO: drop it in favor for more generic filterTopics()
-  visibleTopicIds () {
-    return this.filterTopics(topic => topic.isVisible()).map(topic => topic.id)
-  }
-
   // Associations
 
   getAssoc (id) {
