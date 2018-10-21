@@ -2,9 +2,15 @@
 
 ## Version History
 
+**0.22** -- Oct 21, 2018
+
+* Model: add `filterTopics()`, `filterAssocs()` to `Topicmap`
+* Model: add `getColor()` to `Assoc`
+* Model: drop `visibleTopicIds()` from `Topicmap`. Use the more generic `filterTopics()` instead.
+
 **0.21** -- Oct 6, 2018
 
-* Model extension: `Topicmap.visibleTopicIds()`
+* Model: add `Topicmap.visibleTopicIds()`
 * Model fix: `Topicmap` reactivity
 
 **0.20** -- Aug 18, 2018
@@ -100,4 +106,4 @@
 
 ------------
 Jörg Richter  
-Oct 6, 2018
+Oct 21, 2018
