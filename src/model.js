@@ -311,7 +311,15 @@ class Type extends Topic {
   }
 
   isComposite () {
-    return ['dmx.core.value', 'dmx.core.identity'].includes(this.dataTypeUri)
+    return this.isValue() || this.isIdentity()
+  }
+
+  isValue () {
+    return this.dataTypeUri === 'dmx.core.value'
+  }
+
+  isIdentity () {
+    return this.dataTypeUri === 'dmx.core.identity'
   }
 
   getDataType () {
