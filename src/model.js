@@ -326,6 +326,12 @@ class Type extends Topic {
     return typeCache.getDataType(this.dataTypeUri)
   }
 
+  getIdentityAssocDefs () {
+    // If no identity attribute is defined the first assoc def (if exists) is regarded identity
+    const assocDefs = this.assocDefs.filter(assocDef => assocDef.isIdentityAttr)
+    return assocDefs.length ? assocDefs : this.assocDefs.length ? [this.assocDefs[0]] : []
+  }
+
   // ### TODO: copy in AssocDef
   getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
