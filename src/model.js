@@ -4,7 +4,7 @@ import permCache from './permission-cache'
 import utils from './utils'
 import Vue from 'vue'
 
-// TODO: inject
+// TODO: inject or factor out
 const DEFAULT_TOPIC_ICON = '\uf10c'
 const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches color-picker gray
 
@@ -25,6 +25,7 @@ class DeepaMehtaObject {
     return this.getType().value
   }
 
+  // TODO: drop it
   getChildTopic (assocDefUri) {
     return this.childs[assocDefUri]
   }
@@ -87,6 +88,7 @@ class Topic extends DeepaMehtaObject {
 
   // ---
 
+  // TODO: make it a "type" getter?
   getType () {
     return typeCache.getTopicType(this.typeUri)
   }

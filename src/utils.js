@@ -1,5 +1,6 @@
 import { Topic } from './model'
 import _clone from 'clone'
+import _debounce from 'debounce'
 
 /**
  * Instantiates plain objects.
@@ -35,6 +36,10 @@ function _instantiateChild (child) {
 
 function clone (o) {
   return _clone(o)
+}
+
+function debounce (func, delay, immediate) {
+  return _debounce(func, delay, immediate)
 }
 
 // ---
@@ -105,6 +110,7 @@ export default {
   instantiateMany,
   instantiateChilds,
   clone,
+  debounce,
   mapById,
   mapByUri,
   mapByTypeUri,

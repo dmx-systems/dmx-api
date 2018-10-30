@@ -3,7 +3,7 @@ module.exports = {
     filename: 'dm5.js',
     libraryTarget: 'commonjs2'
   },
-  externals: ['axios', 'vue', 'clone'],
+  externals: ['axios', 'vue', 'clone', 'debounce'],
   module: {
     rules: [
       {

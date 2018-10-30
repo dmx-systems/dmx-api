@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "clone": "^2.1.2"
+    "clone": "^2.1.2",
+    "debounce": "^1.2.0"
   }
 }
