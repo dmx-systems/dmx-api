@@ -252,6 +252,14 @@ export default {
     )
   },
 
+  getDomainTopic (geoCoordId, includeChilds) {
+    return http.get(`/geomap/topic/${geoCoordId}`, {params: {
+      include_childs: includeChilds
+    }}).then(response =>
+      new Topic(response.data)
+    )
+  },
+
   // === Workspaces ===
 
   /**
