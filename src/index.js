@@ -1,16 +1,18 @@
 import {
-  DeepaMehtaObject, Topic, Assoc, AssocRole, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic, ViewAssoc
+  DeepaMehtaObject, Topic, Assoc, AssocRole, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic, ViewAssoc,
+  Geomap
 } from './model'
 import restClient from './rest-client'
 import typeCache  from './type-cache'
 import permCache  from './permission-cache'
 import utils      from './utils'
 
-console.log('[DMX] Client API 2018/10/30')
+console.log('[DMX] Client API 2018/11/03')
 
 export default {
 
   DeepaMehtaObject, Topic, Assoc, AssocRole, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic, ViewAssoc,
+  Geomap,
 
   restClient,
   permCache,

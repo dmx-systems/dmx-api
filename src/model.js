@@ -807,6 +807,13 @@ class ViewAssoc extends Assoc {
   }
 }
 
+class Geomap extends Topic {
+  constructor (geomap) {
+    super(geomap.info)
+    this.geoCoordTopics = geomap.geoCoordTopics
+  }
+}
+
 export {
   DeepaMehtaObject,
   Topic,
@@ -818,5 +825,6 @@ export {
   AssocType,
   Topicmap,
   ViewTopic,
-  ViewAssoc
+  ViewAssoc,
+  Geomap
 }
