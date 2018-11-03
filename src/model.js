@@ -329,9 +329,7 @@ class Type extends Topic {
   }
 
   getIdentityAssocDefs () {
-    // If no identity attribute is defined the first assoc def (if exists) is regarded identity
-    const assocDefs = this.assocDefs.filter(assocDef => assocDef.isIdentityAttr)
-    return assocDefs.length ? assocDefs : this.assocDefs.length ? [this.assocDefs[0]] : []
+    return this.assocDefs.filter(assocDef => assocDef.isIdentityAttr)
   }
 
   // ### TODO: copy in AssocDef
