@@ -1,6 +1,6 @@
 import http from 'axios'
 import utils from './utils'
-import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap } from './model'
+import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, Geomap } from './model'
 
 export default {
 
@@ -242,6 +242,14 @@ export default {
   setTopicPositions (topicmapId, coords) {
     // TODO?: roundPos(pos, 'x', 'y')
     http.put(`/topicmap/${topicmapId}`, coords)
+  },
+
+  // === Geomaps ===
+
+  getGeomap (geomapId) {
+    return http.get(`/geomap/${geomapId}`).then(response =>
+      new Geomap(response.data)
+    )
   },
 
   // === Workspaces ===
