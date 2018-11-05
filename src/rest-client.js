@@ -252,9 +252,10 @@ export default {
     )
   },
 
-  getDomainTopic (geoCoordId, includeChilds) {
+  getDomainTopic (geoCoordId, includeChilds, includeAssocChilds) {
     return http.get(`/geomap/topic/${geoCoordId}`, {params: {
-      include_childs: includeChilds
+      include_childs: includeChilds,
+      include_assoc_childs: includeAssocChilds
     }}).then(response =>
       new Topic(response.data)
     )
