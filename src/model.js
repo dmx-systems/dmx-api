@@ -813,6 +813,7 @@ class ViewAssoc extends Assoc {
 class Geomap extends Topic {
   constructor (geomap) {
     super(geomap.info)
+    // Note: we don't instantiate dm5.Topic objects as not required at the moment
     this.geoCoordTopics = geomap.geoCoordTopics
   }
 }
