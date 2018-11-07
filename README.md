@@ -2,11 +2,18 @@
 
 ## Version History
 
+**0.23** -- Nov 7, 2018
+
+* Support for geomaps (new model class `Geomap`, new REST client methods `getGeomap()` and `getDomainTopics()`)
+* Model: new methods in `Type`: `isValue()`, `isIdentity()`, `getIdentityAssocDefs()`
+* Utils: new method `debounce()`
+
 **0.22** -- Oct 21, 2018
 
-* Model: add `filterTopics()`, `filterAssocs()` to `Topicmap`
-* Model: add `getColor()` to `Assoc`
-* Model: drop `visibleTopicIds()` from `Topicmap`. Use the more generic `filterTopics()` instead.
+* Model:
+    * new methods in `Topicmap`: `filterTopics()`, `filterAssocs()`
+    * new method in `Assoc`: `getColor()`
+    * dropped method in `Topicmap`: `visibleTopicIds()`. Use the more generic `filterTopics()` instead.
 
 **0.21** -- Oct 6, 2018
 
@@ -106,4 +113,4 @@
 
 ------------
 Jörg Richter  
-Oct 21, 2018
+Nov 7, 2018

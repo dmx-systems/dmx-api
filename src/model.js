@@ -330,7 +330,7 @@ class Type extends Topic {
 
   getIdentityAssocDefs () {
     // If no identity attribute is defined the first assoc def (if exists) is regarded identity
-    // ### TODO: think about this fallback.
+    // ### TODO: drop this fallback. See #70.
     // Without it e.g. in a Person form the "Phone Label" and "Address Label" fields would not
     // appear unless they are declared as identity attributes.
     const assocDefs = this.assocDefs.filter(assocDef => assocDef.isIdentityAttr)
