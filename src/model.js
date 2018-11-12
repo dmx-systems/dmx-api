@@ -5,8 +5,8 @@ import utils from './utils'
 import Vue from 'vue'
 
 // TODO: inject or factor out
-const DEFAULT_TOPIC_ICON = '\uf10c'
-const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches color-picker gray
+const DEFAULT_TOPIC_ICON = '\uf111'
+const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
 
 class DeepaMehtaObject {
 
