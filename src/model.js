@@ -5,7 +5,7 @@ import utils from './utils'
 import Vue from 'vue'
 
 // TODO: inject or factor out
-const DEFAULT_TOPIC_ICON = '\uf111'
+const DEFAULT_TOPIC_ICON = '\uf111'               // fa-circle
 const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
 
 class DeepaMehtaObject {
@@ -284,8 +284,8 @@ class AssocRole {
 
   // TODO: rename to "fetch"?
   getPlayer () {
-    if (!this.topicId) {
-      throw Error(`Assoc role ${JSON.stringify(this)} has no topic player`)
+    if (this.topicId === undefined) {
+      throw Error(`topicId of assoc role ${JSON.stringify(this)} is undefined`)
     }
     return restClient.getTopic(this.topicId)
   }
