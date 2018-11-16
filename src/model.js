@@ -303,7 +303,6 @@ class Type extends Topic {
   constructor (type) {
     super(type)
     this.dataTypeUri = type.dataTypeUri
-    this.indexModes  = type.indexModeUris                                                         // TODO: rename prop?
     this.assocDefs   = utils.instantiateMany(type.assocDefs, AssocDef)
     this.viewConfig  = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
   }
