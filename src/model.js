@@ -327,15 +327,6 @@ class Type extends Topic {
     return typeCache.getDataType(this.dataTypeUri)
   }
 
-  getIdentityAssocDefs () {
-    // If no identity attribute is defined the first assoc def (if exists) is regarded identity
-    // ### TODO: drop this fallback. See #70.
-    // Without it e.g. in a Person form the "Phone Label" and "Address Label" fields would not
-    // appear unless they are declared as identity attributes.
-    const assocDefs = this.assocDefs.filter(assocDef => assocDef.isIdentityAttr)
-    return assocDefs.length ? assocDefs : this.assocDefs.length ? [this.assocDefs[0]] : []
-  }
-
   // ### TODO: copy in AssocDef
   getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
