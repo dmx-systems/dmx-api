@@ -323,6 +323,19 @@ export default {
     )
   },
 
+  /**
+   * @param   password   expected to be SHA256 encoded
+   *
+   * @return  a promise for a Username topic
+   */
+  createUserAccount (username, password) {
+    return http.post('/accesscontrol/user_account', {
+      username, password
+    }).then(response =>
+      new Topic(response.data)
+    )
+  },
+
   // === XML ===
 
   getXML (url) {
