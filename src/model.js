@@ -399,6 +399,14 @@ class TopicType extends Type {
     }
   }
 
+  isTopicType () {
+    return true
+  }
+
+  isAssocType () {
+    return false
+  }
+
   getIcon () {
     return this.getViewConfig('dmx.webclient.icon')
   }
@@ -409,6 +417,14 @@ class TopicType extends Type {
 }
 
 class AssocType extends Type {
+
+  isTopicType () {
+    return false
+  }
+
+  isAssocType () {
+    return true
+  }
 
   getColor () {
     return this.getViewConfig('dmx.webclient.color')
