@@ -312,7 +312,7 @@ class Type extends Topic {
   }
 
   isComposite () {
-    return this.isValue() || this.isIdentity()
+    return !this.isSimple()
   }
 
   isValue () {
