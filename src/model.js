@@ -147,7 +147,7 @@ class Topic extends DeepaMehtaObject {
   }
 
   getIcon () {
-    return this.getType().getIcon() || DEFAULT_TOPIC_ICON
+    return this.getType()._getIcon() || DEFAULT_TOPIC_ICON
   }
 
   fillRelatingAssoc (assocDef) {
@@ -242,7 +242,7 @@ class Assoc extends DeepaMehtaObject {
   }
 
   getColor () {
-    return this.getType().getColor() || DEFAULT_ASSOC_COLOR
+    return this.getType()._getColor() || DEFAULT_ASSOC_COLOR
   }
 }
 
@@ -407,7 +407,8 @@ class TopicType extends Type {
     return false
   }
 
-  getIcon () {
+  // Note: we must not override base class's (Topic) getIcon() which have a different semantics.
+  _getIcon () {
     return this.getViewConfig('dmx.webclient.icon')
   }
 
@@ -426,7 +427,7 @@ class AssocType extends Type {
     return true
   }
 
-  getColor () {
+  _getColor () {
     return this.getViewConfig('dmx.webclient.color')
   }
 
