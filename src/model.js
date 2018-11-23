@@ -609,6 +609,7 @@ class Topicmap extends Topic {
     Vue.delete(this.topics, id)
   }
 
+  // TODO: drop it? Add getTopics() instead?
   forEachTopic (visitor) {
     utils.forEach(this.topics, visitor)
   }
@@ -629,6 +630,8 @@ class Topicmap extends Topic {
 
   /**
    * Returns all associations the given topic is a player in.
+   *
+   * TODO: rename?
    */
   getAssocs (topicId) {
     const assocs = []
@@ -655,7 +658,8 @@ class Topicmap extends Topic {
     if (!(assoc instanceof ViewAssoc)) {
       throw Error(`addAssoc() expects a ViewAssoc, got ${assoc.constructor.name}`)
     }
-    this.assocs[assoc.id] = assoc
+    // reactivity is required to trigger "visibleAssocIds" getter (module dm5-cytoscape-renderer)
+    Vue.set(this.assocs, assoc.id, assoc)
   }
 
   /**
@@ -676,7 +680,8 @@ class Topicmap extends Topic {
   }
 
   removeAssoc (id) {
-    delete this.assocs[id]
+    // reactivity is required to trigger "visibleAssocIds" getter (module dm5-cytoscape-renderer)
+    Vue.delete(this.assocs, id)
   }
 
   /**
@@ -688,6 +693,7 @@ class Topicmap extends Topic {
     })
   }
 
+  // TODO: drop it? Add getAssocs() instead?
   forEachAssoc (visitor) {
     utils.forEach(this.assocs, visitor)
   }
