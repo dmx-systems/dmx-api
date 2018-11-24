@@ -2,6 +2,18 @@
 
 ## Version History
 
+**0.24** -- Nov 24, 2018
+
+* Model:
+    * add `isTopicType()`, `isAssocType()` to `Type`
+    * adapt `Type.isComposite()` to new data type `dmx.core.composite`
+    * drop `indexModes` from `Type`
+    * drop `getIdentityAssocDefs()` from `Type`
+    * Fix: topicmap `ViewAssoc` reactivity
+    * Fix: `AssocRole` `getPlayer()` for topic 0
+* REST client:
+    * add `createUserAccount()`
+
 **0.23** -- Nov 7, 2018
 
 * Support for geomaps (new model class `Geomap`, new REST client methods `getGeomap()` and `getDomainTopics()`)
@@ -113,4 +125,4 @@
 
 ------------
 Jörg Richter  
-Nov 7, 2018
+Nov 24, 2018
