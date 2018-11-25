@@ -99,6 +99,10 @@ class Topic extends DeepaMehtaObject {
            this.typeUri === 'dmx.core.assoc_type'
   }
 
+  isAssocDef () {
+    return false    // topics are never assoc defs
+  }
+
   getRelatedTopics () {
     return restClient.getTopicRelatedTopics(this.id)
   }
@@ -202,6 +206,10 @@ class Assoc extends DeepaMehtaObject {
 
   isType () {
     return false    // assocs are never types
+  }
+
+  isAssocDef () {
+    return this.typeUri === 'dmx.core.composition_def'
   }
 
   getRelatedTopics () {
@@ -524,11 +532,10 @@ class AssocDef extends Assoc {
   // TODO: a getViewConfig() form that falls back to the child type view config?
 
   _defaultInstanceLevelAssocTypeUri () {
-    if (this.typeUri === 'dmx.core.composition_def') {
-      return 'dmx.core.composition';
-    } else {
+    if (!this.isAssocDef()) {
       throw Error(`Unexpected association type URI: "${this.typeUri}"`);
     }
+    return 'dmx.core.composition';
   }
 
   emptyChildInstance () {
