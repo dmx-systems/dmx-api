@@ -296,10 +296,12 @@ class AssocRole {
 
   // TODO: rename to "fetch"?
   getPlayer () {
-    if (this.topicId === undefined) {
-      throw Error(`topicId of assoc role ${JSON.stringify(this)} is undefined`)
+    if (this.topicId !== undefined) {     // Note: 0 is a valid topic ID
+      return restClient.getTopic(this.topicId)
+    } else if (this.topicUri) {
+      return restClient.getTopicByUri(this.topicUri)
     }
-    return restClient.getTopic(this.topicId)
+    throw Error(`Role ${JSON.stringify(this)} is not a topic player`)
   }
 }
 
