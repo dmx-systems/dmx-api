@@ -17,6 +17,15 @@ export default {
     )
   },
 
+  getTopicByUri (uri, includeChilds, includeAssocChilds) {
+    return http.get(`/core/topic/by_uri/${uri}`, {params: {
+      include_childs: includeChilds,
+      include_assoc_childs: includeAssocChilds
+    }}).then(response =>
+      new Topic(response.data)
+    )
+  },
+
   getTopicsByType (typeUri) {
     return http.get(`/core/topic/by_type/${typeUri}`).then(response =>
       utils.instantiateMany(response.data, Topic)
