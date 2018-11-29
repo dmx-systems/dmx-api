@@ -341,6 +341,14 @@ class Type extends Topic {
     return typeCache.getDataType(this.dataTypeUri)
   }
 
+  getAssocDefById (id) {
+    const assocDefs = this.assocDefs.filter(assocDef => assocDef.id === id)
+    if (assocDefs.length !== 1) {
+      throw Error(`Type "${this.uri}" has ${assocDefs.length} assoc defs with ID ${id}`)
+    }
+    return assocDefs[0]
+  }
+
   // ### TODO: copy in AssocDef
   getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
