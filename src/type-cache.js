@@ -125,6 +125,15 @@ function getType (prop, name) {
   }
 }
 
+function getTypeById (id) {
+  const types = Object.values(state.topicTypes).concat(
+                Object.values(state.assocTypes)).filter(type => type.id === id)
+  if (types.length !== 1) {
+    throw Error(`${types.length} types with ID ${id} in type cache`)
+  }
+  return types[0]
+}
+
 // ---
 
 function putTopicType (topicType) {
@@ -183,5 +192,6 @@ export default {
   getTopicType,
   getAssocType,
   getDataType,
-  getRoleType
+  getRoleType,
+  getTypeById
 }
