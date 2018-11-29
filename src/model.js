@@ -138,8 +138,6 @@ class Topic extends DeepaMehtaObject {
     })
   }
 
-  // ---
-
   asType () {
     if (this.typeUri === 'dmx.core.topic_type') {
       return typeCache.getTopicType(this.uri)
@@ -249,12 +247,18 @@ class Assoc extends DeepaMehtaObject {
     })
   }
 
+  asAssocDef () {
+    const role = this.getRole('dmx.core.parent_type')
+    const type = typeCache.getTypeById(role.topicId)
+    return type.getAssocDefById(this.id)
+  }
+
   getColor () {
     return this.getType()._getColor() || DEFAULT_ASSOC_COLOR
   }
 }
 
-// TODO: rename to "AssocPlayer", "Player"?
+// TODO: rename to "Player"
 class AssocRole {
 
   constructor (role) {

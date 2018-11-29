@@ -41,7 +41,7 @@ const actions = {
     // Delete-topic triggers a route change, causing the webclient's "object" state to reset. Delete-type removes the
     // type from cache, triggering recalculation of the webclient's "object" getter. At that moment webclient's "object"
     // state is still set as route changes perform asynchronously (through the route watcher). Recalculation of the
-    // "object" getter fails ("type not found in type cache") as the type is already removed but "object" state is still
+    // "object" getter fails ("type not in type cache") as the type is already removed but "object" state is still
     // set.
     // As a workaround processing the delete-type directive is postponed to the next tick. At that moment "object" state
     // is reset.
@@ -52,7 +52,7 @@ const actions = {
     // Consider updating a type URI in the webclient. 3 directives are processed: delete-type, update-type, and
     // update-topic. update-topic triggers recalculation of the webclient's "object" getter. The getter callback is
     // executed in next tick (as getters work asynchronously). At that time the type -- with the new URI -- must already
-    // exist in type cache. (Otherwise recalculation of the "object" getter would fail with "type not found in type
+    // exist in type cache. (Otherwise recalculation of the "object" getter would fail with "type not in type
     // cache".)
     // Processing the update-type directive in the *same* tick ensures the type cache is up-to-date *before* the getter
     // callback executes.
@@ -119,7 +119,7 @@ function getType (prop, name) {
   return uri => {
     const type = state[prop][uri]
     if (!type) {
-      throw Error(`${name} "${uri}" not found in type cache`)
+      throw Error(`${name} "${uri}" not in type cache`)
     }
     return type
   }
