@@ -262,10 +262,13 @@ class Assoc extends DeepaMehtaObject {
 class AssocRole {
 
   constructor (role) {
-    this.topicId     = role.topicId
-    this.topicUri    = role.topicUri
-    this.assocId     = role.assocId
-    this.roleTypeUri = role.roleTypeUri
+    if (role.topicId === -1 || role.assocId === -1) {
+      throw Error(`Player ID is -1 in role ${JSON.stringify(role)}`)
+    }
+    this.topicId     = role.topicId       // always set for topic role. 0 is a valid topic ID. Undefined for assoc role.
+    this.topicUri    = role.topicUri      // optionally set for topic role. May be undefined.
+    this.assocId     = role.assocId       // always set for assoc role. Undefined for topic role.
+    this.roleTypeUri = role.roleTypeUri   // always set.
   }
 
   // TODO: rename to "getRoleType"?
@@ -285,22 +288,20 @@ class AssocRole {
 
   // TODO: rename to "getId"?
   getPlayerId () {
-    if (this.hasAssocPlayer()) {
-      return this.assocId
-    } else if (this.topicId !== undefined) {
+    if (this.topicId >= 0) {    // Note: 0 is a valid topic ID
       return this.topicId
-    } else {
-      throw Error('getPlayerId() called when a topic player is specified by URI')
+    } else if (this.hasAssocPlayer()) {
+      return this.assocId
     }
+    throw Error(`Player ID not set in role ${JSON.stringify(this)}`)
   }
 
   // TODO: rename to "fetch"?
   getPlayer () {
-    if (this.topicId !== undefined) {     // Note: 0 is a valid topic ID
+    if (this.topicId >= 0) {    // Note: 0 is a valid topic ID
       return restClient.getTopic(this.topicId)
-    } else if (this.topicUri) {
-      return restClient.getTopicByUri(this.topicUri)
     }
+    // TODO: support assoc players as well?
     throw Error(`Role ${JSON.stringify(this)} is not a topic player`)
   }
 }
