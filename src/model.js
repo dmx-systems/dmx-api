@@ -630,11 +630,6 @@ class Topicmap extends Topic {
     Vue.delete(this.topics, id)
   }
 
-  // TODO: drop it? Add getTopics() instead?
-  forEachTopic (visitor) {
-    utils.forEach(this.topics, visitor)
-  }
-
   filterTopics (filter) {
     return Object.values(this.topics).filter(filter)
   }
@@ -655,13 +650,7 @@ class Topicmap extends Topic {
    * TODO: rename?
    */
   getAssocs (topicId) {
-    const assocs = []
-    this.forEachAssoc(assoc => {
-      if (assoc.isTopicPlayer(topicId)) {
-        assocs.push(assoc)
-      }
-    })
-    return assocs
+    return this.filterAssocs(assoc => assoc.isTopicPlayer(topicId))
   }
 
   getAssocIfExists (id) {
@@ -712,11 +701,6 @@ class Topicmap extends Topic {
     this.getAssocs(topicId).forEach(assoc => {
       this.removeAssoc(assoc.id)
     })
-  }
-
-  // TODO: drop it? Add getAssocs() instead?
-  forEachAssoc (visitor) {
-    utils.forEach(this.assocs, visitor)
   }
 
   filterAssocs (filter) {
