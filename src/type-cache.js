@@ -56,7 +56,7 @@ const actions = {
     // cache".)
     // Processing the update-type directive in the *same* tick ensures the type cache is up-to-date *before* the getter
     // callback executes.
-    console.log(`Type-cache: processing ${directives.length} directives (UPDATE_TYPE)`)
+    // console.log(`Type-cache: processing ${directives.length} directives (UPDATE_TYPE)`)
     directives.forEach(dir => {
       switch (dir.type) {
       case "UPDATE_TOPIC_TYPE":
@@ -68,7 +68,7 @@ const actions = {
       }
     })
     Vue.nextTick(() => {
-      console.log(`Type-cache: processing ${directives.length} directives (DELETE_TYPE)`)
+      // console.log(`Type-cache: processing ${directives.length} directives (DELETE_TYPE)`)
       directives.forEach(dir => {
         switch (dir.type) {
         case "DELETE_TOPIC_TYPE":

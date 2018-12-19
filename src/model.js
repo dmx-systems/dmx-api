@@ -25,11 +25,6 @@ class DeepaMehtaObject {
     return this.getType().value
   }
 
-  // TODO: drop it
-  getChildTopic (assocDefUri) {
-    return this.childs[assocDefUri]
-  }
-
   /**
    * Operates in-place
    *
