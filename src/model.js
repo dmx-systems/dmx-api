@@ -6,6 +6,7 @@ import Vue from 'vue'
 
 // TODO: inject or factor out
 const DEFAULT_TOPIC_ICON = '\uf111'               // fa-circle
+const DEFAULT_TOPIC_TYPE_ICON = '\uf10c'          // fa-circle-o
 const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
 
 class DeepaMehtaObject {
@@ -425,9 +426,13 @@ class TopicType extends Type {
     return false
   }
 
-  // Note: we must not override base class's (Topic) getIcon() which have a different semantics.
+  // Note: we must not override base class's getIcon() which has different semantics
   _getIcon () {
     return this.getViewConfig('dmx.webclient.icon')
+  }
+
+  getTypeIcon () {
+    return this._getIcon() || DEFAULT_TOPIC_TYPE_ICON
   }
 
   update () {
