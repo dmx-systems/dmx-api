@@ -89,6 +89,10 @@ class Topic extends DeepaMehtaObject {
     return typeCache.getTopicType(this.typeUri)
   }
 
+  get icon () {
+    return this.getType()._getIcon() || DEFAULT_TOPIC_ICON
+  }
+
   isType () {
     // TODO: meta type?
     return this.typeUri === 'dmx.core.topic_type' ||
@@ -144,10 +148,6 @@ class Topic extends DeepaMehtaObject {
     }
   }
 
-  getIcon () {
-    return this.getType()._getIcon() || DEFAULT_TOPIC_ICON
-  }
-
   fillRelatingAssoc (assocDef) {
     if (this.assoc) {
       this.assoc.fillChilds()
@@ -194,8 +194,14 @@ class Assoc extends DeepaMehtaObject {
 
   // ---
 
+  // TODO: make it a "type" getter?
   getType () {
     return typeCache.getAssocType(this.typeUri)
+  }
+
+  // TODO: make it a "color" getter?
+  getColor () {
+    return this.getType()._getColor() || DEFAULT_ASSOC_COLOR
   }
 
   isType () {
@@ -247,10 +253,6 @@ class Assoc extends DeepaMehtaObject {
     const role = this.getRole('dmx.core.parent_type')
     const type = typeCache.getTypeById(role.topicId)
     return type.getAssocDefById(this.id)
-  }
-
-  getColor () {
-    return this.getType()._getColor() || DEFAULT_ASSOC_COLOR
   }
 }
 
@@ -418,21 +420,20 @@ class TopicType extends Type {
     }
   }
 
+  get icon () {
+    return this._getIcon() || DEFAULT_TOPIC_TYPE_ICON
+  }
+
+  _getIcon () {
+    return this.getViewConfig('dmx.webclient.icon')
+  }
+
   isTopicType () {
     return true
   }
 
   isAssocType () {
     return false
-  }
-
-  // Note: we must not override base class's getIcon() which has different semantics
-  _getIcon () {
-    return this.getViewConfig('dmx.webclient.icon')
-  }
-
-  getTypeIcon () {
-    return this._getIcon() || DEFAULT_TOPIC_TYPE_ICON
   }
 
   update () {
@@ -442,16 +443,16 @@ class TopicType extends Type {
 
 class AssocType extends Type {
 
+  _getColor () {
+    return this.getViewConfig('dmx.webclient.color')
+  }
+
   isTopicType () {
     return false
   }
 
   isAssocType () {
     return true
-  }
-
-  _getColor () {
-    return this.getViewConfig('dmx.webclient.color')
   }
 
   update () {
