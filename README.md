@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.25** -- Dec 21, 2018
+
+* Various changes in Model, REST client, and Type cache
+
 **0.24** -- Nov 24, 2018
 
 * Model:
@@ -125,4 +129,4 @@
 
 ------------
 Jörg Richter  
-Nov 24, 2018
+Dec 21, 2018
