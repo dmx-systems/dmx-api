@@ -595,6 +595,10 @@ class Topicmap extends Topic {
     return Object.values(this.topics)
   }
 
+  mapTopics (func) {
+    return this.getTopics().map(func)
+  }
+
   filterTopics (filter) {
     return this.getTopics().filter(filter)
   }
@@ -674,6 +678,10 @@ class Topicmap extends Topic {
    */
   getAssocs () {
     return Object.values(this.assocs)
+  }
+
+  mapAssocs (func) {
+    return this.getAssocs().map(func)
   }
 
   filterAssocs (filter) {
