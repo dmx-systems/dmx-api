@@ -589,6 +589,17 @@ class Topicmap extends Topic {
   }
 
   /**
+   * @return    all topics of this topicmap, including hidden ones (array of dm5.ViewTopic)
+   */
+  getTopics () {
+    return Object.values(this.topics)
+  }
+
+  filterTopics (filter) {
+    return this.getTopics().filter(filter)
+  }
+
+  /**
    * @param   topic   a dm5.ViewTopic
    */
   addTopic (topic) {
@@ -633,10 +644,6 @@ class Topicmap extends Topic {
     Vue.delete(this.topics, id)
   }
 
-  filterTopics (filter) {
-    return Object.values(this.topics).filter(filter)
-  }
-
   // Associations
 
   getAssoc (id) {
@@ -660,6 +667,17 @@ class Topicmap extends Topic {
 
   hasAssoc (id) {
     return this.getAssocIfExists(id)
+  }
+
+  /**
+   * @return    all assocs of this topicmap (array of dm5.ViewAssoc)
+   */
+  getAssocs () {
+    return Object.values(this.assocs)
+  }
+
+  filterAssocs (filter) {
+    return this.getAssocs().filter(filter)
   }
 
   /**
@@ -702,10 +720,6 @@ class Topicmap extends Topic {
     this.getAssocsWithTopicPlayer(topicId).forEach(assoc => {
       this.removeAssoc(assoc.id)
     })
-  }
-
-  filterAssocs (filter) {
-    return Object.values(this.assocs).filter(filter)
   }
 
   // Generic
