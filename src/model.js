@@ -190,7 +190,7 @@ class Assoc extends DeepaMehtaObject {
   }
 
   hasAssocPlayer () {
-    return this.role1.hasAssocPlayer() || this.role2.hasAssocPlayer()
+    return this.role1.isAssocPlayer() || this.role2.isAssocPlayer()
   }
 
   // ---
@@ -280,8 +280,7 @@ class AssocRole {
     return this.getType().value
   }
 
-  // TODO: rename to "isAssocPlayer"?
-  hasAssocPlayer () {
+  isAssocPlayer () {
     return this.assocId
   }
 
@@ -289,7 +288,7 @@ class AssocRole {
   getPlayerId () {
     if (this.topicId >= 0) {    // Note: 0 is a valid topic ID
       return this.topicId
-    } else if (this.hasAssocPlayer()) {
+    } else if (this.isAssocPlayer()) {
       return this.assocId
     }
     throw Error(`Player ID not set in role ${JSON.stringify(this)}`)
