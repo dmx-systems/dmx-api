@@ -184,6 +184,7 @@ class Assoc extends DeepaMehtaObject {
     return match1 ? this.role1 : match2 ? this.role2 : undefined
   }
 
+  // TODO: rename to "hasTopicPlayer"
   isTopicPlayer (topicId) {
     return this.role1.topicId === topicId || this.role2.topicId === topicId
   }
@@ -648,10 +649,8 @@ class Topicmap extends Topic {
 
   /**
    * Returns all associations the given topic is a player in.
-   *
-   * TODO: rename?
    */
-  getAssocs (topicId) {
+  getAssocsWithTopicPlayer (topicId) {
     return this.filterAssocs(assoc => assoc.isTopicPlayer(topicId))
   }
 
@@ -700,7 +699,7 @@ class Topicmap extends Topic {
    * Removes all associations the given topic is a player in.
    */
   removeAssocs (topicId) {
-    this.getAssocs(topicId).forEach(assoc => {
+    this.getAssocsWithTopicPlayer(topicId).forEach(assoc => {
       this.removeAssoc(assoc.id)
     })
   }
