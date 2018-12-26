@@ -270,7 +270,7 @@ class AssocRole {
     this.roleTypeUri = role.roleTypeUri   // always set.
   }
 
-  // TODO: rename to "getRoleType"?
+  // TODO: rename to "getRoleType"
   getType () {
     return typeCache.getRoleType(this.roleTypeUri)
   }
@@ -280,13 +280,17 @@ class AssocRole {
     return this.getType().value
   }
 
+  isTopicPlayer () {
+    return this.topicId >= 0    // Note: 0 is a valid topic ID
+  }
+
   isAssocPlayer () {
     return this.assocId
   }
 
-  // TODO: rename to "getId"?
+  // TODO: rename to "getId"
   getPlayerId () {
-    if (this.topicId >= 0) {    // Note: 0 is a valid topic ID
+    if (this.isTopicPlayer()) {
       return this.topicId
     } else if (this.isAssocPlayer()) {
       return this.assocId
@@ -294,9 +298,9 @@ class AssocRole {
     throw Error(`Player ID not set in role ${JSON.stringify(this)}`)
   }
 
-  // TODO: rename to "fetch"?
+  // TODO: rename to "fetch"
   getPlayer () {
-    if (this.topicId >= 0) {    // Note: 0 is a valid topic ID
+    if (this.isTopicPlayer()) {
       return restClient.getTopic(this.topicId)
     }
     // TODO: support assoc players as well?
