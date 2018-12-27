@@ -297,9 +297,10 @@ class Player {
   fetch () {
     if (this.isTopicPlayer()) {
       return restClient.getTopic(this.topicId)
+    } else if (this.isAssocPlayer()) {
+      return restClient.getAssoc(this.assocId)
     }
-    // TODO: support assoc players as well?
-    throw Error(`Role ${JSON.stringify(this)} is not a topic player`)
+    throw Error(`Player ID not set in role ${JSON.stringify(this)}`)
   }
 }
 
