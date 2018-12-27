@@ -269,14 +269,12 @@ class Player {
     this.roleTypeUri = role.roleTypeUri   // always set.
   }
 
-  // TODO: rename to "getRoleType"
-  getType () {
+  getRoleType () {
     return typeCache.getRoleType(this.roleTypeUri)
   }
 
-  // TODO: rename to "roleTypeName"?
-  get typeName () {
-    return this.getType().value
+  get roleTypeName () {
+    return this.getRoleType().value
   }
 
   isTopicPlayer () {
@@ -287,8 +285,7 @@ class Player {
     return this.assocId
   }
 
-  // TODO: rename to "getId"
-  getPlayerId () {
+  get id () {
     if (this.isTopicPlayer()) {
       return this.topicId
     } else if (this.isAssocPlayer()) {
@@ -297,8 +294,7 @@ class Player {
     throw Error(`Player ID not set in role ${JSON.stringify(this)}`)
   }
 
-  // TODO: rename to "fetch"
-  getPlayer () {
+  fetch () {
     if (this.isTopicPlayer()) {
       return restClient.getTopic(this.topicId)
     }
@@ -753,8 +749,8 @@ class Topicmap extends Topic {
     if (o.isTopic()) {
       return o.getPosition()
     } else {
-      const pos1 = this.getPosition(o.role1.getPlayerId())
-      const pos2 = this.getPosition(o.role2.getPlayerId())
+      const pos1 = this.getPosition(o.role1.id)
+      const pos2 = this.getPosition(o.role2.id)
       return {
         x: (pos1.x + pos2.x) / 2,
         y: (pos1.y + pos2.y) / 2
