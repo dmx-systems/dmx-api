@@ -166,10 +166,10 @@ class Assoc extends DeepaMehtaObject {
     // Note: for update models the roles are optional.
     // Compare to ModelFactoryImpl.newAssociationModel(JSONObject assoc).
     if (assoc.role1) {
-      this.role1 = new AssocRole(assoc.role1)
+      this.role1 = new Player(assoc.role1)
     }
     if (assoc.role2) {
-      this.role2 = new AssocRole(assoc.role2)
+      this.role2 = new Player(assoc.role2)
     }
   }
 
@@ -257,8 +257,7 @@ class Assoc extends DeepaMehtaObject {
   }
 }
 
-// TODO: rename to "Player"
-class AssocRole {
+class Player {
 
   constructor (role) {
     if (role.topicId === -1 || role.assocId === -1) {
@@ -866,7 +865,7 @@ export {
   DeepaMehtaObject,
   Topic,
   Assoc,
-  AssocRole,
+  Player,
   RelatedTopic,
   Type,
   TopicType,
