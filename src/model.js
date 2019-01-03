@@ -9,11 +9,11 @@ const DEFAULT_TOPIC_ICON = '\uf111'               // fa-circle
 const DEFAULT_TOPIC_TYPE_ICON = '\uf10c'          // fa-circle-o
 const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
 
-class DeepaMehtaObject {
+class DMXObject {
 
   constructor (object) {
     if (object.constructor.name !== 'Object') {
-      throw Error(`DeepaMehtaObject constructor expects plain Object, got ${object.constructor.name} (${object})`)
+      throw Error(`DMXObject constructor expects plain Object, got ${object.constructor.name} (${object})`)
     }
     this.id      = object.id
     this.uri     = object.uri
@@ -60,7 +60,6 @@ class DeepaMehtaObject {
       }
       if (child) {
         // Note: this object might be on display. Setting the childs must be reactive.
-        // this.childs[assocDef.assocDefUri] = childs
         Vue.set(this.childs, assocDef.assocDefUri, childs)
       }
     })
@@ -72,7 +71,7 @@ class DeepaMehtaObject {
   }
 }
 
-class Topic extends DeepaMehtaObject {
+class Topic extends DMXObject {
 
   constructor (topic) {
     super(topic)
@@ -159,7 +158,7 @@ class Topic extends DeepaMehtaObject {
   }
 }
 
-class Assoc extends DeepaMehtaObject {
+class Assoc extends DMXObject {
 
   constructor (assoc) {
     super(assoc)
@@ -259,14 +258,15 @@ class Assoc extends DeepaMehtaObject {
 
 class Player {
 
-  constructor (role) {
-    if (role.topicId === -1 || role.assocId === -1) {
-      throw Error(`Player ID is -1 in role ${JSON.stringify(role)}`)
+  constructor (player) {
+    if (player.topicId === -1 || player.assocId === -1) {
+      throw Error(`Player ID is -1 in ${JSON.stringify(player)}`)
     }
-    this.topicId     = role.topicId       // always set for topic role. 0 is a valid topic ID. Undefined for assoc role.
-    this.topicUri    = role.topicUri      // optionally set for topic role. May be undefined.
-    this.assocId     = role.assocId       // always set for assoc role. Undefined for topic role.
-    this.roleTypeUri = role.roleTypeUri   // always set.
+    // TODO: arg check: player ID must not be undefined
+    this.topicId     = player.topicId       // always set for topic player. 0 is a valid ID. Undefined for assoc player.
+    this.topicUri    = player.topicUri      // optionally set for topic player. May be undefined.
+    this.assocId     = player.assocId       // always set for assoc player. Undefined for topic player.
+    this.roleTypeUri = player.roleTypeUri   // always set.
   }
 
   getRoleType () {
@@ -859,7 +859,7 @@ class Geomap extends Topic {
 }
 
 export {
-  DeepaMehtaObject,
+  DMXObject,
   Topic,
   Assoc,
   Player,
