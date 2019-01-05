@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.26** -- Jan 5, 2019
+
+* Model: consolidate `DMXObject`, `Player`, and `Topicmap`
+
 **0.25** -- Dec 21, 2018
 
 * Various changes in Model, REST client, and Type cache
@@ -129,4 +133,4 @@
 
 ------------
 Jörg Richter  
-Dec 21, 2018
+Jan 5, 2019
