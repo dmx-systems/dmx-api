@@ -188,10 +188,6 @@ class Assoc extends DMXObject {
     return this.role1.topicId === topicId || this.role2.topicId === topicId
   }
 
-  hasAssocPlayer () {
-    return this.role1.isAssocPlayer() || this.role2.isAssocPlayer()
-  }
-
   // ---
 
   // TODO: make it a "type" getter?
