@@ -616,23 +616,24 @@ class Topicmap extends Topic {
    */
   revealTopic (topic, pos) {
     const op = {}
-    const viewTopic = this.getTopicIfExists(topic.id)
+    let viewTopic = this.getTopicIfExists(topic.id)
     if (!viewTopic) {
-      const viewProps = {
+      viewTopic = topic.newViewTopic({
         ...pos ? {
           'dmx.topicmaps.x': pos.x,
           'dmx.topicmaps.y': pos.y
         } : undefined,
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false
-      }
-      this.addTopic(topic.newViewTopic(viewProps))
+      })
+      this.addTopic(viewTopic)
       op.type = 'add'
-      op.viewProps = viewProps
+      op.viewTopic = viewTopic
     } else {
       if (!viewTopic.isVisible()) {
         viewTopic.setVisibility(true)
         op.type = 'show'
+        op.viewTopic = viewTopic
       }
     }
     return op
@@ -699,14 +700,14 @@ class Topicmap extends Topic {
    */
   revealAssoc (assoc) {
     const op = {}
-    const viewAssoc = this.getAssocIfExists(assoc.id)
+    let viewAssoc = this.getAssocIfExists(assoc.id)
     if (!viewAssoc) {
-      const viewProps = {
+      viewAssoc = assoc.newViewAssoc({
         'dmx.topicmaps.pinned': false
-      }
-      this.addAssoc(assoc.newViewAssoc(viewProps))
+      })
+      this.addAssoc(viewAssoc)
       op.type = 'add'
-      op.viewProps = viewProps
+      op.viewAssoc = viewAssoc
     }
     return op
   }

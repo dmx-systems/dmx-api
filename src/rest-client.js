@@ -213,6 +213,9 @@ export default {
     http.post(`/topicmap/${topicmapId}/association/${assocId}`, viewProps)
   },
 
+  /**
+   * @param   viewProps   the topic view props to send; if undefined no props are sent
+   */
   addRelatedTopicToTopicmap (topicmapId, topicId, assocId, viewProps) {
     if (viewProps) {
       roundPos(viewProps, 'dmx.topicmaps.x', 'dmx.topicmaps.y')
