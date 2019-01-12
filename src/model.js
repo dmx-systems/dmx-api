@@ -195,8 +195,7 @@ class Assoc extends DMXObject {
     return typeCache.getAssocType(this.typeUri)
   }
 
-  // TODO: make it a "color" getter?
-  getColor () {
+  get color () {
     return this.getType()._getColor() || DEFAULT_ASSOC_COLOR
   }
 
