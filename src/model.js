@@ -174,6 +174,7 @@ class Assoc extends DMXObject {
 
   // ---
 
+  // TODO: rename to getPlayer
   getRole (roleTypeUri) {
     var match1 = this.role1.roleTypeUri === roleTypeUri
     var match2 = this.role2.roleTypeUri === roleTypeUri
@@ -183,9 +184,8 @@ class Assoc extends DMXObject {
     return match1 ? this.role1 : match2 ? this.role2 : undefined
   }
 
-  // TODO: rename to "hasTopicPlayer"
-  isTopicPlayer (topicId) {
-    return this.role1.topicId === topicId || this.role2.topicId === topicId
+  hasPlayer (id) {
+    return this.role1.id === id || this.role2.id === id
   }
 
   // ---
@@ -656,8 +656,8 @@ class Topicmap extends Topic {
   /**
    * Returns all associations the given topic is a player in.
    */
-  getAssocsWithTopicPlayer (topicId) {
-    return this.filterAssocs(assoc => assoc.isTopicPlayer(topicId))
+  getAssocsWithPlayer (id) {
+    return this.filterAssocs(assoc => assoc.hasPlayer(id))
   }
 
   getAssocIfExists (id) {
@@ -717,10 +717,12 @@ class Topicmap extends Topic {
   }
 
   /**
-   * Removes all associations the given topic is a player in.
+   * Removes all associations which have the given player.
+   *
+   * @param   id    a topic ID or an assoc ID
    */
-  removeAssocs (topicId) {
-    this.getAssocsWithTopicPlayer(topicId).forEach(assoc => {
+  removeAssocsWithPlayer (id) {
+    this.getAssocsWithPlayer(id).forEach(assoc => {
       this.removeAssoc(assoc.id)
     })
   }
