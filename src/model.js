@@ -184,6 +184,9 @@ class Assoc extends DMXObject {
     return match1 ? this.role1 : match2 ? this.role2 : undefined
   }
 
+  /**
+   * @param   id    a topic ID or an assoc ID
+   */
   hasPlayer (id) {
     return this.role1.id === id || this.role2.id === id
   }
@@ -653,13 +656,6 @@ class Topicmap extends Topic {
     return assoc
   }
 
-  /**
-   * Returns all associations the given topic is a player in.
-   */
-  getAssocsWithPlayer (id) {
-    return this.filterAssocs(assoc => assoc.hasPlayer(id))
-  }
-
   getAssocIfExists (id) {
     return this.assocs[id]
   }
@@ -673,6 +669,15 @@ class Topicmap extends Topic {
    */
   getAssocs () {
     return Object.values(this.assocs)
+  }
+
+  /**
+   * Returns all assocs the given topic/assoc is a player in.
+   *
+   * @param   id    a topic ID or an assoc ID
+   */
+  getAssocsWithPlayer (id) {
+    return this.filterAssocs(assoc => assoc.hasPlayer(id))
   }
 
   mapAssocs (func) {
@@ -724,6 +729,7 @@ class Topicmap extends Topic {
   removeAssocsWithPlayer (id) {
     this.getAssocsWithPlayer(id).forEach(assoc => {
       this.removeAssoc(assoc.id)
+      this.removeAssocsWithPlayer(assoc.id)     // recursion
     })
   }
 
@@ -764,6 +770,9 @@ class ViewTopic extends Topic {
 
   constructor (topic) {
     super(topic)
+    if (!topic.viewProps) {
+      throw TypeError(`"viewProps" not set in topic passed to ViewTopic constructor; topic=${JSON.stringify(topic)}`)
+    }
     this.viewProps = topic.viewProps
   }
 
@@ -818,6 +827,9 @@ class ViewAssoc extends Assoc {
 
   constructor (assoc) {
     super(assoc)
+    if (!assoc.viewProps) {
+      throw TypeError(`"viewProps" not set in assoc passed to ViewAssoc constructor; assoc=${JSON.stringify(assoc)}`)
+    }
     this.viewProps = assoc.viewProps
   }
 
