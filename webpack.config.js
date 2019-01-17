@@ -1,7 +1,8 @@
 module.exports = {
   output: {
-    filename: 'dm5.js',
-    libraryTarget: 'commonjs2'
+    filename: 'dm5.min.js',
+    library: 'dm5',
+    libraryTarget: 'umd'
   },
   externals: ['axios', 'vue', 'clone', 'debounce'],
   module: {
