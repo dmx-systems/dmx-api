@@ -110,14 +110,14 @@ function init (store) {
 
 // ---
 
-const getTopicType = getType('topicTypes', 'Topic type')
-const getAssocType = getType('assocTypes', 'Assoc type')
-const getDataType  = getType('dataTypes',  'Data type')
-const getRoleType  = getType('roleTypes',  'Role type')
+const getTopicType = getType('topicTypes', 'topic type')
+const getAssocType = getType('assocTypes', 'assoc type')
+const getDataType  = getType('dataTypes',  'data type')
+const getRoleType  = getType('roleTypes',  'role type')
 
 function getType (prop, name) {
   return uri => {
-    const type = state[prop][uri]
+    const type = state[prop] && state[prop][uri]
     if (!type) {
       throw Error(`${name} "${uri}" not in type cache`)
     }
