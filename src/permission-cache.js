@@ -1,5 +1,11 @@
 import restClient from './rest-client'
 
+export default {
+  isTopicWritable,
+  isAssocWritable,
+  clear
+}
+
 // Key is a topic/association ID.
 // Value is a promise for a permissions object:
 //   {
@@ -11,7 +17,7 @@ import restClient from './rest-client'
 // The server would not send it in the first place.
 // ### TODO: not fully true. Think about logout: the webclient might still hold
 // objects which are not readable anymore.
-var permissionCache = {}
+let permissionCache = {}
 
 /**
  * @return  a promise for a true/false value
@@ -38,10 +44,4 @@ function _isWritable (id, retrievalFunc) {
 
 function clear () {
   permissionCache = {}
-}
-
-export default {
-  isTopicWritable,
-  isAssocWritable,
-  clear
 }

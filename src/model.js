@@ -143,7 +143,7 @@ class Topic extends DMXObject {
     } else if (this.typeUri === 'dmx.core.assoc_type') {
       return typeCache.getAssocType(this.uri)
     } else {
-      throw Error(`Not a type: ${this}`)
+      throw Error(`not a type: ${this}`)
     }
   }
 
@@ -179,7 +179,7 @@ class Assoc extends DMXObject {
     var match1 = this.role1.roleTypeUri === roleTypeUri
     var match2 = this.role2.roleTypeUri === roleTypeUri
     if (match1 && match2) {
-      throw Error(`Both role types of association ${this.id} match ${roleTypeUri}`)
+      throw Error(`both role types of association ${this.id} match ${roleTypeUri}`)
     }
     return match1 ? this.role1 : match2 ? this.role2 : undefined
   }
@@ -258,7 +258,7 @@ class Player {
 
   constructor (player) {
     if (player.topicId === -1 || player.assocId === -1) {
-      throw Error(`Player ID is -1 in ${JSON.stringify(player)}`)
+      throw Error(`player ID is -1 in ${JSON.stringify(player)}`)
     }
     // TODO: arg check: player ID must not be undefined
     this.topicId     = player.topicId       // always set for topic player. 0 is a valid ID. Undefined for assoc player.
@@ -289,7 +289,7 @@ class Player {
     } else if (this.isAssocPlayer()) {
       return this.assocId
     }
-    throw Error(`Player ID not set in role ${JSON.stringify(this)}`)
+    throw Error(`player ID not set in role ${JSON.stringify(this)}`)
   }
 
   fetch () {
@@ -298,7 +298,7 @@ class Player {
     } else if (this.isAssocPlayer()) {
       return restClient.getAssoc(this.assocId)
     }
-    throw Error(`Player ID not set in role ${JSON.stringify(this)}`)
+    throw Error(`player ID not set in role ${JSON.stringify(this)}`)
   }
 }
 
@@ -341,7 +341,7 @@ class Type extends Topic {
   getAssocDefById (id) {
     const assocDefs = this.assocDefs.filter(assocDef => assocDef.id === id)
     if (assocDefs.length !== 1) {
-      throw Error(`Type "${this.uri}" has ${assocDefs.length} assoc defs with ID ${id}`)
+      throw Error(`type "${this.uri}" has ${assocDefs.length} assoc defs with ID ${id}`)
     }
     return assocDefs[0]
   }
@@ -478,7 +478,7 @@ class AssocDef extends Assoc {
     if (cardinality) {
       this.childCardinalityUri = cardinality.uri
     } else {
-      throw Error(`Assoc def ${this.assocDefUri} has no cardinality child (parent type: ${this.parentTypeUri})`)
+      throw Error(`assoc def ${this.assocDefUri} has no cardinality child (parent type: ${this.parentTypeUri})`)
     }
     //
     const isIdentityAttr = this.childs['dmx.core.identity_attr']
@@ -547,7 +547,7 @@ class AssocDef extends Assoc {
 
   _defaultInstanceLevelAssocTypeUri () {
     if (!this.isAssocDef()) {
-      throw Error(`Unexpected association type URI: "${this.typeUri}"`);
+      throw Error(`unexpected association type URI: "${this.typeUri}"`);
     }
     return 'dmx.core.composition';
   }
@@ -572,7 +572,7 @@ class Topicmap extends Topic {
   getTopic (id) {
     var topic = this.getTopicIfExists(id)
     if (!topic) {
-      throw Error(`Topic ${id} not found in topicmap ${this.id}`)
+      throw Error(`topic ${id} not found in topicmap ${this.id}`)
     }
     return topic
   }
@@ -651,7 +651,7 @@ class Topicmap extends Topic {
   getAssoc (id) {
     var assoc = this.getAssocIfExists(id)
     if (!assoc) {
-      throw Error(`Assoc ${id} not found in topicmap ${this.id}`)
+      throw Error(`assoc ${id} not found in topicmap ${this.id}`)
     }
     return assoc
   }
@@ -738,7 +738,7 @@ class Topicmap extends Topic {
   getObject (id) {
     const o = this.getTopicIfExists(id) || this.getAssocIfExists(id)
     if (!o) {
-      throw Error(`Topic/assoc ${id} not found in topicmap ${this.id}`)
+      throw Error(`topic/assoc ${id} not found in topicmap ${this.id}`)
     }
     return o
   }
