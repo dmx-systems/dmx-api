@@ -3,7 +3,7 @@
   "version": "0.26.0",
   "description": "DeepaMehta 5 base types and API",
   "author": "Jörg Richter",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "main": "src/index.js",
   "unpkg": "dist/dm5.min.js",
   "repository": {
