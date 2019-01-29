@@ -2,6 +2,13 @@
 
 ## Version History
 
+**0.27** -- Jan 29, 2019
+
+* Model: more support for assocs with assoc players
+* Type cache: exported as `dm5.typeCache`
+* Library is build as UMD and advertised via `unpkg` field (package.json)
+* Change license to `GPL-3.0-or-later`
+
 **0.26** -- Jan 5, 2019
 
 * Model: consolidate `DMXObject`, `Player`, and `Topicmap`
@@ -133,4 +140,4 @@
 
 ------------
 Jörg Richter  
-Jan 5, 2019
+Jan 29, 2019
