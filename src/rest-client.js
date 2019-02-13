@@ -348,6 +348,20 @@ export default {
     )
   },
 
+  // === Timestamps ===
+
+  getCreationTime (id) {
+    return http.get(`/timestamps/object/${id}/created`).then(response =>
+      response.data
+    )
+  },
+
+  getModificationTime (id) {
+    return http.get(`/timestamps/object/${id}/modified`).then(response =>
+      response.data
+    )
+  },
+
   // === XML ===
 
   getXML (url) {
