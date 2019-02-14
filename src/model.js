@@ -34,6 +34,14 @@ class DMXObject {
     return restClient.getModificationTime(this.id)
   }
 
+  getCreator () {
+    return restClient.getCreator(this.id)
+  }
+
+  getModifier () {
+    return restClient.getModifier(this.id)
+  }
+
   /**
    * Operates in-place
    *
