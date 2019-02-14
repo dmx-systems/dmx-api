@@ -335,6 +335,18 @@ export default {
     )
   },
 
+  getCreator (id) {
+    return http.get(`/accesscontrol/object/${id}/creator`).then(response =>
+      response.data
+    )
+  },
+
+  getModifier (id) {
+    return http.get(`/accesscontrol/object/${id}/modifier`).then(response =>
+      response.data
+    )
+  },
+
   /**
    * @param   password   expected to be SHA256 encoded
    *
