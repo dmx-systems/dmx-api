@@ -204,6 +204,12 @@ export default {
     )
   },
 
+  getTopicmapTopics (objectId) {
+    return http.get(`/topicmap/object/${objectId}`).then(response =>
+      utils.instantiateMany(response.data, RelatedTopic)
+    )
+  },
+
   addTopicToTopicmap (topicmapId, topicId, viewProps) {
     roundPos(viewProps, 'dmx.topicmaps.x', 'dmx.topicmaps.y')
     http.post(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps)
