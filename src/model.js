@@ -42,6 +42,10 @@ class DMXObject {
     return restClient.getModifier(this.id)
   }
 
+  getTopicmapTopics () {
+    return restClient.getTopicmapTopics(this.id)
+  }
+
   /**
    * Operates in-place
    *
