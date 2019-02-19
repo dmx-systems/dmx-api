@@ -583,8 +583,8 @@ class Topicmap extends Topic {
 
   constructor (topicmap) {
     super(topicmap.info)
-    this.topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))  // map: ID -> dm5.ViewTopic
-    this.assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))  // map: ID -> dm5.ViewAssoc
+    this._topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))   // map: ID -> dm5.ViewTopic
+    this._assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))   // map: ID -> dm5.ViewAssoc
   }
 
   // Topics
@@ -598,7 +598,7 @@ class Topicmap extends Topic {
   }
 
   getTopicIfExists (id) {
-    return this.topics[id]
+    return this._topics[id]
   }
 
   hasTopic (id) {
@@ -608,16 +608,8 @@ class Topicmap extends Topic {
   /**
    * @return    all topics of this topicmap, including hidden ones (array of dm5.ViewTopic)
    */
-  getTopics () {
-    return Object.values(this.topics)
-  }
-
-  mapTopics (func) {
-    return this.getTopics().map(func)
-  }
-
-  filterTopics (filter) {
-    return this.getTopics().filter(filter)
+  get topics () {
+    return Object.values(this._topics)
   }
 
   /**
@@ -628,7 +620,7 @@ class Topicmap extends Topic {
       throw Error(`addTopic() expects a ViewTopic, got ${topic.constructor.name}`)
     }
     // reactivity is required to trigger "visibleTopicIds" getter (module dm5-cytoscape-renderer)
-    Vue.set(this.topics, topic.id, topic)
+    Vue.set(this._topics, topic.id, topic)
   }
 
   /**
@@ -663,7 +655,7 @@ class Topicmap extends Topic {
 
   removeTopic (id) {
     // reactivity is required to trigger "visibleTopicIds" getter (module dm5-cytoscape-renderer)
-    Vue.delete(this.topics, id)
+    Vue.delete(this._topics, id)
   }
 
   // Associations
@@ -677,7 +669,7 @@ class Topicmap extends Topic {
   }
 
   getAssocIfExists (id) {
-    return this.assocs[id]
+    return this._assocs[id]
   }
 
   hasAssoc (id) {
@@ -687,8 +679,8 @@ class Topicmap extends Topic {
   /**
    * @return    all assocs of this topicmap (array of dm5.ViewAssoc)
    */
-  getAssocs () {
-    return Object.values(this.assocs)
+  get assocs () {
+    return Object.values(this._assocs)
   }
 
   /**
@@ -697,15 +689,7 @@ class Topicmap extends Topic {
    * @param   id    a topic ID or an assoc ID
    */
   getAssocsWithPlayer (id) {
-    return this.filterAssocs(assoc => assoc.hasPlayer(id))
-  }
-
-  mapAssocs (func) {
-    return this.getAssocs().map(func)
-  }
-
-  filterAssocs (filter) {
-    return this.getAssocs().filter(filter)
+    return this.assocs.filter(assoc => assoc.hasPlayer(id))
   }
 
   /**
@@ -716,7 +700,7 @@ class Topicmap extends Topic {
       throw Error(`addAssoc() expects a ViewAssoc, got ${assoc.constructor.name}`)
     }
     // reactivity is required to trigger "visibleAssocIds" getter (module dm5-cytoscape-renderer)
-    Vue.set(this.assocs, assoc.id, assoc)
+    Vue.set(this._assocs, assoc.id, assoc)
   }
 
   /**
@@ -738,7 +722,7 @@ class Topicmap extends Topic {
 
   removeAssoc (id) {
     // reactivity is required to trigger "visibleAssocIds" getter (module dm5-cytoscape-renderer)
-    Vue.delete(this.assocs, id)
+    Vue.delete(this._assocs, id)
   }
 
   /**
@@ -796,6 +780,7 @@ class ViewTopic extends Topic {
     this.viewProps = topic.viewProps
   }
 
+  // TODO: make it a "pos" getter?
   getPosition () {
     return {
       x: this.getViewProp('dmx.topicmaps.x'),
@@ -803,6 +788,7 @@ class ViewTopic extends Topic {
     }
   }
 
+  // TODO: make it a "visible" getter?
   isVisible () {
     return this.getViewProp('dmx.topicmaps.visibility')
   }
