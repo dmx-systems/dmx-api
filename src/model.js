@@ -768,9 +768,28 @@ class Topicmap extends Topic {
   }
 }
 
-// TODO: common base class for ViewTopic and ViewAssoc?
+const viewPropsMixin = Base => class extends Base {
 
-class ViewTopic extends Topic {
+  isPinned () {
+    return this.getViewProp('dmx.topicmaps.pinned')
+  }
+
+  setPinned (pinned) {
+    this.setViewProp('dmx.topicmaps.pinned', pinned)
+  }
+
+  getViewProp (propUri) {
+    return this.viewProps[propUri]
+  }
+
+  setViewProp (propUri, value) {
+    // Note: some view props must be reactive, e.g. 'dmx.topicmaps.pinned' reflects pin button state.
+    // Test it with topics/assocs which don't have a 'dmx.topicmaps.pinned' setting yet. ### FIXDOC
+    Vue.set(this.viewProps, propUri, value)
+  }
+}
+
+class ViewTopic extends viewPropsMixin(Topic) {
 
   constructor (topic) {
     super(topic)
@@ -793,11 +812,6 @@ class ViewTopic extends Topic {
     return this.getViewProp('dmx.topicmaps.visibility')
   }
 
-  // TODO: avoid copy in ViewAssoc
-  isPinned () {
-    return this.getViewProp('dmx.topicmaps.pinned')
-  }
-
   setPosition (pos) {
     this.setViewProp('dmx.topicmaps.x', pos.x)
     this.setViewProp('dmx.topicmaps.y', pos.y)
@@ -807,29 +821,12 @@ class ViewTopic extends Topic {
     this.setViewProp('dmx.topicmaps.visibility', visibility)
   }
 
-  // TODO: avoid copy in ViewAssoc
-  setPinned (pinned) {
-    this.setViewProp('dmx.topicmaps.pinned', pinned)
-  }
-
-  // TODO: avoid copy in ViewAssoc
-  getViewProp (propUri) {
-    return this.viewProps[propUri]
-  }
-
-  // TODO: avoid copy in ViewAssoc
-  setViewProp (propUri, value) {
-    // Note: some view props must be reactive, e.g. 'dmx.topicmaps.pinned' reflects pin button state.
-    // Test it with topics which don't have a 'dmx.topicmaps.pinned' setting yet. ### FIXDOC
-    Vue.set(this.viewProps, propUri, value)
-  }
-
   fetchObject () {
     return restClient.getTopic(this.id, true, true)
   }
 }
 
-class ViewAssoc extends Assoc {
+class ViewAssoc extends viewPropsMixin(Assoc) {
 
   constructor (assoc) {
     super(assoc)
@@ -837,28 +834,6 @@ class ViewAssoc extends Assoc {
       throw TypeError(`"viewProps" not set in assoc passed to ViewAssoc constructor; assoc=${JSON.stringify(assoc)}`)
     }
     this.viewProps = assoc.viewProps
-  }
-
-  // TODO: avoid copy in ViewTopic
-  isPinned () {
-    return this.getViewProp('dmx.topicmaps.pinned')
-  }
-
-  // TODO: avoid copy in ViewTopic
-  setPinned (pinned) {
-    this.setViewProp('dmx.topicmaps.pinned', pinned)
-  }
-
-  // TODO: avoid copy in ViewTopic
-  getViewProp (propUri) {
-    return this.viewProps[propUri]
-  }
-
-  // TODO: avoid copy in ViewTopic
-  setViewProp (propUri, value) {
-    // Note: some view props must be reactive, e.g. 'dmx.topicmaps.pinned' reflects pin button state.
-    // Test it with assocs which don't have a 'dmx.topicmaps.pinned' setting yet. ### FIXDOC
-    Vue.set(this.viewProps, propUri, value)
   }
 
   fetchObject () {
