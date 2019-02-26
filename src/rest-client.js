@@ -190,7 +190,7 @@ export default {
     return http.post('/topicmap', undefined, {
       params: {
         name,
-        renderer_uri: topicmapTypeUri,
+        topicmap_type_uri: topicmapTypeUri,
         private: isPrivate
       }
     }).then(response =>
