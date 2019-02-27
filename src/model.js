@@ -126,8 +126,17 @@ class Topic extends DMXObject {
     return false    // topics are never assoc defs
   }
 
-  getRelatedTopics () {
-    return restClient.getTopicRelatedTopics(this.id)
+  /**
+   * @param   filter
+   *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
+   *              "assocTypeUri"
+   *              "myRoleTypeUri"
+   *              "othersRoleTypeUri"
+   *              "othersTopicTypeUri"
+   *            If not specified no filter is applied.
+   */
+  getRelatedTopics (filter) {
+    return restClient.getTopicRelatedTopics(this.id, filter)
   }
 
   update () {
@@ -234,8 +243,17 @@ class Assoc extends DMXObject {
     return this.typeUri === 'dmx.core.composition_def'
   }
 
-  getRelatedTopics () {
-    return restClient.getAssocRelatedTopics(this.id)
+  /**
+   * @param   filter
+   *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
+   *              "assocTypeUri"
+   *              "myRoleTypeUri"
+   *              "othersRoleTypeUri"
+   *              "othersTopicTypeUri"
+   *            If not specified no filter is applied.
+   */
+  getRelatedTopics (filter) {
+    return restClient.getAssocRelatedTopics(this.id, filter)
   }
 
   update () {
