@@ -305,9 +305,13 @@ export default {
     )
   },
 
+  /**
+   * @return  the workspace topic, or empty string if no workspace is assigned
+   */
   getAssignedWorkspace (objectId) {
     return http.get(`/workspace/object/${objectId}`).then(response =>
-      new Topic(response.data)
+      // Note: if no workspace is assigned the response is 204 No Content; "data" is the empty string then
+      response.data && new Topic(response.data)
     )
   },
 
