@@ -357,6 +357,12 @@ export default {
     )
   },
 
+  getWorkspaceOwner (id) {
+    return http.get(`/accesscontrol/workspace/${id}/owner`).then(response =>
+      response.data
+    )
+  },
+
   /**
    * @param   password   expected to be SHA256 encoded
    *
