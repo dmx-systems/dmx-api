@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.28** -- Mar 2, 2019
+
+* Support for retrieving topic/assoc meta data (timestamps, creator/modifier, workspace assignment, ...)
+
 **0.27** -- Jan 29, 2019
 
 * Model: more support for assocs with assoc players
@@ -140,4 +144,4 @@
 
 ------------
 Jörg Richter  
-Jan 29, 2019
+Mar 2, 2019
