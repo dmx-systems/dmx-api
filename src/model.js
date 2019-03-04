@@ -715,11 +715,18 @@ class Topicmap extends Topic {
     let viewAssoc = this.getAssocIfExists(assoc.id)
     if (!viewAssoc) {
       viewAssoc = assoc.newViewAssoc({
+        'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false
       })
       this.addAssoc(viewAssoc)
       op.type = 'add'
       op.viewAssoc = viewAssoc
+    } else {
+      if (!viewAssoc.isVisible()) {
+        viewAssoc.setVisibility(true)
+        op.type = 'show'
+        op.viewAssoc = viewAssoc
+      }
     }
     return op
   }
