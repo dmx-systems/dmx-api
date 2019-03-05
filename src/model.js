@@ -752,6 +752,13 @@ class Topicmap extends Topic {
     return this.assocs.filter(assoc => assoc.hasPlayer(id))
   }
 
+  hideAssocsWithPlayer (id) {
+    this.getAssocsWithPlayer(id).forEach(assoc => {
+      assoc.setVisibility(false)
+      this.hideAssocsWithPlayer(assoc.id)       // recursion
+    })
+  }
+
   /**
    * Removes all associations which have the given player.
    *
