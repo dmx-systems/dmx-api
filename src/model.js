@@ -12,7 +12,9 @@ const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gr
 class DMXObject {
 
   constructor (object) {
-    if (object.constructor.name !== 'Object') {
+    if (!object) {
+      throw Error(`invalid object passed to DMXObject constructor: ${object}`)
+    } else if (object.constructor.name !== 'Object') {
       throw Error(`DMXObject constructor expects plain Object, got ${object.constructor.name} (${object})`)
     }
     this.id      = object.id
@@ -604,7 +606,7 @@ class AssocDef extends Assoc {
 class Topicmap extends Topic {
 
   constructor (topicmap) {
-    super(topicmap.info)
+    super(topicmap.topic)
     this._topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))   // map: ID -> dm5.ViewTopic
     this._assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))   // map: ID -> dm5.ViewAssoc
   }
@@ -878,7 +880,7 @@ class ViewAssoc extends viewPropsMixin(Assoc) {
 
 class Geomap extends Topic {
   constructor (geomap) {
-    super(geomap.info)
+    super(geomap.topic)
     // Note: we don't instantiate dm5.Topic objects as not required at the moment
     this.geoCoordTopics = geomap.geoCoordTopics
   }
