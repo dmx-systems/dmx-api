@@ -749,6 +749,8 @@ class Topicmap extends Topic {
    * Returns all assocs the given topic/assoc is a player in.
    *
    * @param   id    a topic ID or an assoc ID
+   *
+   * @return  array of dm5.ViewAssoc
    */
   getAssocsWithPlayer (id) {
     return this.assocs.filter(assoc => assoc.hasPlayer(id))
@@ -771,6 +773,22 @@ class Topicmap extends Topic {
       this.removeAssoc(assoc.id)
       this.removeAssocsWithPlayer(assoc.id)     // recursion
     })
+  }
+
+  /**
+   * @param   assoc   a dm5.Assoc or a dm5.ViewAssoc
+   * @param   id      a topic ID or an assoc ID
+   */
+  getOtherPlayer (assoc, id) {
+    let _id
+    if (assoc.role1.id === id) {
+      _id = assoc.role2.id
+    } else if (assoc.role2.id === id) {
+      _id = assoc.role1.id
+    } else {
+      throw Error(`${id} is not a player in assoc ${JSON.stringify(assoc)}`)
+    }
+    return this.getObject(_id)
   }
 
   // Generic
@@ -845,6 +863,10 @@ class ViewTopic extends viewPropsMixin(Topic) {
     this.viewProps = topic.viewProps
   }
 
+  fetchObject () {
+    return restClient.getTopic(this.id, true, true)
+  }
+
   // TODO: make it a "pos" getter?
   getPosition () {
     return {
@@ -856,10 +878,6 @@ class ViewTopic extends viewPropsMixin(Topic) {
   setPosition (pos) {
     this.setViewProp('dmx.topicmaps.x', pos.x)
     this.setViewProp('dmx.topicmaps.y', pos.y)
-  }
-
-  fetchObject () {
-    return restClient.getTopic(this.id, true, true)
   }
 }
 
