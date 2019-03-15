@@ -249,12 +249,7 @@ export default {
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${visibility}`)
   },
 
-  // TODO: setAssocVisibility()?
-
-  // TODO: drop
-  removeAssocFromTopicmap (topicmapId, assocId) {
-    http.delete(`/topicmap/${topicmapId}/association/${assocId}`)
-  },
+  // TODO: setAssocVisibility()? Actually not needed by DMX webclient.
 
   hideMulti (topicmapId, idLists) {
     http.put(`/topicmap/${topicmapId}${toPath(idLists)}/visibility/false`)
@@ -265,9 +260,10 @@ export default {
     http.put(`/topicmap/${topicmapId}`, coords)
   },
 
-  setTopicmapPan: utils.debounce((topicmapId, pan) => {
+  setTopicmapViewport: utils.debounce((topicmapId, pan, zoom) => {
+    // console.log('setTopicmapViewport')
     roundPos(pan, 'x', 'y')
-    http.put(`/topicmap/${topicmapId}/pan/${pan.x}/${pan.y}`)
+    http.put(`/topicmap/${topicmapId}/pan/${pan.x}/${pan.y}/zoom/${zoom}`)
   }, 3000),
 
   // === Geomaps ===

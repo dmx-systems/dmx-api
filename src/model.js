@@ -829,9 +829,10 @@ class Topicmap extends Topic {
 
   // Topicmap
 
-  setPan (pan) {
+  setViewport (pan, zoom) {
     this.viewProps['dmx.topicmaps.pan_x'] = pan.x
     this.viewProps['dmx.topicmaps.pan_y'] = pan.y
+    this.viewProps['dmx.topicmaps.zoom'] = zoom
   }
 }
 
