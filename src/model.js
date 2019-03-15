@@ -607,6 +607,7 @@ class Topicmap extends Topic {
 
   constructor (topicmap) {
     super(topicmap.topic)
+    this.viewProps = topicmap.viewProps
     this._topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))   // map: ID -> dm5.ViewTopic
     this._assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))   // map: ID -> dm5.ViewAssoc
   }
@@ -793,6 +794,9 @@ class Topicmap extends Topic {
 
   // Generic
 
+  /**
+   * @param   id      a topic ID or an assoc ID
+   */
   getObject (id) {
     const o = this.getTopicIfExists(id) || this.getAssocIfExists(id)
     if (!o) {
@@ -806,6 +810,8 @@ class Topicmap extends Topic {
    *
    * Note: ViewTopic has getPosition() too but ViewAssoc has not
    * as a ViewAssoc doesn't know the Topicmap it belongs to.
+   *
+   * @param   id      a topic ID or an assoc ID
    */
   getPosition (id) {
     const o = this.getObject(id)
@@ -819,6 +825,13 @@ class Topicmap extends Topic {
         y: (pos1.y + pos2.y) / 2
       }
     }
+  }
+
+  // Topicmap
+
+  setPan (pan) {
+    this.viewProps['dmx.topicmaps.pan_x'] = pan.x
+    this.viewProps['dmx.topicmaps.pan_y'] = pan.y
   }
 }
 

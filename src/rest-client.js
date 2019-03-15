@@ -249,6 +249,9 @@ export default {
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${visibility}`)
   },
 
+  // TODO: setAssocVisibility()?
+
+  // TODO: drop
   removeAssocFromTopicmap (topicmapId, assocId) {
     http.delete(`/topicmap/${topicmapId}/association/${assocId}`)
   },
@@ -261,6 +264,11 @@ export default {
     // TODO?: roundPos(pos, 'x', 'y')
     http.put(`/topicmap/${topicmapId}`, coords)
   },
+
+  setTopicmapPan: utils.debounce((topicmapId, pan) => {
+    roundPos(pan, 'x', 'y')
+    http.put(`/topicmap/${topicmapId}/pan/${pan.x}/${pan.y}`)
+  }, 3000),
 
   // === Geomaps ===
 
