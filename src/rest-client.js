@@ -283,6 +283,11 @@ export default {
     )
   },
 
+  setGeomapState: utils.debounce((geomapId, lon, lat, zoom) => {
+    console.log('setGeomapState', lon, lat, zoom)
+    http.put(`/geomap/${geomapId}/center/${lon}/${lat}/zoom/${zoom}`)
+  }, 3000),
+
   // === Workspaces ===
 
   /**
