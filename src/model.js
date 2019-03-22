@@ -913,8 +913,8 @@ class ViewAssoc extends viewPropsMixin(Assoc) {
 class Geomap extends Topic {
   constructor (geomap) {
     super(geomap.topic)
-    // Note: we don't instantiate dm5.Topic objects as not required at the moment
-    this.geoCoordTopics = geomap.geoCoordTopics
+    this.viewProps = geomap.viewProps
+    this.geoCoordTopics = geomap.geoCoordTopics     // instantiating dm5.Topic objects not required at the moment
   }
 }
 
