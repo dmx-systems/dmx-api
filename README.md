@@ -2,6 +2,11 @@
 
 ## Version History
 
+**0.29** -- Apr 1, 2019
+
+* Support for assoc visibility
+* Support for topicmap pan/zoom state and geomap center/zoom state
+
 **0.28** -- Mar 2, 2019
 
 * Support for retrieving topic/assoc meta data (timestamps, creator/modifier, workspace assignment, ...)
@@ -144,4 +149,4 @@
 
 ------------
 Jörg Richter  
-Mar 2, 2019
+Apr 1, 2019
