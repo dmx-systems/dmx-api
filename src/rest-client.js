@@ -240,10 +240,10 @@ export default {
     http.put(`/topicmap/${topicmapId}/association/${assocId}`, viewProps)
   },
 
-  setTopicPosition (topicmapId, topicId, pos) {
+  setTopicPosition: utils.debounce((topicmapId, topicId, pos) => {
     roundPos(pos, 'x', 'y')
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${pos.x}/${pos.y}`)
-  },
+  }, 3000),
 
   setTopicVisibility (topicmapId, topicId, visibility) {
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${visibility}`)
@@ -255,10 +255,10 @@ export default {
     http.put(`/topicmap/${topicmapId}${toPath(idLists)}/visibility/false`)
   },
 
-  setTopicPositions (topicmapId, coords) {
-    // TODO?: roundPos(pos, 'x', 'y')
+  setTopicPositions: utils.debounce((topicmapId, coords) => {
+    // TODO: roundPos(pos, 'x', 'y')
     http.put(`/topicmap/${topicmapId}`, coords)
-  },
+  }, 3000),
 
   setTopicmapViewport: utils.debounce((topicmapId, pan, zoom) => {
     // console.log('setTopicmapViewport')
