@@ -249,7 +249,7 @@ export default {
    * @param   topicCoords    array of 3-prop objects: 'topicId', 'x', 'y'
    */
   setTopicPositions: utils.debounce((topicmapId, topicCoords) => {
-    // TODO: roundPos(pos, 'x', 'y')
+    roundPos(topicCoords, 'x', 'y')
     http.put(`/topicmap/${topicmapId}`, {topicCoords})
   }, 3000),
 
@@ -443,8 +443,21 @@ function _filter (filter) {
   }
 }
 
-// ### TODO: drop rounding and let the backend work with floats?
+/**
+ * @param   pos   an object or an array of objects
+ */
 function roundPos (pos, x, y) {
+  if (Array.isArray(pos)) {
+    pos.forEach(pos => _roundPos(pos, x, y))
+  } else {
+    _roundPos(pos, x, y)
+  }
+}
+
+/**
+ * @param   pos   an object
+ */
+function _roundPos (pos, x, y) {
   pos[x] = Math.round(pos[x])
   pos[y] = Math.round(pos[y])
 }
