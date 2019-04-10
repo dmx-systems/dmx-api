@@ -245,6 +245,14 @@ export default {
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${pos.x}/${pos.y}`)
   }, 3000),
 
+  /**
+   * @param   topicCoords    array of 3-prop objects: 'topicId', 'x', 'y'
+   */
+  setTopicPositions: utils.debounce((topicmapId, topicCoords) => {
+    // TODO: roundPos(pos, 'x', 'y')
+    http.put(`/topicmap/${topicmapId}`, {topicCoords})
+  }, 3000),
+
   setTopicVisibility (topicmapId, topicId, visibility) {
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${visibility}`)
   },
@@ -254,11 +262,6 @@ export default {
   hideMulti (topicmapId, idLists) {
     http.put(`/topicmap/${topicmapId}${toPath(idLists)}/visibility/false`)
   },
-
-  setTopicPositions: utils.debounce((topicmapId, coords) => {
-    // TODO: roundPos(pos, 'x', 'y')
-    http.put(`/topicmap/${topicmapId}`, coords)
-  }, 3000),
 
   setTopicmapViewport: utils.debounce((topicmapId, pan, zoom) => {
     // console.log('setTopicmapViewport')
