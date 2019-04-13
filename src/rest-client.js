@@ -240,18 +240,20 @@ export default {
     http.put(`/topicmap/${topicmapId}/association/${assocId}`, viewProps)
   },
 
-  setTopicPosition: utils.debounce((topicmapId, topicId, pos) => {
+  // Note: no debounce here; consecutive calls might relate to *different* topics
+  setTopicPosition (topicmapId, topicId, pos) {
     roundPos(pos, 'x', 'y')
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${pos.x}/${pos.y}`)
-  }, 3000),
+  },
 
+  // Note: no debounce here; consecutive calls might relate to *different* topic collections
   /**
    * @param   topicCoords    array of 3-prop objects: 'topicId', 'x', 'y'
    */
-  setTopicPositions: utils.debounce((topicmapId, topicCoords) => {
+  setTopicPositions (topicmapId, topicCoords) {
     roundPos(topicCoords, 'x', 'y')
     http.put(`/topicmap/${topicmapId}`, {topicCoords})
-  }, 3000),
+  },
 
   setTopicVisibility (topicmapId, topicId, visibility) {
     http.put(`/topicmap/${topicmapId}/topic/${topicId}/${visibility}`)
