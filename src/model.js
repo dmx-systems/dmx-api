@@ -757,6 +757,7 @@ class Topicmap extends Topic {
     return this.assocs.filter(assoc => assoc.hasPlayer(id))
   }
 
+  // TODO: drop it? In most cases the caller needs control over the recursion.
   hideAssocsWithPlayer (id) {
     this.getAssocsWithPlayer(id).forEach(assoc => {
       assoc.setVisibility(false)
@@ -769,6 +770,7 @@ class Topicmap extends Topic {
    *
    * @param   id    a topic ID or an assoc ID
    */
+  // TODO: drop it? In most cases the caller needs control over the recursion.
   removeAssocsWithPlayer (id) {
     this.getAssocsWithPlayer(id).forEach(assoc => {
       this.removeAssoc(assoc.id)
@@ -845,6 +847,9 @@ const viewPropsMixin = Base => class extends Base {
 
   setVisibility (visibility) {
     this.setViewProp('dmx.topicmaps.visibility', visibility)
+    if (!visibility) {
+      this.setPinned(false)     // hide implies unpin
+    }
   }
 
   // TODO: make it a "pinned" getter?
