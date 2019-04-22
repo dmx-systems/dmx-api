@@ -2,10 +2,17 @@
 
 ## Version History
 
+**0.30** -- Apr 22, 2019
+
+* Model: topic/assoc hide implies unpin
+* REST client: Topicmap `setTopicPositions()` does x/y rounding
+* REST client: adapt to server-side Topicmaps API (`setTopicPositions()` sends object)
+
 **0.29** -- Apr 1, 2019
 
 * Support for assoc visibility
-* Support for topicmap pan/zoom state and geomap center/zoom state
+* Support for topicmap pan/zoom state
+* Support for geomap center/zoom state
 
 **0.28** -- Mar 2, 2019
 
@@ -149,4 +156,4 @@
 
 ------------
 Jörg Richter  
-Apr 1, 2019
+Apr 22, 2019
