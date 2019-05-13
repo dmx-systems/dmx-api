@@ -9,6 +9,7 @@ const DEFAULT_TOPIC_ICON = '\uf111'               // fa-circle
 const DEFAULT_TOPIC_TYPE_ICON = '\uf10c'          // fa-circle-o
 const DEFAULT_ICON_COLOR = 'hsl(210, 50%, 53%)'   // matches dm5-color-picker blue
 const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
+const DEFAULT_BACKGROUND_COLOR = '#f5f7fa'        // matches dm5-webclient --background-color
 
 class DMXObject {
 
@@ -121,6 +122,10 @@ class Topic extends DMXObject {
 
   get iconColor () {
     return this.getType()._getColor() || DEFAULT_ICON_COLOR
+  }
+
+  get backgroundColor () {
+    return this.getType()._getBackgroundColor() || DEFAULT_BACKGROUND_COLOR
   }
 
   isType () {
@@ -477,6 +482,10 @@ class TopicType extends Type {
 
   _getIcon () {
     return this.getViewConfig('dmx.webclient.icon')
+  }
+
+  _getBackgroundColor () {
+    return this.getViewConfig('dmx.webclient.color#dmx.webclient.background_color')
   }
 
   isTopicType () {
