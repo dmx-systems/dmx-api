@@ -7,6 +7,7 @@ import Vue from 'vue'
 // TODO: inject or factor out
 const DEFAULT_TOPIC_ICON = '\uf111'               // fa-circle
 const DEFAULT_TOPIC_TYPE_ICON = '\uf10c'          // fa-circle-o
+const DEFAULT_ICON_COLOR = 'hsl(210, 50%, 53%)'   // matches dm5-color-picker blue
 const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
 
 class DMXObject {
@@ -109,13 +110,17 @@ class Topic extends DMXObject {
 
   // ---
 
-  // TODO: make it a "type" getter?
+  // TODO: make it a "type" getter
   getType () {
     return typeCache.getTopicType(this.typeUri)
   }
 
   get icon () {
     return this.getType()._getIcon() || DEFAULT_TOPIC_ICON
+  }
+
+  get iconColor () {
+    return this.getType()._getColor() || DEFAULT_ICON_COLOR
   }
 
   isType () {
@@ -168,7 +173,7 @@ class Topic extends DMXObject {
       typeUri: this.typeUri,
       value:   this.value,
       childs: {},     // TODO: childs needed in a ViewTopic?
-      viewProps: viewProps
+      viewProps
     })
   }
 
@@ -228,7 +233,7 @@ class Assoc extends DMXObject {
 
   // ---
 
-  // TODO: make it a "type" getter?
+  // TODO: make it a "type" getter
   getType () {
     return typeCache.getAssocType(this.typeUri)
   }
@@ -287,7 +292,7 @@ class Assoc extends DMXObject {
       childs: {},     // TODO: childs needed in a ViewTopic?
       role1:   this.role1,
       role2:   this.role2,
-      viewProps: viewProps
+      viewProps
     })
   }
 
@@ -402,6 +407,10 @@ class Type extends Topic {
     return topic && topic.value
   }
 
+  _getColor () {
+    return this.getViewConfig('dmx.webclient.color')
+  }
+
   /**
    * @returns   a plain object.
    */
@@ -484,10 +493,6 @@ class TopicType extends Type {
 }
 
 class AssocType extends Type {
-
-  _getColor () {
-    return this.getViewConfig('dmx.webclient.color')
-  }
 
   isTopicType () {
     return false
