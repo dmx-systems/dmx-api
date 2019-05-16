@@ -168,6 +168,14 @@ export default {
     )
   },
 
+  // Role Types
+
+  createRoleType (topicModel) {
+    return http.post('/core/roletype', topicModel).then(response =>
+      new Topic(response.data)
+    )
+  },
+
   // Plugins
 
   getPlugins () {
