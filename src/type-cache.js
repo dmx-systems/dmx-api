@@ -1,4 +1,4 @@
-import { TopicType, AssocType } from './model'
+import { Topic, TopicType, AssocType } from './model'
 import restClient from './rest-client'
 import utils from './utils'
 import Vue from 'vue'
@@ -23,6 +23,10 @@ const actions = {
     _putAssocType(assocType)
   },
 
+  putRoleType (_, roleType) {
+    _putRoleType(roleType)
+  },
+
   // WebSocket messages
 
   _newTopicType (_, {topicType}) {
@@ -32,6 +36,8 @@ const actions = {
   _newAssocType (_, {assocType}) {
     putAssocType(assocType)
   },
+
+  // TODO: client-sync for new/updated role types
 
   _processDirectives (_, directives) {
     // DELETE_TYPE directives must be processed in the *next* tick.
@@ -146,6 +152,8 @@ function putAssocType (assocType) {
 
 // ---
 
+// TODO: unify these 3 functions
+
 function _putTopicType (topicType) {
   if (!(topicType instanceof TopicType)) {
     throw Error(topicType + " is not a TopicType")
@@ -160,6 +168,14 @@ function _putAssocType (assocType) {
   }
   // Note: type cache must be reactive
   Vue.set(state.assocTypes, assocType.uri, assocType)
+}
+
+function _putRoleType (roleType) {
+  if (!(roleType instanceof Topic)) {
+    throw Error(roleType + " is not a Topic")
+  }
+  // Note: type cache must be reactive
+  Vue.set(state.roleTypes, roleType.uri, roleType)
 }
 
 // ---
