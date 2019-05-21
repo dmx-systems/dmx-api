@@ -30,6 +30,10 @@ class DMXObject {
     return this.getType().value
   }
 
+  get backgroundColor () {
+    return this.getType()._getBackgroundColor() || DEFAULT_BACKGROUND_COLOR
+  }
+
   getCreationTime () {
     return restClient.getCreationTime(this.id)
   }
@@ -122,10 +126,6 @@ class Topic extends DMXObject {
 
   get iconColor () {
     return this.getType()._getColor() || DEFAULT_ICON_COLOR
-  }
-
-  get backgroundColor () {
-    return this.getType()._getBackgroundColor() || DEFAULT_BACKGROUND_COLOR
   }
 
   isType () {
@@ -416,6 +416,10 @@ class Type extends Topic {
     return this.getViewConfig('dmx.webclient.color')
   }
 
+  _getBackgroundColor () {
+    return this.getViewConfig('dmx.webclient.color#dmx.webclient.background_color')
+  }
+
   /**
    * @returns   a plain object.
    */
@@ -482,10 +486,6 @@ class TopicType extends Type {
 
   _getIcon () {
     return this.getViewConfig('dmx.webclient.icon')
-  }
-
-  _getBackgroundColor () {
-    return this.getViewConfig('dmx.webclient.color#dmx.webclient.background_color')
   }
 
   isTopicType () {
