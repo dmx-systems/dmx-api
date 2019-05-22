@@ -170,9 +170,10 @@ const _putRoleType  = _putType('Topic',     'roleTypes')
 
 function _putType (typeClassName, prop) {
   return type => {
+    /* FIXME: does not work in production mode as class names are mangled
     if (type.constructor.name !== typeClassName) {
-      throw Error(`${type} is not a ${typeClassName}`)
-    }
+      throw Error(`object is not a ${typeClassName} but a "${type.constructor.name}": ${JSON.stringify(type)}`)
+    } */
     // Note: type cache must be reactive
     Vue.set(state[prop], type.uri, type)
   }
