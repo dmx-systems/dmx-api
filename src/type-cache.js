@@ -41,8 +41,6 @@ const actions = {
     putRoleType(roleType)
   },
 
-  // TODO: client-sync for new/updated role types
-
   _processDirectives (_, directives) {
     // DELETE_TYPE directives must be processed in the *next* tick.
     // UPDATE_TYPE directives must be processed in the *same* tick.
@@ -76,6 +74,7 @@ const actions = {
         putAssocType(dir.arg)
         break
       }
+      // Note: role types are never updated as they are simple values and thus immutable
     })
     Vue.nextTick(() => {
       // console.log(`Type-cache: processing ${directives.length} directives (DELETE_TYPE)`)
@@ -87,7 +86,11 @@ const actions = {
         case "DELETE_ASSOCIATION_TYPE":
           removeAssocType(dir.arg.uri)
           break
-        // TODO: delete role type
+        case "DELETE_TOPIC":
+          if (dir.arg.typeUri === 'dmx.core.role_type') {
+            removeRoleType(dir.arg.uri)
+          }
+          break
         }
       })
     })
@@ -197,6 +200,11 @@ function removeTopicType (uri) {
 function removeAssocType (uri) {
   // Note: type cache must be reactive
   Vue.delete(state.assocTypes, uri)
+}
+
+function removeRoleType (uri) {
+  // Note: type cache must be reactive
+  Vue.delete(state.roleTypes, uri)
 }
 
 // ---
