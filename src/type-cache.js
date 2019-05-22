@@ -37,6 +37,10 @@ const actions = {
     putAssocType(assocType)
   },
 
+  _newRoleType (_, {roleType}) {
+    putRoleType(roleType)
+  },
+
   // TODO: client-sync for new/updated role types
 
   _processDirectives (_, directives) {
@@ -83,6 +87,7 @@ const actions = {
         case "DELETE_ASSOCIATION_TYPE":
           removeAssocType(dir.arg.uri)
           break
+        // TODO: delete role type
         }
       })
     })
@@ -148,6 +153,10 @@ function putTopicType (topicType) {
 
 function putAssocType (assocType) {
   _putAssocType(new AssocType(assocType))
+}
+
+function putRoleType (roleType) {
+  _putRoleType(new Topic(roleType))
 }
 
 // ---
