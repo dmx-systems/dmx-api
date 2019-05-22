@@ -67,10 +67,10 @@ const actions = {
     // console.log(`Type-cache: processing ${directives.length} directives (UPDATE_TYPE)`)
     directives.forEach(dir => {
       switch (dir.type) {
-      case "UPDATE_TOPIC_TYPE":
+      case 'UPDATE_TOPIC_TYPE':
         putTopicType(dir.arg)
         break
-      case "UPDATE_ASSOCIATION_TYPE":
+      case 'UPDATE_ASSOCIATION_TYPE':
         putAssocType(dir.arg)
         break
       }
@@ -80,13 +80,13 @@ const actions = {
       // console.log(`Type-cache: processing ${directives.length} directives (DELETE_TYPE)`)
       directives.forEach(dir => {
         switch (dir.type) {
-        case "DELETE_TOPIC_TYPE":
+        case 'DELETE_TOPIC_TYPE':
           removeTopicType(dir.arg.uri)
           break
-        case "DELETE_ASSOCIATION_TYPE":
+        case 'DELETE_ASSOCIATION_TYPE':
           removeAssocType(dir.arg.uri)
           break
-        case "DELETE_TOPIC":
+        case 'DELETE_TOPIC':
           if (dir.arg.typeUri === 'dmx.core.role_type') {
             removeRoleType(dir.arg.uri)
           }
@@ -164,30 +164,18 @@ function putRoleType (roleType) {
 
 // ---
 
-// TODO: unify these 3 functions
+const _putTopicType = _putType('TopicType', 'topicTypes')
+const _putAssocType = _putType('AssocType', 'assocTypes')
+const _putRoleType  = _putType('Topic',     'roleTypes')
 
-function _putTopicType (topicType) {
-  if (!(topicType instanceof TopicType)) {
-    throw Error(topicType + " is not a TopicType")
+function _putType (typeClassName, prop) {
+  return type => {
+    if (type.constructor.name !== typeClassName) {
+      throw Error(`${type} is not a ${typeClassName}`)
+    }
+    // Note: type cache must be reactive
+    Vue.set(state[prop], type.uri, type)
   }
-  // Note: type cache must be reactive
-  Vue.set(state.topicTypes, topicType.uri, topicType)
-}
-
-function _putAssocType (assocType) {
-  if (!(assocType instanceof AssocType)) {
-    throw Error(assocType + " is not an AssocType")
-  }
-  // Note: type cache must be reactive
-  Vue.set(state.assocTypes, assocType.uri, assocType)
-}
-
-function _putRoleType (roleType) {
-  if (!(roleType instanceof Topic)) {
-    throw Error(roleType + " is not a Topic")
-  }
-  // Note: type cache must be reactive
-  Vue.set(state.roleTypes, roleType.uri, roleType)
 }
 
 // ---
@@ -211,10 +199,10 @@ function removeRoleType (uri) {
 
 function bootstrapType () {
   return new TopicType({
-    uri: "dmx.core.meta_meta_type",
-    typeUri: "dmx.core.meta_meta_meta_type",
-    value: "Meta Meta Type",
-    dataTypeUri: "dmx.core.text",
+    uri: 'dmx.core.meta_meta_type',
+    typeUri: 'dmx.core.meta_meta_meta_type',
+    value: 'Meta Meta Type',
+    dataTypeUri: 'dmx.core.text',
     assocDefs: [],
     viewConfigTopics: []
   })
