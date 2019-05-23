@@ -385,6 +385,12 @@ export default {
     )
   },
 
+  getAuthorizationMethods () {
+    return http.get('/accesscontrol/methods').then(response =>
+      response.data
+    )
+  },
+
   /**
    * @param   password   expected to be SHA256 encoded
    *
