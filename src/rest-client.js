@@ -339,9 +339,14 @@ export default {
 
   // === Access Control ===
 
-  login (credentials) {
+  /**
+   * @param   credentials   object with 'username' and 'password' props
+   */
+  login (credentials, authMethod = 'Basic') {
     return http.post('/accesscontrol/login', undefined, {
-      auth: credentials
+      headers: {
+        'Authorization': authMethod + ' ' + btoa(credentials.username + ':' + credentials.password)
+      }
     })
   },
 
