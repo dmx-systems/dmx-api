@@ -164,6 +164,9 @@ function putRoleType (roleType) {
 
 // ---
 
+// Note: actually we want pass the class objects (Topic, TopicType, AssocType), not just their names, but in a side
+// effect the imports are undefined. TODO: learn about side effects (code executed while import) in conjunction with
+// webpack
 const _putTopicType = _putType('TopicType', 'topicTypes')
 const _putAssocType = _putType('AssocType', 'assocTypes')
 const _putRoleType  = _putType('Topic',     'roleTypes')

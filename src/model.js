@@ -27,11 +27,11 @@ class DMXObject {
   }
 
   get typeName () {
-    return this.getType().value
+    return this.type.value
   }
 
   get backgroundColor () {
-    return this.getType()._getBackgroundColor() || DEFAULT_BACKGROUND_COLOR
+    return this.type._getBackgroundColor() || DEFAULT_BACKGROUND_COLOR
   }
 
   getCreationTime () {
@@ -64,7 +64,7 @@ class DMXObject {
    * @return    this object
    */
   fillChilds () {
-    this.getType().assocDefs.forEach(assocDef => {
+    this.type.assocDefs.forEach(assocDef => {
       let childs = this.childs[assocDef.assocDefUri]
       let child
       if (!childs) {
@@ -115,17 +115,16 @@ class Topic extends DMXObject {
 
   // ---
 
-  // TODO: make it a "type" getter
-  getType () {
+  get type () {
     return typeCache.getTopicType(this.typeUri)
   }
 
   get icon () {
-    return this.getType()._getIcon() || DEFAULT_TOPIC_ICON
+    return this.type._getIcon() || DEFAULT_TOPIC_ICON
   }
 
   get iconColor () {
-    return this.getType()._getColor() || DEFAULT_ICON_COLOR
+    return this.type._getColor() || DEFAULT_ICON_COLOR
   }
 
   isType () {
@@ -238,13 +237,12 @@ class Assoc extends DMXObject {
 
   // ---
 
-  // TODO: make it a "type" getter
-  getType () {
+  get type () {
     return typeCache.getAssocType(this.typeUri)
   }
 
   get color () {
-    return this.getType()._getColor() || DEFAULT_ASSOC_COLOR
+    return this.type._getColor() || DEFAULT_ASSOC_COLOR
   }
 
   isType () {
