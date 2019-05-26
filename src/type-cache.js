@@ -9,8 +9,8 @@ import Vue from 'vue'
 const state = {
   topicTypes: undefined,    // object: type URI (string) -> TopicType
   assocTypes: undefined,    // object: type URI (string) -> AssocType
-  dataTypes: undefined,     // object: data type URI (string) -> data type (Topic)
-  roleTypes: undefined      // object: role type URI (string) -> role type (Topic)
+  dataTypes:  undefined,    // object: data type URI (string) -> data type (Topic)
+  roleTypes:  undefined     // object: role type URI (string) -> role type (Topic)
 }
 
 const actions = {
@@ -124,19 +124,28 @@ function init (store) {
 
 // ---
 
-const getTopicType = getType('topicTypes', 'topic type')
-const getAssocType = getType('assocTypes', 'assoc type')
-const getDataType  = getType('dataTypes',  'data type')
-const getRoleType  = getType('roleTypes',  'role type')
+function getTopicType (uri) {
+  return getType(uri, 'topic type', 'topicTypes')
+}
 
-function getType (prop, name) {
-  return uri => {
-    const type = state[prop] && state[prop][uri]
-    if (!type) {
-      throw Error(`${name} "${uri}" not in type cache`)
-    }
-    return type
+function getAssocType (uri) {
+  return getType(uri, 'assoc type', 'assocTypes')
+}
+
+function getDataType (uri) {
+  return getType(uri, 'data type', 'dataTypes')
+}
+
+function getRoleType (uri) {
+  return getType(uri, 'role type', 'roleTypes')
+}
+
+function getType (uri, className, prop) {
+  const type = state[prop] && state[prop][uri]
+  if (!type) {
+    throw Error(`${className} "${uri}" not in type cache`)
   }
+  return type
 }
 
 function getTypeById (id) {
@@ -164,22 +173,24 @@ function putRoleType (roleType) {
 
 // ---
 
-// Note: actually we want pass the class objects (Topic, TopicType, AssocType), not just their names, but in a side
-// effect the imports are undefined. TODO: learn about side effects (code executed while import) in conjunction with
-// webpack
-const _putTopicType = _putType('TopicType', 'topicTypes')
-const _putAssocType = _putType('AssocType', 'assocTypes')
-const _putRoleType  = _putType('Topic',     'roleTypes')
+function _putTopicType (topicType) {
+  _putType(topicType, TopicType, 'topicTypes')
+}
 
-function _putType (typeClassName, prop) {
-  return type => {
-    /* FIXME: does not work in production mode as class names are mangled
-    if (type.constructor.name !== typeClassName) {
-      throw Error(`object is not a ${typeClassName} but a "${type.constructor.name}": ${JSON.stringify(type)}`)
-    } */
-    // Note: type cache must be reactive
-    Vue.set(state[prop], type.uri, type)
+function _putAssocType (assocType) {
+  _putType(assocType, AssocType, 'assocTypes')
+}
+
+function _putRoleType (roleType) {
+  _putType(roleType, Topic, 'roleTypes')
+}
+
+function _putType (type, typeClass, prop) {
+  if (!(type instanceof typeClass)) {
+    throw Error(`can't cache "${type.constructor.name}", expected is "${typeClass.name}", ${JSON.stringify(type)}`)
   }
+  // Note: type cache must be reactive
+  Vue.set(state[prop], type.uri, type)
 }
 
 // ---
