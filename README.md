@@ -2,6 +2,13 @@
 
 ## Version History
 
+**0.31** -- May 27, 2019
+
+* Support for icon color and background color
+* Support for role types
+* REST client: support for authorization methods
+* Model: replace DMXObject `getType()` by `type` getter
+
 **0.30** -- Apr 22, 2019
 
 * Model: topic/assoc hide implies unpin
@@ -156,4 +163,4 @@
 
 ------------
 Jörg Richter  
-Apr 22, 2019
+May 27, 2019
