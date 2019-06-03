@@ -64,7 +64,7 @@ class DMXObject {
    * @return    this object
    */
   fillChilds () {
-    this.type.assocDefs.forEach(assocDef => {
+    this.type.compDefs.forEach(assocDef => {
       let childs = this.childs[assocDef.assocDefUri]
       let child
       if (!childs) {
@@ -366,8 +366,8 @@ class Type extends Topic {
   constructor (type) {
     super(type)
     this.dataTypeUri = type.dataTypeUri
-    this.assocDefs   = utils.instantiateMany(type.assocDefs, AssocDef)
-    this.viewConfig  = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
+    this.compDefs   = utils.instantiateMany(type.compDefs, AssocDef)
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
   }
 
   isSimple () {
@@ -391,11 +391,11 @@ class Type extends Topic {
   }
 
   getAssocDefById (id) {
-    const assocDefs = this.assocDefs.filter(assocDef => assocDef.id === id)
-    if (assocDefs.length !== 1) {
-      throw Error(`type "${this.uri}" has ${assocDefs.length} assoc defs with ID ${id}`)
+    const compDefs = this.compDefs.filter(assocDef => assocDef.id === id)
+    if (compDefs.length !== 1) {
+      throw Error(`type "${this.uri}" has ${compDefs.length} assoc defs with ID ${id}`)
     }
-    return assocDefs[0]
+    return compDefs[0]
   }
 
   // ### TODO: copy in AssocDef
@@ -425,7 +425,7 @@ class Type extends Topic {
 
     const emptyChilds = () => {
       const childs = {}
-      this.assocDefs.forEach(assocDef => {
+      this.compDefs.forEach(assocDef => {
         const child = assocDef.getChildType().emptyInstance()
         childs[assocDef.assocDefUri] = assocDef.isOne() ? child : [child]
       })
@@ -443,7 +443,7 @@ class Type extends Topic {
 
   toExternalForm () {
     const type = JSON.parse(JSON.stringify(this))
-    type.assocDefs.forEach(assocDef => {
+    type.compDefs.forEach(assocDef => {
       assocDef.assocTypeUri = assocDef.typeUri
       delete assocDef.typeUri
     })
@@ -467,7 +467,7 @@ class TopicType extends Type {
           value: simpleValue
         }
       } else {
-        const assocDef = type.assocDefs[0]
+        const assocDef = type.compDefs[0]
         const child = _newTopicModel(assocDef.childTypeUri)
         return {
           childs: {

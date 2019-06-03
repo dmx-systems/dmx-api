@@ -218,7 +218,7 @@ function bootstrapType () {
     typeUri: 'dmx.core.meta_meta_meta_type',
     value: 'Meta Meta Type',
     dataTypeUri: 'dmx.core.text',
-    assocDefs: [],
+    compDefs: [],
     viewConfigTopics: []
   })
 }
