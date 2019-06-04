@@ -134,7 +134,7 @@ class Topic extends DMXObject {
   }
 
   isCompDef () {
-    return false    // topics are never assoc defs
+    return false    // topics are never comp defs
   }
 
   /**
@@ -393,7 +393,7 @@ class Type extends Topic {
   getCompDefById (id) {
     const compDefs = this.compDefs.filter(compDef => compDef.id === id)
     if (compDefs.length !== 1) {
-      throw Error(`type "${this.uri}" has ${compDefs.length} assoc defs with ID ${id}`)
+      throw Error(`type "${this.uri}" has ${compDefs.length} comp defs with ID ${id}`)
     }
     return compDefs[0]
   }
@@ -534,7 +534,7 @@ class CompDef extends Assoc {
     if (cardinality) {
       this.childCardinalityUri = cardinality.uri
     } else {
-      throw Error(`assoc def ${this.compDefUri} has no cardinality child (parent type: ${this.parentTypeUri})`)
+      throw Error(`comp def ${this.compDefUri} has no cardinality child (parent type: ${this.parentTypeUri})`)
     }
     //
     const isIdentityAttr = this.childs['dmx.core.identity_attr']
@@ -542,7 +542,7 @@ class CompDef extends Assoc {
       this.isIdentityAttr = isIdentityAttr.value
     } else {
       // ### TODO: should an isIdentityAttr child always exist?
-      // console.warn(`Assoc def ${this.compDefUri} has no identity_attr child (parent type: ${this.parentTypeUri})`)
+      // console.warn(`Comp def ${this.compDefUri} has no identity_attr child (parent type: ${this.parentTypeUri})`)
       this.isIdentityAttr = false
     }
     //
@@ -551,7 +551,7 @@ class CompDef extends Assoc {
       this.includeInLabel = includeInLabel.value
     } else {
       // ### TODO: should an includeInLabel child always exist?
-      //console.warn(`Assoc def ${this.compDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
+      //console.warn(`Comp def ${this.compDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
       this.includeInLabel = false
     }
   }
