@@ -64,20 +64,20 @@ class DMXObject {
    * @return    this object
    */
   fillChilds () {
-    this.type.compDefs.forEach(assocDef => {
-      let childs = this.childs[assocDef.assocDefUri]
+    this.type.compDefs.forEach(compDef => {
+      let childs = this.childs[compDef.compDefUri]
       let child
       if (!childs) {
         // Note: child instantiation is done by the Topic constructor (recursively)
-        child = new Topic(assocDef.getChildType().emptyInstance())
+        child = new Topic(compDef.getChildType().emptyInstance())
       }
-      if (assocDef.isOne()) {
+      if (compDef.isOne()) {
         if (childs) {
           childs.fillChilds()
         } else {
           childs = child
         }
-        childs.fillRelatingAssoc(assocDef)
+        childs.fillRelatingAssoc(compDef)
       } else {
         if (childs) {
           childs.forEach(child => {
@@ -87,12 +87,12 @@ class DMXObject {
           childs = [child]
         }
         childs.forEach(child => {
-          child.fillRelatingAssoc(assocDef)
+          child.fillRelatingAssoc(compDef)
         })
       }
       if (child) {
         // Note: this object might be on display. Setting the childs must be reactive.
-        Vue.set(this.childs, assocDef.assocDefUri, childs)
+        Vue.set(this.childs, compDef.compDefUri, childs)
       }
     })
     return this
@@ -133,7 +133,7 @@ class Topic extends DMXObject {
            this.typeUri === 'dmx.core.assoc_type'
   }
 
-  isAssocDef () {
+  isCompDef () {
     return false    // topics are never assoc defs
   }
 
@@ -191,13 +191,13 @@ class Topic extends DMXObject {
     }
   }
 
-  fillRelatingAssoc (assocDef) {
+  fillRelatingAssoc (compDef) {
     if (this.assoc) {
       this.assoc.fillChilds()
     } else {
-      this.assoc = new Assoc(assocDef.getInstanceLevelAssocType().emptyInstance())
+      this.assoc = new Assoc(compDef.getInstanceLevelAssocType().emptyInstance())
       // Note: reactivity seems not be an issue here. I don't know why.
-      // Vue.set(this, 'assoc', new Assoc(assocDef.getInstanceLevelAssocType().emptyInstance()))
+      // Vue.set(this, 'assoc', new Assoc(compDef.getInstanceLevelAssocType().emptyInstance()))
     }
   }
 }
@@ -249,7 +249,7 @@ class Assoc extends DMXObject {
     return false    // assocs are never types
   }
 
-  isAssocDef () {
+  isCompDef () {
     return this.typeUri === 'dmx.core.composition_def'
   }
 
@@ -299,10 +299,10 @@ class Assoc extends DMXObject {
     })
   }
 
-  asAssocDef () {
+  asCompDef () {
     const role = this.getRole('dmx.core.parent_type')
     const type = typeCache.getTypeById(role.topicId)
-    return type.getAssocDefById(this.id)
+    return type.getCompDefById(this.id)
   }
 }
 
@@ -366,7 +366,7 @@ class Type extends Topic {
   constructor (type) {
     super(type)
     this.dataTypeUri = type.dataTypeUri
-    this.compDefs   = utils.instantiateMany(type.compDefs, AssocDef)
+    this.compDefs   = utils.instantiateMany(type.compDefs, CompDef)
     this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
   }
 
@@ -390,15 +390,15 @@ class Type extends Topic {
     return typeCache.getDataType(this.dataTypeUri)
   }
 
-  getAssocDefById (id) {
-    const compDefs = this.compDefs.filter(assocDef => assocDef.id === id)
+  getCompDefById (id) {
+    const compDefs = this.compDefs.filter(compDef => compDef.id === id)
     if (compDefs.length !== 1) {
       throw Error(`type "${this.uri}" has ${compDefs.length} assoc defs with ID ${id}`)
     }
     return compDefs[0]
   }
 
-  // ### TODO: copy in AssocDef
+  // ### TODO: copy in CompDef
   getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
     const configTopic = this.viewConfig['dmx.webclient.view_config']
@@ -425,9 +425,9 @@ class Type extends Topic {
 
     const emptyChilds = () => {
       const childs = {}
-      this.compDefs.forEach(assocDef => {
-        const child = assocDef.getChildType().emptyInstance()
-        childs[assocDef.assocDefUri] = assocDef.isOne() ? child : [child]
+      this.compDefs.forEach(compDef => {
+        const child = compDef.getChildType().emptyInstance()
+        childs[compDef.compDefUri] = compDef.isOne() ? child : [child]
       })
       return childs
     }
@@ -443,9 +443,9 @@ class Type extends Topic {
 
   toExternalForm () {
     const type = JSON.parse(JSON.stringify(this))
-    type.compDefs.forEach(assocDef => {
-      assocDef.assocTypeUri = assocDef.typeUri
-      delete assocDef.typeUri
+    type.compDefs.forEach(compDef => {
+      compDef.assocTypeUri = compDef.typeUri
+      delete compDef.typeUri
     })
     console.log('toExternalForm', type)
     return type
@@ -467,11 +467,11 @@ class TopicType extends Type {
           value: simpleValue
         }
       } else {
-        const assocDef = type.compDefs[0]
-        const child = _newTopicModel(assocDef.childTypeUri)
+        const compDef = type.compDefs[0]
+        const child = _newTopicModel(compDef.childTypeUri)
         return {
           childs: {
-            [assocDef.assocDefUri]: assocDef.isOne() ? child : [child]
+            [compDef.compDefUri]: compDef.isOne() ? child : [child]
           }
         }
       }
@@ -514,11 +514,11 @@ class AssocType extends Type {
   }
 }
 
-class AssocDef extends Assoc {
+class CompDef extends Assoc {
 
-  constructor (assocDef) {
-    super(assocDef)
-    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(assocDef.viewConfigTopics, Topic))  // TODO: rename prop?
+  constructor (compDef) {
+    super(compDef)
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(compDef.viewConfigTopics, Topic))  // TODO: rename prop?
     //
     // derived properties
     //
@@ -527,14 +527,14 @@ class AssocDef extends Assoc {
     //
     const customAssocType = this.childs['dmx.core.assoc_type#dmx.core.custom_assoc_type']
     this.customAssocTypeUri = customAssocType && customAssocType.uri    // may be undefined
-    this.assocDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
+    this.compDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
     this.instanceLevelAssocTypeUri = this.customAssocTypeUri || this._defaultInstanceLevelAssocTypeUri()
     //
     const cardinality = this.childs['dmx.core.cardinality']
     if (cardinality) {
       this.childCardinalityUri = cardinality.uri
     } else {
-      throw Error(`assoc def ${this.assocDefUri} has no cardinality child (parent type: ${this.parentTypeUri})`)
+      throw Error(`assoc def ${this.compDefUri} has no cardinality child (parent type: ${this.parentTypeUri})`)
     }
     //
     const isIdentityAttr = this.childs['dmx.core.identity_attr']
@@ -542,7 +542,7 @@ class AssocDef extends Assoc {
       this.isIdentityAttr = isIdentityAttr.value
     } else {
       // ### TODO: should an isIdentityAttr child always exist?
-      // console.warn(`Assoc def ${this.assocDefUri} has no identity_attr child (parent type: ${this.parentTypeUri})`)
+      // console.warn(`Assoc def ${this.compDefUri} has no identity_attr child (parent type: ${this.parentTypeUri})`)
       this.isIdentityAttr = false
     }
     //
@@ -551,7 +551,7 @@ class AssocDef extends Assoc {
       this.includeInLabel = includeInLabel.value
     } else {
       // ### TODO: should an includeInLabel child always exist?
-      //console.warn(`Assoc def ${this.assocDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
+      //console.warn(`Assoc def ${this.compDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
       this.includeInLabel = false
     }
   }
@@ -602,7 +602,7 @@ class AssocDef extends Assoc {
   // TODO: a getViewConfig() form that falls back to the child type view config?
 
   _defaultInstanceLevelAssocTypeUri () {
-    if (!this.isAssocDef()) {
+    if (!this.isCompDef()) {
       throw Error(`unexpected association type URI: "${this.typeUri}"`);
     }
     return 'dmx.core.composition';

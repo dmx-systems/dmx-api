@@ -18,8 +18,8 @@ function instantiateMany (objects, clazz) {
 
 function instantiateChilds (childs) {
   const _childs = {}
-  for (var assocDefUri in childs) {
-    _childs[assocDefUri] = _instantiateChild(childs[assocDefUri])
+  for (var compDefUri in childs) {
+    _childs[compDefUri] = _instantiateChild(childs[compDefUri])
   }
   return _childs
 }

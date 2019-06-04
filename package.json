@@ -15,7 +15,7 @@
     "stats": "../../node_modules/.bin/webpack -p --json > stats.json && ../../node_modules/.bin/webpack-bundle-analyzer stats.json dist"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "clone": "^2.1.2",
     "debounce": "^1.2.0"
   }
