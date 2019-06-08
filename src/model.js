@@ -207,12 +207,12 @@ class Assoc extends DMXObject {
   constructor (assoc) {
     super(assoc)
     // Note: for update models the roles are optional.
-    // Compare to ModelFactoryImpl.newAssociationModel(JSONObject assoc).
-    if (assoc.role1) {
-      this.role1 = new Player(assoc.role1)
+    // Compare to ModelFactoryImpl.newAssocModel(JSONObject assoc).
+    if (assoc.player1) {
+      this.player1 = new Player(assoc.player1)
     }
-    if (assoc.role2) {
-      this.role2 = new Player(assoc.role2)
+    if (assoc.player2) {
+      this.player2 = new Player(assoc.player2)
     }
   }
 
@@ -220,19 +220,19 @@ class Assoc extends DMXObject {
 
   // TODO: rename to getPlayer
   getRole (roleTypeUri) {
-    var match1 = this.role1.roleTypeUri === roleTypeUri
-    var match2 = this.role2.roleTypeUri === roleTypeUri
+    var match1 = this.player1.roleTypeUri === roleTypeUri
+    var match2 = this.player2.roleTypeUri === roleTypeUri
     if (match1 && match2) {
       throw Error(`both role types of association ${this.id} match ${roleTypeUri}`)
     }
-    return match1 ? this.role1 : match2 ? this.role2 : undefined
+    return match1 ? this.player1 : match2 ? this.player2 : undefined
   }
 
   /**
    * @param   id    a topic ID or an assoc ID
    */
   hasPlayer (id) {
-    return this.role1.id === id || this.role2.id === id
+    return this.player1.id === id || this.player2.id === id
   }
 
   // ---
@@ -293,8 +293,8 @@ class Assoc extends DMXObject {
       typeUri: this.typeUri,
       value:   this.value,
       childs: {},     // TODO: childs needed in a ViewTopic?
-      role1:   this.role1,
-      role2:   this.role2,
+      player1: this.player1,
+      player2: this.player2,
       viewProps
     })
   }
@@ -796,10 +796,10 @@ class Topicmap extends Topic {
    */
   getOtherPlayer (assoc, id) {
     let _id
-    if (assoc.role1.id === id) {
-      _id = assoc.role2.id
-    } else if (assoc.role2.id === id) {
-      _id = assoc.role1.id
+    if (assoc.player1.id === id) {
+      _id = assoc.player2.id
+    } else if (assoc.player2.id === id) {
+      _id = assoc.player1.id
     } else {
       throw Error(`${id} is not a player in assoc ${JSON.stringify(assoc)}`)
     }
@@ -832,8 +832,8 @@ class Topicmap extends Topic {
     if (o.isTopic()) {
       return o.getPosition()
     } else {
-      const pos1 = this.getPosition(o.role1.id)
-      const pos2 = this.getPosition(o.role2.id)
+      const pos1 = this.getPosition(o.player1.id)
+      const pos2 = this.getPosition(o.player2.id)
       return {
         x: (pos1.x + pos2.x) / 2,
         y: (pos1.y + pos2.y) / 2
