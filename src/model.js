@@ -218,8 +218,7 @@ class Assoc extends DMXObject {
 
   // ---
 
-  // TODO: rename to getPlayer
-  getRole (roleTypeUri) {
+  getPlayer (roleTypeUri) {
     var match1 = this.player1.roleTypeUri === roleTypeUri
     var match2 = this.player2.roleTypeUri === roleTypeUri
     if (match1 && match2) {
@@ -300,7 +299,7 @@ class Assoc extends DMXObject {
   }
 
   asCompDef () {
-    const role = this.getRole('dmx.core.parent_type')
+    const role = this.getPlayer('dmx.core.parent_type')
     const type = typeCache.getTypeById(role.topicId)
     return type.getCompDefById(this.id)
   }
@@ -522,8 +521,8 @@ class CompDef extends Assoc {
     //
     // derived properties
     //
-    this.parentTypeUri = this.getRole('dmx.core.parent_type').topicUri
-    this.childTypeUri  = this.getRole('dmx.core.child_type').topicUri
+    this.parentTypeUri = this.getPlayer('dmx.core.parent_type').topicUri
+    this.childTypeUri  = this.getPlayer('dmx.core.child_type').topicUri
     //
     const customAssocType = this.childs['dmx.core.assoc_type#dmx.core.custom_assoc_type']
     this.customAssocTypeUri = customAssocType && customAssocType.uri    // may be undefined
