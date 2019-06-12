@@ -16,10 +16,10 @@ function instantiateMany (objects, clazz) {
 
 // ---
 
-function instantiateChilds (childs) {
+function instantiateChilds (children) {
   const _childs = {}
-  for (var compDefUri in childs) {
-    _childs[compDefUri] = _instantiateChild(childs[compDefUri])
+  for (var compDefUri in children) {
+    _childs[compDefUri] = _instantiateChild(children[compDefUri])
   }
   return _childs
 }
