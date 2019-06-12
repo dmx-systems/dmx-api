@@ -10,8 +10,8 @@ export default {
 
   getTopic (id, includeChilds, includeAssocChilds) {
     return http.get(`/core/topic/${id}`, {params: {
-      include_childs: includeChilds,
-      include_assoc_childs: includeAssocChilds
+      children: includeChilds,
+      assoc_children: includeAssocChilds
     }}).then(response =>
       new Topic(response.data)
     )
@@ -19,8 +19,8 @@ export default {
 
   getTopicByUri (uri, includeChilds, includeAssocChilds) {
     return http.get(`/core/topic/by_uri/${uri}`, {params: {
-      include_childs: includeChilds,
-      include_assoc_childs: includeAssocChilds
+      children: includeChilds,
+      assoc_children: includeAssocChilds
     }}).then(response =>
       new Topic(response.data)
     )
@@ -78,8 +78,8 @@ export default {
 
   getAssoc (id, includeChilds, includeAssocChilds) {
     return http.get(`/core/association/${id}`, {params: {
-      include_childs: includeChilds,
-      include_assoc_childs: includeAssocChilds
+      children: includeChilds,
+      assoc_children: includeAssocChilds
     }}).then(response =>
       new Assoc(response.data)
     )
@@ -289,8 +289,8 @@ export default {
 
   getDomainTopics (geoCoordId, includeChilds, includeAssocChilds) {
     return http.get(`/geomap/coord/${geoCoordId}`, {params: {
-      include_childs: includeChilds,
-      include_assoc_childs: includeAssocChilds
+      children: includeChilds,
+      assoc_children: includeAssocChilds
     }}).then(response =>
       utils.instantiateMany(response.data, Topic)
     )
@@ -320,8 +320,8 @@ export default {
 
   getAssignedTopics (workspaceId, topicTypeUri, includeChilds, includeAssocChilds) {
     return http.get(`/workspace/${workspaceId}/topics/${topicTypeUri}`, {params: {
-      include_childs: includeChilds,
-      include_assoc_childs: includeAssocChilds
+      children: includeChilds,
+      assoc_children: includeAssocChilds
     }}).then(response =>
       utils.instantiateMany(response.data, Topic)
     )
