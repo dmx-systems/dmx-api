@@ -8,19 +8,19 @@ export default {
 
   // Topics
 
-  getTopic (id, includeChilds, includeAssocChilds) {
+  getTopic (id, includeChildren, includeAssocChildren) {
     return http.get(`/core/topic/${id}`, {params: {
-      children: includeChilds,
-      assoc_children: includeAssocChilds
+      children: includeChildren,
+      assoc_children: includeAssocChildren
     }}).then(response =>
       new Topic(response.data)
     )
   },
 
-  getTopicByUri (uri, includeChilds, includeAssocChilds) {
+  getTopicByUri (uri, includeChildren, includeAssocChildren) {
     return http.get(`/core/topic/by_uri/${uri}`, {params: {
-      children: includeChilds,
-      assoc_children: includeAssocChilds
+      children: includeChildren,
+      assoc_children: includeAssocChildren
     }}).then(response =>
       new Topic(response.data)
     )
@@ -76,10 +76,10 @@ export default {
 
   // Associations
 
-  getAssoc (id, includeChilds, includeAssocChilds) {
+  getAssoc (id, includeChildren, includeAssocChildren) {
     return http.get(`/core/association/${id}`, {params: {
-      children: includeChilds,
-      assoc_children: includeAssocChilds
+      children: includeChildren,
+      assoc_children: includeAssocChildren
     }}).then(response =>
       new Assoc(response.data)
     )
@@ -287,10 +287,10 @@ export default {
     )
   },
 
-  getDomainTopics (geoCoordId, includeChilds, includeAssocChilds) {
+  getDomainTopics (geoCoordId, includeChildren, includeAssocChildren) {
     return http.get(`/geomap/coord/${geoCoordId}`, {params: {
-      children: includeChilds,
-      assoc_children: includeAssocChilds
+      children: includeChildren,
+      assoc_children: includeAssocChildren
     }}).then(response =>
       utils.instantiateMany(response.data, Topic)
     )
@@ -318,10 +318,10 @@ export default {
     )
   },
 
-  getAssignedTopics (workspaceId, topicTypeUri, includeChilds, includeAssocChilds) {
+  getAssignedTopics (workspaceId, topicTypeUri, includeChildren, includeAssocChildren) {
     return http.get(`/workspace/${workspaceId}/topics/${topicTypeUri}`, {params: {
-      children: includeChilds,
-      assoc_children: includeAssocChilds
+      children: includeChildren,
+      assoc_children: includeAssocChildren
     }}).then(response =>
       utils.instantiateMany(response.data, Topic)
     )

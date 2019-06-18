@@ -23,7 +23,7 @@ class DMXObject {
     this.uri     = object.uri
     this.typeUri = object.typeUri
     this.value   = object.value
-    this.children = utils.instantiateChilds(object.children)
+    this.children = utils.instantiateChildren(object.children)
   }
 
   get typeName () {
@@ -63,7 +63,7 @@ class DMXObject {
    *
    * @return    this object
    */
-  fillChilds () {
+  fillChildren () {
     this.type.compDefs.forEach(compDef => {
       let children = this.children[compDef.compDefUri]
       let child
@@ -73,7 +73,7 @@ class DMXObject {
       }
       if (compDef.isOne()) {
         if (children) {
-          children.fillChilds()
+          children.fillChildren()
         } else {
           children = child
         }
@@ -81,7 +81,7 @@ class DMXObject {
       } else {
         if (children) {
           children.forEach(child => {
-            child.fillChilds()
+            child.fillChildren()
           })
         } else {
           children = [child]
@@ -193,7 +193,7 @@ class Topic extends DMXObject {
 
   fillRelatingAssoc (compDef) {
     if (this.assoc) {
-      this.assoc.fillChilds()
+      this.assoc.fillChildren()
     } else {
       this.assoc = new Assoc(compDef.getInstanceLevelAssocType().emptyInstance())
       // Note: reactivity seems not be an issue here. I don't know why.
@@ -422,7 +422,7 @@ class Type extends Topic {
    */
   emptyInstance () {
 
-    const emptyChilds = () => {
+    const emptyChildren = () => {
       const children = {}
       this.compDefs.forEach(compDef => {
         const child = compDef.getChildType().emptyInstance()
@@ -436,7 +436,7 @@ class Type extends Topic {
       uri: '',
       typeUri: this.uri,
       value: '',
-      children: emptyChilds()
+      children: emptyChildren()
     }
   }
 

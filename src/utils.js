@@ -16,12 +16,12 @@ function instantiateMany (objects, clazz) {
 
 // ---
 
-function instantiateChilds (children) {
-  const _childs = {}
+function instantiateChildren (children) {
+  const _children = {}
   for (var compDefUri in children) {
-    _childs[compDefUri] = _instantiateChild(children[compDefUri])
+    _children[compDefUri] = _instantiateChild(children[compDefUri])
   }
-  return _childs
+  return _children
 }
 
 function _instantiateChild (child) {
@@ -108,7 +108,7 @@ function setCookie (name, value) {
 
 export default {
   instantiateMany,
-  instantiateChilds,
+  instantiateChildren,
   clone,
   debounce,
   mapById,
