@@ -194,12 +194,11 @@ export default {
 
   // === Topicmaps ===
 
-  createTopicmap (name, topicmapTypeUri, isPrivate) {
+  createTopicmap (name, topicmapTypeUri) {
     return http.post('/topicmap', undefined, {
       params: {
         name,
-        topicmap_type_uri: topicmapTypeUri,
-        private: isPrivate
+        topicmap_type_uri: topicmapTypeUri
       }
     }).then(response =>
       new Topic(response.data)
