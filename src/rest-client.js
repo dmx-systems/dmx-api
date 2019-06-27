@@ -194,8 +194,8 @@ export default {
 
   // === Topicmaps ===
 
-  createTopicmap (name, topicmapTypeUri) {
-    return http.post('/topicmap', undefined, {
+  createTopicmap (name, topicmapTypeUri, viewProps) {
+    return http.post('/topicmap', viewProps, {
       params: {
         name,
         topicmap_type_uri: topicmapTypeUri
