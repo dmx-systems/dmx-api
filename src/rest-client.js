@@ -47,7 +47,7 @@ export default {
     )
   },
 
-  searchTopics (searchTerm, typeUri) {
+  queryTopicsFulltext (searchTerm, typeUri) {
     const config = {params: {search: searchTerm, field: typeUri}}
     return http.get('/core/topic', config).then(response =>
       utils.instantiateMany(response.data, Topic)
