@@ -2,6 +2,17 @@
 
 ## Version History
 
+**0.32** -- Jul 22, 2019
+
+* Several API and JSON renamings:
+    * "AssocDef" -> "CompDef" (composition definition)
+    * "Role" -> "Player"
+    * "Childs" -> "Children"
+* REST client:
+    * `createTopicmap()`: drop `isPrivate` param, add `viewProps` param
+    * Rename `searchTopics()` -> `queryTopicsFulltext()`
+* Change license to `AGPL-3.0`
+
 **0.31** -- May 27, 2019
 
 * Support for icon color and background color
@@ -163,4 +174,4 @@
 
 ------------
 Jörg Richter  
-May 27, 2019
+Jul 22, 2019
