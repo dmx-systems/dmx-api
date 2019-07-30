@@ -120,6 +120,14 @@ export default {
     )
   },
 
+  // Object
+
+  getRelatedTopicsWithoutChilds (objectId) {
+    return http.get(`/core/object/${objectId}/related_topics`).then(response =>
+      utils.instantiateMany(response.data, RelatedTopic)
+    )
+  },
+
   // Multi Topic/Assoc
 
   deleteMulti (idLists) {
