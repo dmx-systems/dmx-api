@@ -58,6 +58,10 @@ class DMXObject {
     return restClient.getTopicmapTopics(this.id)
   }
 
+  getRelatedTopicsWithoutChilds () {
+    return restClient.getRelatedTopicsWithoutChilds(this.id)
+  }
+
   /**
    * Operates in-place
    *
