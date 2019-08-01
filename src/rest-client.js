@@ -47,11 +47,11 @@ export default {
     )
   },
 
-  queryTopicsFulltext (searchTerm, typeUri) {
-    const config = {params: {search: searchTerm, field: typeUri}}
-    return http.get('/core/topic', config).then(response =>
-      utils.instantiateMany(response.data, Topic)
-    )
+  queryTopicsFulltext (query, typeUri) {
+    return http.get('/core/topic', {params: {query, type_uri: typeUri}}).then(response => ({
+      query: response.data.query,
+      topics: utils.instantiateMany(response.data.topics, Topic)
+    }))
   },
 
   createTopic (topicModel) {
