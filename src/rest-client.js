@@ -2,6 +2,10 @@ import http from 'axios'
 import utils from './utils'
 import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, Geomap } from './model'
 
+// Vanilla instance without error interceptor.
+// In contrast the default http instance allows the caller to set an error handler (see setErrorHandler()).
+const _http = http.create()
+
 export default {
 
   // === Core ===
@@ -48,7 +52,8 @@ export default {
   },
 
   queryTopicsFulltext (query, typeUri) {
-    return http.get('/core/topic', {params: {query, type_uri: typeUri}}).then(response => ({
+    // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
+    return _http.get('/core/topic', {params: {query, type_uri: typeUri}}).then(response => ({
       query: response.data.query,
       topics: utils.instantiateMany(response.data.topics, Topic)
     }))
@@ -350,7 +355,8 @@ export default {
    * @param   credentials   object with 'username' and 'password' props
    */
   login (credentials, authMethod = 'Basic') {
-    return http.post('/accesscontrol/login', undefined, {
+    // suppress error handler as the client application is supposed to present the error to the user specially
+    return _http.post('/accesscontrol/login', undefined, {
       headers: {
         'Authorization': authMethod + ' ' + btoa(credentials.username + ':' + credentials.password)
       }
