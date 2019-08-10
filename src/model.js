@@ -749,11 +749,17 @@ class Topicmap extends Topic {
     return op
   }
 
+  /**
+   * Note: if the topic is not in this topicmap nothing is performed.
+   */
   removeTopic (id) {
     // reactivity is required to trigger "visibleTopicIds" getter (module dm5-cytoscape-renderer)
     Vue.delete(this._topics, id)
   }
 
+  /**
+   * Note: if the assoc is not in this topicmap nothing is performed.
+   */
   removeAssoc (id) {
     // reactivity is required to trigger "visibleAssocIds" getter (module dm5-cytoscape-renderer)
     Vue.delete(this._assocs, id)
@@ -931,10 +937,19 @@ class ViewAssoc extends viewPropsMixin(Assoc) {
 }
 
 class Geomap extends Topic {
+
   constructor (geomap) {
     super(geomap.topic)
     this.viewProps = geomap.viewProps
     this.geoCoordTopics = geomap.geoCoordTopics     // instantiating dm5.Topic objects not required at the moment
+  }
+
+  removeTopic (id) {
+    // TODO; skeleton needed by dm5-topicmap-panel contract
+  }
+
+  removeAssoc (id) {
+    // TODO; skeleton needed by dm5-topicmap-panel contract
   }
 }
 
