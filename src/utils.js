@@ -106,6 +106,35 @@ function setCookie (name, value) {
 
 // ---
 
+const luceneSymbols = [
+  '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '\\', 'AND', 'OR', 'NOT'
+]
+
+function containsLuceneSymbol (input) {
+  return luceneSymbols.some(symbol => input.includes(symbol))
+}
+
+/**
+ * Transforms user input into a Lucene query that can be used for an incremental search.
+ *
+ * @return    a Lucene query.
+ *            If input is a single character returns empty string to signalize the caller no search should be triggered.
+ */
+function fulltextQuery (input) {
+  let query = input.trim()
+  if (!containsLuceneSymbol(input)) {
+    query = query.split(/ +/).join(' AND ')
+    if (query.length === 1) {     // don't search single character
+      query = ''
+    } else if (query && !input.endsWith(' ')) {
+      query += '*'
+    }
+  }
+  return query
+}
+
+// ---
+
 export default {
   instantiateMany,
   instantiateChildren,
@@ -118,5 +147,6 @@ export default {
   filter,
   isEmpty,
   getCookie,
-  setCookie
+  setCookie,
+  fulltextQuery
 }
