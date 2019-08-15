@@ -2,6 +2,14 @@
 
 ## Version History
 
+**0.33** -- Aug 15, 2019
+
+* Model: add `getRelatedTopicsWithoutChilds()` to DMXObject
+* REST client:
+    * add `getRelatedTopicsWithoutChilds()`
+    * suppress error handler for certain requests
+* Utils: add `fulltextQuery()`
+
 **0.32** -- Jul 22, 2019
 
 * Several API and JSON renamings:
@@ -174,4 +182,4 @@
 
 ------------
 Jörg Richter  
-Jul 22, 2019
+Aug 15, 2019
