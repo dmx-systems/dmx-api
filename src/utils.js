@@ -120,11 +120,11 @@ function containsLuceneSymbol (input) {
  * @return    a Lucene query.
  *            If input is a single character returns empty string to signalize the caller no search should be triggered.
  */
-function fulltextQuery (input) {
+function fulltextQuery (input, allowSingleLetterSearch) {
   let query = input.trim()
   if (!containsLuceneSymbol(input)) {
     query = query.split(/ +/).join(' AND ')
-    if (query.length === 1) {     // don't search single character
+    if (query.length === 1 && !allowSingleLetterSearch) {
       query = ''
     } else if (query && !input.endsWith(' ')) {
       query += '*'
