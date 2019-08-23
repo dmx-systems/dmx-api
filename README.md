@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.34** -- Aug 23, 2019
+
+* Utils: add param `allowSingleLetterSearch` to `fulltextQuery()` 
+
 **0.33** -- Aug 15, 2019
 
 * Model: add `getRelatedTopicsWithoutChilds()` to DMXObject
@@ -182,4 +186,4 @@
 
 ------------
 Jörg Richter  
-Aug 15, 2019
+Aug 23, 2019
