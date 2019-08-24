@@ -117,6 +117,10 @@ function containsLuceneSymbol (input) {
 /**
  * Transforms user input into a Lucene query that can be used for an incremental search.
  *
+ * @param     allowSingleLetterSearch   optional; if trueish a search for a single letter as *word begin* is allowed.
+ *                                      Note: a search for a single letter as *whole word* (that is when followed by
+ *                                      space) is always allowed.
+ *
  * @return    a Lucene query.
  *            If input is a single character returns empty string to signalize the caller no search should be triggered.
  */
@@ -124,10 +128,12 @@ function fulltextQuery (input, allowSingleLetterSearch) {
   let query = input.trim()
   if (!containsLuceneSymbol(input)) {
     query = query.split(/ +/).join(' AND ')
-    if (query.length === 1 && !allowSingleLetterSearch) {
-      query = ''
-    } else if (query && !input.endsWith(' ')) {
-      query += '*'
+    if (!input.endsWith(' ')) {
+      if (query.length === 1 && !allowSingleLetterSearch) {
+        query = ''
+      } else if (query) {
+        query += '*'
+      }
     }
   }
   return query
