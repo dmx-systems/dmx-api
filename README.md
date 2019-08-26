@@ -2,6 +2,10 @@
 
 ## Version History
 
+**0.35** -- Aug 26, 2019
+
+* Utils: `fulltextQuery()` supports single-letter whole-word search
+
 **0.34** -- Aug 23, 2019
 
 * Utils: add param `allowSingleLetterSearch` to `fulltextQuery()` 
@@ -186,4 +190,4 @@
 
 ------------
 Jörg Richter  
-Aug 23, 2019
+Aug 26, 2019
