@@ -159,6 +159,28 @@ function getTypeById (id) {
 
 // ---
 
+function getAllTopicTypes () {
+  return getAllTypes('topicTypes')
+}
+
+function getAllAssocTypes () {
+  return getAllTypes('assocTypes')
+}
+
+function getAllDataTypes () {
+  return getAllTypes('dataTypes')
+}
+
+function getAllRoleTypes () {
+  return getAllTypes('roleTypes')
+}
+
+function getAllTypes (prop) {
+  return Object.values(state[prop])
+}
+
+// ---
+
 function putTopicType (topicType) {
   _putTopicType(new TopicType(topicType))
 }
@@ -229,5 +251,9 @@ export default {
   getAssocType,
   getDataType,
   getRoleType,
-  getTypeById
+  getTypeById,
+  getAllTopicTypes,
+  getAllAssocTypes,
+  getAllDataTypes,
+  getAllRoleTypes
 }

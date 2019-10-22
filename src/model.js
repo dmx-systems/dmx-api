@@ -696,9 +696,20 @@ class Topicmap extends Topic {
   }
 
   /**
+   * Adds a topic to this topicmap resp. set it to visible.
+   *
    * @param   topic   a dm5.Topic
    * @param   pos     Optional: the topic position (an object with "x", "y" properties).
    *                  If not given it's up to the topicmap renderer to position the topic.
+   *
+   * @return  an "op" object which tells the caller what type of operation has been performed.
+   *          Its "type" property is one of these:
+   *            - "add": the topic was not contained in the topicmap before, and now has been added.
+   *            - "show": the topic is already contained in the topicmap but was hidden; now it is set to visible
+   *              and its original position is restored (a possibly given "pos" argument is not used).
+   *            - undefined: the topic is already contained in the topicmap and is visible; nothing was performed
+   *              (a possibly given "pos" argument is not used).
+   *          In case of "add" and "show": the op's "viewTopic" property contains the topic added/set to visible.
    */
   revealTopic (topic, pos) {
     const op = {}

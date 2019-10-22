@@ -34,10 +34,12 @@ function _instantiateChild (child) {
 
 // ---
 
+// TODO: drop; export directly
 function clone (o) {
   return _clone(o)
 }
 
+// TODO: drop; export directly
 function debounce (func, delay, immediate) {
   return _debounce(func, delay, immediate)
 }
