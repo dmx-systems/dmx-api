@@ -51,12 +51,24 @@ export default {
     )
   },
 
-  queryTopicsFulltext (query, typeUri) {
+  /**
+   * Performs a fulltext search.
+   *
+   * @param   query               A Lucene search query.
+   * @param   topicTypeUri        Only topics of this type are searched. If null all topics are searched.
+   * @param   searchChildTopics   If true the topic's child topics are searched as well. Works only if "topicTypeUri" is
+   *                              given.
+   */
+  queryTopicsFulltext (query, topicTypeUri, searchChildTopics) {
     // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
-    return _http.get('/core/topic', {params: {query, type_uri: typeUri}}).then(response => ({
-      query: response.data.query,
-      topics: utils.instantiateMany(response.data.topics, Topic)
-    }))
+    const params = {query, topic_type_uri: topicTypeUri, search_child_topics: searchChildTopics}
+    return _http.get('/core/topic', {params}).then(response => {
+      const {query, topicTypeUri, searchChildTopics, topics} = response.data
+      return {
+        query, topicTypeUri, searchChildTopics,
+        topics: utils.instantiateMany(topics, Topic)
+      }
+    })
   },
 
   createTopic (topicModel) {
