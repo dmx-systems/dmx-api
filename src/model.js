@@ -457,27 +457,29 @@ class Type extends Topic {
 
 class TopicType extends Type {
 
+  /**
+   * TODO: drop this method.
+   * For topic creation use emptyInstance() instead and fill in the default value(s) afterwards.
+   *
+   * @returns   a plain object.
+   */
   newTopicModel (simpleValue) {
 
-    const topic = _newTopicModel(this.uri)
-    topic.typeUri = this.uri
-    return topic
+    return _newTopicModel(this.uri)
 
     function _newTopicModel (typeUri) {
+      const topic = {typeUri}
       const type = typeCache.getTopicType(typeUri)
       if (type.isSimple()) {
-        return {
-          value: simpleValue
-        }
+        topic.value = simpleValue
       } else {
         const compDef = type.compDefs[0]
         const child = _newTopicModel(compDef.childTypeUri)
-        return {
-          children: {
-            [compDef.compDefUri]: compDef.isOne() ? child : [child]
-          }
+        topic.children = {
+          [compDef.compDefUri]: compDef.isOne() ? child : [child]
         }
       }
+      return topic
     }
   }
 

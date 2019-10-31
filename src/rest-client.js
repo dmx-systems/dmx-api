@@ -55,9 +55,10 @@ export default {
    * Performs a fulltext search.
    *
    * @param   query               A Lucene search query.
-   * @param   topicTypeUri        Only topics of this type are searched. If null all topics are searched.
-   * @param   searchChildTopics   If true the topic's child topics are searched as well. Works only if "topicTypeUri" is
-   *                              given.
+   * @param   topicTypeUri        Optional: only topics of this type are searched. If not given (falsish) all topics are
+   *                              searched.
+   * @param   searchChildTopics   Optional: if true the topic's child topics are searched as well. Works only if
+   *                              "topicTypeUri" is given.
    */
   queryTopicsFulltext (query, topicTypeUri, searchChildTopics) {
     // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
