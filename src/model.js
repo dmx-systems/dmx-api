@@ -645,6 +645,17 @@ class Topicmap extends Topic {
     return assoc
   }
 
+  /**
+   * @param   id      a topic ID or an assoc ID
+   */
+  getObject (id) {
+    const o = this.getTopicIfExists(id) || this.getAssocIfExists(id)
+    if (!o) {
+      throw Error(`topic/assoc ${id} not found in topicmap ${this.id}`)
+    }
+    return o
+  }
+
   getTopicIfExists (id) {
     return this._topics[id]
   }
@@ -661,6 +672,10 @@ class Topicmap extends Topic {
     return this.getAssocIfExists(id)
   }
 
+  hasObject (id) {
+    return this.hasTopic(id) || this.hasAssoc(id)
+  }
+
   /**
    * @return    all topics of this topicmap, including hidden ones (array of dm5.ViewTopic)
    */
@@ -673,6 +688,28 @@ class Topicmap extends Topic {
    */
   get assocs () {
     return Object.values(this._assocs)
+  }
+
+  /**
+   * Returns the position of the given topic/assoc.
+   *
+   * Note: ViewTopic has getPosition() too but ViewAssoc has not
+   * as a ViewAssoc doesn't know the Topicmap it belongs to.
+   *
+   * @param   id      a topic ID or an assoc ID
+   */
+  getPosition (id) {
+    const o = this.getObject(id)
+    if (o.isTopic()) {
+      return o.getPosition()
+    } else {
+      const pos1 = this.getPosition(o.player1.id)
+      const pos2 = this.getPosition(o.player2.id)
+      return {
+        x: (pos1.x + pos2.x) / 2,
+        y: (pos1.y + pos2.y) / 2
+      }
+    }
   }
 
   /**
@@ -826,41 +863,6 @@ class Topicmap extends Topic {
       throw Error(`${id} is not a player in assoc ${JSON.stringify(assoc)}`)
     }
     return this.getObject(_id)
-  }
-
-  // Generic
-
-  /**
-   * @param   id      a topic ID or an assoc ID
-   */
-  getObject (id) {
-    const o = this.getTopicIfExists(id) || this.getAssocIfExists(id)
-    if (!o) {
-      throw Error(`topic/assoc ${id} not found in topicmap ${this.id}`)
-    }
-    return o
-  }
-
-  /**
-   * Returns the position of the given topic/assoc.
-   *
-   * Note: ViewTopic has getPosition() too but ViewAssoc has not
-   * as a ViewAssoc doesn't know the Topicmap it belongs to.
-   *
-   * @param   id      a topic ID or an assoc ID
-   */
-  getPosition (id) {
-    const o = this.getObject(id)
-    if (o.isTopic()) {
-      return o.getPosition()
-    } else {
-      const pos1 = this.getPosition(o.player1.id)
-      const pos2 = this.getPosition(o.player2.id)
-      return {
-        x: (pos1.x + pos2.x) / 2,
-        y: (pos1.y + pos2.y) / 2
-      }
-    }
   }
 
   // Topicmap
