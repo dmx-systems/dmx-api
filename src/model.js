@@ -102,6 +102,37 @@ class DMXObject {
     return this
   }
 
+  /**
+   * Returns true if this object equals the given object.
+   *
+   * In case of composite objects this method can only be used if all child topics are present (according to type
+   * definition) in both objects. Child topics can have empty values. Consider calling fillChildren() on both objects
+   * before calling this method.
+   */
+  equals (object) {
+    return this.id      === object.id &&
+           this.uri     === object.uri &&
+           this.typeUri === object.typeUri &&
+           this.value   === object.value &&
+           this.childrenEquals(object.children)
+  }
+
+  childrenEquals (children) {
+    return !this.type.compDefs.some(compDef => {
+      const compDefUri = compDef.compDefUri
+      const child = this.children[compDefUri]
+      const _child = children[compDefUri]
+      if (compDef.isOne()) {
+        return !child.equals(_child)
+      } else if (child.length !== _child.length) {
+        return true
+      } else {
+        let i = 0
+        return child.some(child => !child.equals(_child[i++]))
+      }
+    })
+  }
+
   clone () {
     return utils.clone(this)
   }
