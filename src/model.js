@@ -110,6 +110,10 @@ class DMXObject {
    * before calling this method.
    */
   equals (object) {
+    return this._equals(object) && (!this.assoc || this.assoc._equals(object.assoc))
+  }
+
+  _equals (object) {
     return this.id      === object.id &&
            this.uri     === object.uri &&
            this.typeUri === object.typeUri &&
