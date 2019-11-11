@@ -711,6 +711,11 @@ class Topicmap extends Topic {
     return this.hasTopic(id) || this.hasAssoc(id)
   }
 
+  hasVisibleObject (id) {
+    const o = this.getTopicIfExists(id) || this.getAssocIfExists(id)
+    return o && o.isVisible()
+  }
+
   /**
    * @return    all topics of this topicmap, including hidden ones (array of dm5.ViewTopic)
    */
