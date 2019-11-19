@@ -1,4 +1,5 @@
 import http from 'axios'
+import permCache  from './permission-cache'
 import utils from './utils'
 import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, Geomap } from './model'
 
@@ -373,11 +374,12 @@ export default {
       headers: {
         'Authorization': authMethod + ' ' + btoa(credentials.username + ':' + credentials.password)
       }
-    })
+    }).then(() => permCache.clear())
   },
 
   logout () {
     return http.post('/accesscontrol/logout')
+      .then(() => permCache.clear())
   },
 
   getUsername () {
