@@ -106,6 +106,15 @@ function setCookie (name, value) {
   document.cookie = `${name}=${value};path=/`
 }
 
+function deleteCookie (name) {
+    // Note: setting the expire date to yesterday removes the cookie
+    var days = -1
+    var expires = new Date()
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000)
+    //
+    document.cookie = `${name}=;path=/;expires=${expires.toGMTString()}`
+}
+
 // ---
 
 const luceneSymbols = [
@@ -156,5 +165,6 @@ export default {
   isEmpty,
   getCookie,
   setCookie,
+  deleteCookie,
   fulltextQuery
 }
