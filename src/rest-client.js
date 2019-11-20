@@ -388,6 +388,18 @@ export default {
     )
   },
 
+  getPrivateWorkspace () {
+    return http.get(`/accesscontrol/user/workspace`).then(response =>
+      new Topic(response.data)
+    )
+  },
+
+  getWorkspaceOwner (id) {
+    return http.get(`/accesscontrol/workspace/${id}/owner`).then(response =>
+      response.data
+    )
+  },
+
   getTopicPermissions (id) {
     return http.get(`/accesscontrol/topic/${id}`).then(response =>
       response.data
@@ -408,12 +420,6 @@ export default {
 
   getModifier (id) {
     return http.get(`/accesscontrol/object/${id}/modifier`).then(response =>
-      response.data
-    )
-  },
-
-  getWorkspaceOwner (id) {
-    return http.get(`/accesscontrol/workspace/${id}/owner`).then(response =>
       response.data
     )
   },
