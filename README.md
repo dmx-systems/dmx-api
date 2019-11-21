@@ -2,6 +2,19 @@
 
 ## Version History
 
+**0.36** -- Nov 21, 2019
+
+* Model:
+    * add `equals()` to `DMXObject`
+    * add `hasObject(id)` and `hasVisibleObject()` to `Topicmap`
+    * Fix: TopicType's `newTopicModel()` initializes `typeUri` of all child topic's (recursively)
+* REST client:
+    * add `getPrivateWorkspace()` method
+    * add `searchChildTopics` boolean param (optional) to `queryTopicsFulltext()`
+    * clears the permission cache on `login()`/`logout()`
+* Type cache: add `getAllTopicTypes()`, `getAllAssocTypes()`, `getAllDataTypes()`, `getAllRoleTypes()`  methods
+* Utils: add `deleteCookie()`
+
 **0.35** -- Aug 26, 2019
 
 * Utils: `fulltextQuery()` supports single-letter whole-word search
@@ -190,4 +203,4 @@
 
 ------------
 Jörg Richter  
-Aug 26, 2019
+Nov 21, 2019
