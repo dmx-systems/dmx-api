@@ -1,7 +1,7 @@
 import http from 'axios'
 import permCache  from './permission-cache'
 import utils from './utils'
-import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap, Geomap } from './model'
+import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap } from './model'
 
 // Vanilla instance without error interceptor.
 // In contrast the default http instance allows the caller to set an error handler (see setErrorHandler()).
@@ -303,28 +303,6 @@ export default {
     // console.log('setTopicmapViewport')
     roundPos(pan, 'x', 'y')
     http.put(`/topicmap/${topicmapId}/pan/${pan.x}/${pan.y}/zoom/${zoom}`)
-  }, 3000),
-
-  // === Geomaps ===
-
-  getGeomap (geomapId) {
-    return http.get(`/geomap/${geomapId}`).then(response =>
-      new Geomap(response.data)
-    )
-  },
-
-  getDomainTopics (geoCoordId, includeChildren, includeAssocChildren) {
-    return http.get(`/geomap/coord/${geoCoordId}`, {params: {
-      children: includeChildren,
-      assoc_children: includeAssocChildren
-    }}).then(response =>
-      utils.instantiateMany(response.data, Topic)
-    )
-  },
-
-  setGeomapState: utils.debounce((geomapId, lon, lat, zoom) => {
-    console.log('setGeomapState', lon, lat, zoom)
-    http.put(`/geomap/${geomapId}/center/${lon}/${lat}/zoom/${zoom}`)
   }, 3000),
 
   // === Workspaces ===

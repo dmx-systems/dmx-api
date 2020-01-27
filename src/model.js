@@ -991,23 +991,6 @@ class ViewAssoc extends viewPropsMixin(Assoc) {
   }
 }
 
-class Geomap extends Topic {
-
-  constructor (geomap) {
-    super(geomap.topic)
-    this.viewProps = geomap.viewProps
-    this.geoCoordTopics = geomap.geoCoordTopics     // instantiating dm5.Topic objects not required at the moment
-  }
-
-  removeTopic (id) {
-    // TODO; skeleton needed by dm5-topicmap-panel contract
-  }
-
-  removeAssoc (id) {
-    // TODO; skeleton needed by dm5-topicmap-panel contract
-  }
-}
-
 export {
   DMXObject,
   Topic,
@@ -1019,6 +1002,5 @@ export {
   AssocType,
   Topicmap,
   ViewTopic,
-  ViewAssoc,
-  Geomap
+  ViewAssoc
 }
