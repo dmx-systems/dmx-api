@@ -54,6 +54,10 @@ class DMXObject {
     return restClient.getAssignedWorkspace(this.id)
   }
 
+  assignToWorkspace (workspaceId) {
+    return restClient.assignToWorkspace(this.id, workspaceId)
+  }
+
   getTopicmapTopics () {
     return restClient.getTopicmapTopics(this.id)
   }
