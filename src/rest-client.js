@@ -341,6 +341,11 @@ export default {
     )
   },
 
+  assignToWorkspace (objectId, workspaceId) {
+    http.put(`/workspace/${workspaceId}/object/${objectId}`)
+  },
+
+
   // === Access Control ===
 
   /**

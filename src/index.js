@@ -6,7 +6,7 @@ import typeCache  from './type-cache'
 import permCache  from './permission-cache'
 import utils      from './utils'
 
-console.log('[DMX] Client Library 2020/01/27')
+console.log('[DMX] Client Library 2020/03/03')
 
 export default {
 
