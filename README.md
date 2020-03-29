@@ -2,6 +2,14 @@
 
 ## Version History
 
+**0.37** -- Mar 30, 2020
+
+* Remove "Geomaps" API
+* Model:
+    * add `assignToWorkspace()` to `DMXObject`
+* REST client:
+    * add `assignToWorkspace()` method
+
 **0.36** -- Nov 21, 2019
 
 * Model:
@@ -203,4 +211,4 @@
 
 ------------
 Jörg Richter  
-Nov 21, 2019
+Mar 30, 2020
