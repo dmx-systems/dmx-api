@@ -23,7 +23,7 @@ export default {
   },
 
   getTopicByUri (uri, includeChildren, includeAssocChildren) {
-    return http.get(`/core/topic/by_uri/${uri}`, {params: {
+    return http.get(`/core/topic/uri/${uri}`, {params: {
       children: includeChildren,
       assoc_children: includeAssocChildren
     }}).then(response =>
@@ -32,7 +32,7 @@ export default {
   },
 
   getTopicsByType (typeUri) {
-    return http.get(`/core/topic/by_type/${typeUri}`).then(response =>
+    return http.get(`/core/topic/type/${typeUri}`).then(response =>
       utils.instantiateMany(response.data, Topic)
     )
   },
