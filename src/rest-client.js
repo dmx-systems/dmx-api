@@ -64,6 +64,12 @@ export default {
     )
   },
 
+  queryTopics (typeUri, value) {
+    return http.get(`/core/topic/type/${typeUri}/query/${value}`).then(response =>
+      utils.instantiateMany(response.data, Topic)
+    )
+  },
+
   /**
    * Performs a fulltext search.
    *
@@ -75,8 +81,8 @@ export default {
    */
   queryTopicsFulltext (query, topicTypeUri, searchChildTopics) {
     // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
-    const params = {query, topic_type_uri: topicTypeUri, search_child_topics: searchChildTopics}
-    return _http.get('/core/topic', {params}).then(response => {
+    const params = {topic_type_uri: topicTypeUri, search_child_topics: searchChildTopics}
+    return _http.get(`/core/topic/query/${query}`, {params}).then(response => {
       const {query, topicTypeUri, searchChildTopics, topics} = response.data
       return {
         query, topicTypeUri, searchChildTopics,
