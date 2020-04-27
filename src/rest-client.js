@@ -37,6 +37,18 @@ export default {
     )
   },
 
+  getTopicByValue (typeUri, value) {
+    return http.get(`/core/topic/type/${typeUri}/${value}`).then(response =>
+      new Topic(response.data)
+    )
+  },
+
+  getTopicsByValue (typeUri, value) {
+    return http.get(`/core/topics/type/${typeUri}/${value}`).then(response =>
+      utils.instantiateMany(response.data, Topic)
+    )
+  },
+
   /**
    * @param   filter
    *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
