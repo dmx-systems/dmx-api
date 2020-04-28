@@ -114,13 +114,15 @@ export default {
   // Associations
 
   getAssoc (id, includeChildren, includeAssocChildren) {
-    return http.get(`/core/association/${id}`, {params: {
+    return http.get(`/core/assoc/${id}`, {params: {
       children: includeChildren,
       assoc_children: includeAssocChildren
     }}).then(response =>
       new Assoc(response.data)
     )
   },
+
+  // TODO: add missing assoc Core Service calls e.g. getAssocByValue(), queryAssocs(), ...
 
   /**
    * @param   filter
