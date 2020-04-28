@@ -49,21 +49,6 @@ export default {
     )
   },
 
-  /**
-   * @param   filter
-   *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
-   *              "assocTypeUri"
-   *              "myRoleTypeUri"
-   *              "othersRoleTypeUri"
-   *              "othersTopicTypeUri"
-   *            If not specified no filter is applied.
-   */
-  getTopicRelatedTopics (topicId, filter) {
-    return http.get(`/core/topic/${topicId}/related_topics`, {params: _filter(filter)}).then(response =>
-      utils.instantiateMany(response.data, RelatedTopic)
-    )
-  },
-
   queryTopics (typeUri, value) {
     return http.get(`/core/topics/type/${typeUri}/query/${value}`).then(response =>
       utils.instantiateMany(response.data, Topic)
@@ -90,6 +75,23 @@ export default {
       }
     })
   },
+
+  /**
+   * @param   filter
+   *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
+   *              "assocTypeUri"
+   *              "myRoleTypeUri"
+   *              "othersRoleTypeUri"
+   *              "othersTopicTypeUri"
+   *            If not specified no filter is applied.
+   */
+  getTopicRelatedTopics (topicId, filter) {
+    return http.get(`/core/topic/${topicId}/related-topics`, {params: _filter(filter)}).then(response =>
+      utils.instantiateMany(response.data, RelatedTopic)
+    )
+  },
+
+  // TODO: add getTopicRelatedAssocs()
 
   createTopic (topicModel) {
     return http.post('/core/topic', topicModel).then(response => {
@@ -134,10 +136,12 @@ export default {
    *            If not specified no filter is applied.
    */
   getAssocRelatedTopics (assocId, filter) {
-    return http.get(`/core/association/${assocId}/related_topics`, {params: _filter(filter)}).then(response =>
+    return http.get(`/core/assoc/${assocId}/related-topics`, {params: _filter(filter)}).then(response =>
       utils.instantiateMany(response.data, RelatedTopic)
     )
   },
+
+  // TODO: add getAssocRelatedAssocs()
 
   createAssoc (assocModel) {
     return http.post('/core/assoc', assocModel).then(response => {
