@@ -140,7 +140,7 @@ export default {
   },
 
   createAssoc (assocModel) {
-    return http.post('/core/association', assocModel).then(response => {
+    return http.post('/core/assoc', assocModel).then(response => {
       const assoc = new Assoc(response.data)
       assoc.directives = response.data.directives
       return assoc
@@ -148,13 +148,13 @@ export default {
   },
 
   updateAssoc (assocModel) {
-    return http.put(`/core/association/${assocModel.id}`, assocModel).then(response =>
+    return http.put(`/core/assoc/${assocModel.id}`, assocModel).then(response =>
       response.data
     )
   },
 
   deleteAssoc (id) {
-    return http.delete(`/core/association/${id}`).then(response =>
+    return http.delete(`/core/assoc/${id}`).then(response =>
       response.data
     )
   },
