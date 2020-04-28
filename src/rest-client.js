@@ -27,19 +27,19 @@ export default {
       children: includeChildren,
       assoc_children: includeAssocChildren
     }}).then(response =>
-      new Topic(response.data)
+      new Topic(response.data)    // FIXME: no result
     )
   },
 
   getTopicsByType (typeUri) {
-    return http.get(`/core/topic/type/${typeUri}`).then(response =>
+    return http.get(`/core/topics/type/${typeUri}`).then(response =>
       utils.instantiateMany(response.data, Topic)
     )
   },
 
   getTopicByValue (typeUri, value) {
     return http.get(`/core/topic/type/${typeUri}/${value}`).then(response =>
-      new Topic(response.data)
+      new Topic(response.data)    // FIXME: no result
     )
   },
 
@@ -65,7 +65,7 @@ export default {
   },
 
   queryTopics (typeUri, value) {
-    return http.get(`/core/topic/type/${typeUri}/query/${value}`).then(response =>
+    return http.get(`/core/topics/type/${typeUri}/query/${value}`).then(response =>
       utils.instantiateMany(response.data, Topic)
     )
   },
@@ -82,7 +82,7 @@ export default {
   queryTopicsFulltext (query, topicTypeUri, searchChildTopics) {
     // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
     const params = {topic_type_uri: topicTypeUri, search_child_topics: searchChildTopics}
-    return _http.get(`/core/topic/query/${query}`, {params}).then(response => {
+    return _http.get(`/core/topics/query/${query}`, {params}).then(response => {
       const {query, topicTypeUri, searchChildTopics, topics} = response.data
       return {
         query, topicTypeUri, searchChildTopics,
