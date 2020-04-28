@@ -166,7 +166,7 @@ export default {
   // Object
 
   getRelatedTopicsWithoutChilds (objectId) {
-    return http.get(`/core/object/${objectId}/related_topics`).then(response =>
+    return http.get(`/core/object/${objectId}/related-topics`).then(response =>
       utils.instantiateMany(response.data, RelatedTopic)
     )
   },
@@ -230,7 +230,7 @@ export default {
   // Plugins
 
   getPlugins () {
-    return http.get('/core/plugin').then(response =>
+    return http.get('/core/plugins').then(response =>
       response.data
     )
   },
