@@ -246,7 +246,7 @@ export default {
   // === Topicmaps ===
 
   createTopicmap (name, topicmapTypeUri, viewProps) {
-    return http.post('/topicmap', viewProps, {
+    return http.post('/topicmaps', viewProps, {
       params: {
         name,
         topicmap_type_uri: topicmapTypeUri
@@ -257,24 +257,24 @@ export default {
   },
 
   getTopicmap (topicmapId) {
-    return http.get(`/topicmap/${topicmapId}`).then(response =>
+    return http.get(`/topicmaps/${topicmapId}`).then(response =>
       new Topicmap(response.data)
     )
   },
 
   getTopicmapTopics (objectId) {
-    return http.get(`/topicmap/object/${objectId}`).then(response =>
+    return http.get(`/topicmaps/object/${objectId}`).then(response =>
       utils.instantiateMany(response.data, RelatedTopic)
     )
   },
 
   addTopicToTopicmap (topicmapId, topicId, viewProps) {
     roundPos(viewProps, 'dmx.topicmaps.x', 'dmx.topicmaps.y')
-    http.post(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps)
+    http.post(`/topicmaps/${topicmapId}/topic/${topicId}`, viewProps)
   },
 
   addAssocToTopicmap (topicmapId, assocId, viewProps) {
-    http.post(`/topicmap/${topicmapId}/association/${assocId}`, viewProps)
+    http.post(`/topicmaps/${topicmapId}/association/${assocId}`, viewProps)
   },
 
   /**
@@ -286,22 +286,22 @@ export default {
     } else {
       viewProps = {}    // let axios send a proper Content-Type header
     }
-    http.post(`/topicmap/${topicmapId}/topic/${topicId}/association/${assocId}`, viewProps)
+    http.post(`/topicmaps/${topicmapId}/topic/${topicId}/association/${assocId}`, viewProps)
   },
 
   setTopicViewProps (topicmapId, topicId, viewProps) {
     // TODO: round coordinates?
-    http.put(`/topicmap/${topicmapId}/topic/${topicId}`, viewProps)
+    http.put(`/topicmaps/${topicmapId}/topic/${topicId}`, viewProps)
   },
 
   setAssocViewProps (topicmapId, assocId, viewProps) {
-    http.put(`/topicmap/${topicmapId}/association/${assocId}`, viewProps)
+    http.put(`/topicmaps/${topicmapId}/association/${assocId}`, viewProps)
   },
 
   // Note: no debounce here; consecutive calls might relate to *different* topics
   setTopicPosition (topicmapId, topicId, pos) {
     roundPos(pos, 'x', 'y')
-    http.put(`/topicmap/${topicmapId}/topic/${topicId}/${pos.x}/${pos.y}`)
+    http.put(`/topicmaps/${topicmapId}/topic/${topicId}/${pos.x}/${pos.y}`)
   },
 
   // Note: no debounce here; consecutive calls might relate to *different* topic collections
@@ -310,23 +310,23 @@ export default {
    */
   setTopicPositions (topicmapId, topicCoords) {
     roundPos(topicCoords, 'x', 'y')
-    http.put(`/topicmap/${topicmapId}`, {topicCoords})
+    http.put(`/topicmaps/${topicmapId}`, {topicCoords})
   },
 
   setTopicVisibility (topicmapId, topicId, visibility) {
-    http.put(`/topicmap/${topicmapId}/topic/${topicId}/${visibility}`)
+    http.put(`/topicmaps/${topicmapId}/topic/${topicId}/${visibility}`)
   },
 
   // TODO: setAssocVisibility()? Actually not needed by DMX webclient.
 
   hideMulti (topicmapId, idLists) {
-    http.put(`/topicmap/${topicmapId}${toPath(idLists)}/visibility/false`)
+    http.put(`/topicmaps/${topicmapId}${toPath(idLists)}/visibility/false`)
   },
 
   setTopicmapViewport: utils.debounce((topicmapId, pan, zoom) => {
     // console.log('setTopicmapViewport')
     roundPos(pan, 'x', 'y')
-    http.put(`/topicmap/${topicmapId}/pan/${pan.x}/${pan.y}/zoom/${zoom}`)
+    http.put(`/topicmaps/${topicmapId}/pan/${pan.x}/${pan.y}/zoom/${zoom}`)
   }, 3000),
 
   // === Workspaces ===
