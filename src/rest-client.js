@@ -274,7 +274,7 @@ export default {
   },
 
   addAssocToTopicmap (topicmapId, assocId, viewProps) {
-    http.post(`/topicmaps/${topicmapId}/association/${assocId}`, viewProps)
+    http.post(`/topicmaps/${topicmapId}/assoc/${assocId}`, viewProps)
   },
 
   /**
@@ -286,7 +286,7 @@ export default {
     } else {
       viewProps = {}    // let axios send a proper Content-Type header
     }
-    http.post(`/topicmaps/${topicmapId}/topic/${topicId}/association/${assocId}`, viewProps)
+    http.post(`/topicmaps/${topicmapId}/topic/${topicId}/assoc/${assocId}`, viewProps)
   },
 
   setTopicViewProps (topicmapId, topicId, viewProps) {
@@ -295,7 +295,7 @@ export default {
   },
 
   setAssocViewProps (topicmapId, assocId, viewProps) {
-    http.put(`/topicmaps/${topicmapId}/association/${assocId}`, viewProps)
+    http.put(`/topicmaps/${topicmapId}/assoc/${assocId}`, viewProps)
   },
 
   // Note: no debounce here; consecutive calls might relate to *different* topics
@@ -414,7 +414,7 @@ export default {
   },
 
   getAssocPermissions (id) {
-    return http.get(`/accesscontrol/association/${id}`).then(response =>
+    return http.get(`/accesscontrol/assoc/${id}`).then(response =>
       response.data
     )
   },
