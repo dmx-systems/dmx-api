@@ -301,7 +301,7 @@ export default {
   // Note: no debounce here; consecutive calls might relate to *different* topics
   setTopicPosition (topicmapId, topicId, pos) {
     roundPos(pos, 'x', 'y')
-    http.put(`/topicmaps/${topicmapId}/topic/${topicId}/${pos.x}/${pos.y}`)
+    http.put(`/topicmaps/${topicmapId}/topic/${topicId}/x/${pos.x}/y/${pos.y}`)
   },
 
   // Note: no debounce here; consecutive calls might relate to *different* topic collections
@@ -314,7 +314,7 @@ export default {
   },
 
   setTopicVisibility (topicmapId, topicId, visibility) {
-    http.put(`/topicmaps/${topicmapId}/topic/${topicId}/${visibility}`)
+    http.put(`/topicmaps/${topicmapId}/topic/${topicId}/visibility/${visibility}`)
   },
 
   // TODO: setAssocVisibility()? Actually not needed by DMX webclient.
