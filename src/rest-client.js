@@ -335,7 +335,7 @@ export default {
    * @param   uri   optional
    */
   createWorkspace (name, uri, sharingModeUri) {
-    return http.post('/workspace', undefined, {
+    return http.post('/workspaces', undefined, {
       params: {
         name,
         uri,
@@ -347,7 +347,7 @@ export default {
   },
 
   getAssignedTopics (workspaceId, topicTypeUri, includeChildren, includeAssocChildren) {
-    return http.get(`/workspace/${workspaceId}/topics/${topicTypeUri}`, {params: {
+    return http.get(`/workspaces/${workspaceId}/topics/${topicTypeUri}`, {params: {
       children: includeChildren,
       assoc_children: includeAssocChildren
     }}).then(response =>
@@ -359,14 +359,14 @@ export default {
    * @return  the workspace topic, or empty string if no workspace is assigned
    */
   getAssignedWorkspace (objectId) {
-    return http.get(`/workspace/object/${objectId}`).then(response =>
+    return http.get(`/workspaces/object/${objectId}`).then(response =>
       // Note: if no workspace is assigned the response is 204 No Content; "data" is the empty string then
       response.data && new Topic(response.data)
     )
   },
 
   assignToWorkspace (objectId, workspaceId) {
-    http.put(`/workspace/${workspaceId}/object/${objectId}`)
+    http.put(`/workspaces/${workspaceId}/object/${objectId}`)
   },
 
 
