@@ -424,8 +424,8 @@ class Type extends Topic {
     return this.dataTypeUri === 'dmx.core.value'
   }
 
-  isIdentity () {
-    return this.dataTypeUri === 'dmx.core.identity'
+  isEntity () {
+    return this.dataTypeUri === 'dmx.core.entity'
   }
 
   getDataType () {
