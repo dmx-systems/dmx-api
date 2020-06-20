@@ -1,12 +1,11 @@
 import restClient from './rest-client'
 
 export default {
-  isTopicWritable,
-  isAssocWritable,
+  isWritable,
   clear
 }
 
-// Key is a topic/association ID.
+// Key is a topic/assoc ID.
 // Value is a promise for a permissions object:
 //   {
 //     "dmx.accesscontrol.operation.write": true|false
@@ -20,24 +19,12 @@ export default {
 let permissionCache = {}
 
 /**
+ * @param   id    a topic/assoc ID.
+ *
  * @return  a promise for a true/false value
  */
-function isTopicWritable (id) {
-  return _isWritable(id, restClient.getTopicPermissions)
-}
-
-/**
- * @return  a promise for a true/false value
- */
-function isAssocWritable (id) {
-  return _isWritable(id, restClient.getAssocPermissions)
-}
-
-/**
- * @return  a promise for a true/false value
- */
-function _isWritable (id, retrievalFunc) {
-  return (permissionCache[id] || (permissionCache[id] = retrievalFunc(id))).then(permissions =>
+function isWritable (id) {
+  return (permissionCache[id] || (permissionCache[id] = restClient.getPermissions(id))).then(permissions =>
     permissions['dmx.accesscontrol.operation.write']
   )
 }

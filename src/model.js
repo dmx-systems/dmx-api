@@ -67,6 +67,13 @@ class DMXObject {
   }
 
   /**
+   * @return  a promise for a true/false value
+   */
+  isWritable () {
+    return permCache.isWritable(this.id)
+  }
+
+  /**
    * Operates in-place
    *
    * @return    this object
@@ -198,13 +205,6 @@ class Topic extends DMXObject {
     return restClient.updateTopic(this)
   }
 
-  /**
-   * @return  a promise for a true/false value
-   */
-  isWritable () {
-    return permCache.isTopicWritable(this.id)
-  }
-
   isTopic () {
     return true
   }
@@ -311,13 +311,6 @@ class Assoc extends DMXObject {
   update () {
     console.log('update', this)
     return restClient.updateAssoc(this)
-  }
-
-  /**
-   * @return  a promise for a true/false value
-   */
-  isWritable () {
-    return permCache.isAssocWritable(this.id)
   }
 
   isTopic () {

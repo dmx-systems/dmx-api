@@ -407,14 +407,8 @@ export default {
     )
   },
 
-  getTopicPermissions (id) {
-    return http.get(`/accesscontrol/topic/${id}`).then(response =>
-      response.data
-    )
-  },
-
-  getAssocPermissions (id) {
-    return http.get(`/accesscontrol/assoc/${id}`).then(response =>
+  getPermissions (id) {
+    return http.get(`/accesscontrol/object/${id}`).then(response =>
       response.data
     )
   },
