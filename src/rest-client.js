@@ -407,6 +407,12 @@ export default {
     )
   },
 
+  getAdminWorkspaceId () {
+    return http.get('/accesscontrol/workspace/admin/id').then(response =>
+      response.data
+    )
+  },
+
   getPermissions (id) {
     return http.get(`/accesscontrol/object/${id}`).then(response =>
       response.data
