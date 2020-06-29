@@ -6,7 +6,9 @@ import typeCache  from './type-cache'
 import permCache  from './permission-cache'
 import utils      from './utils'
 
-console.log('[DMX] Client Library 2020/06/20')
+console.log('[DMX] Client Library 2020/06/29')
+
+let adminWorkspaceId    // promise
 
 export default {
 
@@ -19,6 +21,16 @@ export default {
 
   init (config) {
     config.onHttpError && restClient.setErrorHandler(config.onHttpError)
+    adminWorkspaceId = restClient.getAdminWorkspaceId()
     return typeCache.init(config.store)
+  },
+
+  /**
+   * @return  a promise for a true/false value
+   */
+  isAdmin () {
+    return adminWorkspaceId
+      .then(id => permCache.isWritable(id))
+      // .then(isAdmin => console.log('isAdmin', isAdmin))
   }
 }
