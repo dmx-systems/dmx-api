@@ -6,7 +6,7 @@ import typeCache  from './type-cache'
 import permCache  from './permission-cache'
 import utils      from './utils'
 
-console.log('[DMX] Client Library 2020/06/29')
+console.log('[DMX] Client Library 2020/07/02')
 
 let adminWorkspaceId    // promise
 

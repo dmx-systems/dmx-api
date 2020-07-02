@@ -475,16 +475,6 @@ class Type extends Topic {
       children: emptyChildren()
     }
   }
-
-  toExternalForm () {
-    const type = JSON.parse(JSON.stringify(this))
-    type.compDefs.forEach(compDef => {
-      compDef.assocTypeUri = compDef.typeUri
-      delete compDef.typeUri
-    })
-    console.log('toExternalForm', type)
-    return type
-  }
 }
 
 class TopicType extends Type {
@@ -532,7 +522,7 @@ class TopicType extends Type {
   }
 
   update () {
-    return restClient.updateTopicType(this.toExternalForm())
+    return restClient.updateTopicType(this)
   }
 }
 
@@ -547,7 +537,7 @@ class AssocType extends Type {
   }
 
   update () {
-    return restClient.updateAssocType(this.toExternalForm())
+    return restClient.updateAssocType(this)
   }
 }
 
@@ -555,7 +545,7 @@ class CompDef extends Assoc {
 
   constructor (compDef) {
     super(compDef)
-    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(compDef.viewConfigTopics, Topic))  // TODO: rename prop?
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(compDef.viewConfigTopics, Topic))
     //
     // derived properties
     //
@@ -593,7 +583,7 @@ class CompDef extends Assoc {
     }
   }
 
-  // TODO: make these 5 derived properties?
+  // ---
 
   getChildType () {
     return typeCache.getTopicType(this.childTypeUri)
