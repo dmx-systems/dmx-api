@@ -11,13 +11,15 @@ const DEFAULT_ICON_COLOR = 'hsl(210, 50%, 53%)'   // matches dm5-color-picker bl
 const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
 const DEFAULT_BACKGROUND_COLOR = '#f5f7fa'        // matches dm5-webclient --background-color
 
+let iconRenderers
+
 class DMXObject {
 
   constructor (object) {
     if (!object) {
       throw Error(`invalid object passed to DMXObject constructor: ${object}`)
     } else if (object.constructor.name !== 'Object') {
-      throw Error(`DMXObject constructor expects plain Object, got ${object.constructor.name} (${object})`)
+      throw Error(`DMXObject constructor expects Object, got ${object.constructor.name} ${JSON.stringify(object)}`)
     }
     this.id      = object.id
     this.uri     = object.uri
@@ -170,6 +172,10 @@ class Topic extends DMXObject {
   }
 
   get icon () {
+    const renderer = iconRenderers[this.typeUri]
+    if (renderer) {
+      return renderer(this)
+    }
     return this.type._getIcon() || DEFAULT_TOPIC_ICON
   }
 
@@ -215,11 +221,15 @@ class Topic extends DMXObject {
 
   newViewTopic (viewProps) {
     return new ViewTopic({
-      id:      this.id,
-      uri:     this.uri,
-      typeUri: this.typeUri,
-      value:   this.value,
-      children: {},     // TODO: children needed in a ViewTopic?
+      id:       this.id,
+      uri:      this.uri,
+      typeUri:  this.typeUri,
+      value:    this.value,
+      children: {},     // Note: this topic's children are not used as they are instantiated already. The ViewTopic
+                        // constructor would instantiate them another time, which would fail. Instead we set the
+                        // children afterwards (see revealTopic() below). TODO: clear this situation.
+                        // Note: children are needed in ViewTopic for rendering e.g. a Topicmap topic with its
+                        // maptype-specific icon.
       viewProps
     })
   }
@@ -789,6 +799,7 @@ class Topicmap extends Topic {
         'dmx.topicmaps.visibility': true,
         'dmx.topicmaps.pinned': false
       })
+      viewTopic.children = topic.children   // ### TODO, see comment in newViewTopic() above
       this.addTopic(viewTopic)
       op.type = 'add'
       op.viewTopic = viewTopic
@@ -978,6 +989,10 @@ class ViewAssoc extends viewPropsMixin(Assoc) {
   }
 }
 
+function setIconRenderers (_iconRenderers) {
+  iconRenderers = _iconRenderers
+}
+
 export {
   DMXObject,
   Topic,
@@ -989,5 +1004,7 @@ export {
   AssocType,
   Topicmap,
   ViewTopic,
-  ViewAssoc
+  ViewAssoc,
+  //
+  setIconRenderers
 }

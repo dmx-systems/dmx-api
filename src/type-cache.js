@@ -49,7 +49,7 @@ const actions = {
     // Delete-topic triggers a route change, causing the webclient's "object" state to reset. Delete-type removes the
     // type from cache, triggering recalculation of the webclient's "object" getter. At that moment webclient's "object"
     // state is still set as route changes perform asynchronously (through the route watcher). Recalculation of the
-    // "object" getter fails ("type not in type cache") as the type is already removed but "object" state is still
+    // "object" getter fails ("unknown type") as the type is already removed but "object" state is still
     // set.
     // As a workaround processing the delete-type directive is postponed to the next tick. At that moment "object" state
     // is reset.
@@ -143,7 +143,7 @@ function getRoleType (uri) {
 function getType (uri, className, prop) {
   const type = state[prop] && state[prop][uri]
   if (!type) {
-    throw Error(`${className} "${uri}" not in type cache`)
+    throw Error(`unknown ${className} "${uri}"`)
   }
   return type
 }
