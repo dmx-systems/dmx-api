@@ -16,7 +16,7 @@ export default {
   getTopic (id, includeChildren, includeAssocChildren) {
     return http.get(`/core/topic/${id}`, {params: {
       children: includeChildren,
-      assoc_children: includeAssocChildren
+      assocChildren: includeAssocChildren
     }}).then(response =>
       new Topic(response.data)
     )
@@ -25,7 +25,7 @@ export default {
   getTopicByUri (uri, includeChildren, includeAssocChildren) {
     return http.get(`/core/topic/uri/${uri}`, {params: {
       children: includeChildren,
-      assoc_children: includeAssocChildren
+      assocChildren: includeAssocChildren
     }}).then(response =>
       new Topic(response.data)    // FIXME: no result
     )
@@ -66,7 +66,7 @@ export default {
    */
   queryTopicsFulltext (query, topicTypeUri, searchChildTopics) {
     // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
-    const params = {topic_type_uri: topicTypeUri, search_child_topics: searchChildTopics}
+    const params = {topicTypeUri, searchChildTopics}
     return _http.get(`/core/topics/query/${query}`, {params}).then(response => {
       const {query, topicTypeUri, searchChildTopics, topics} = response.data
       return {
@@ -86,7 +86,7 @@ export default {
    *            If not specified no filter is applied.
    */
   getTopicRelatedTopics (topicId, filter) {
-    return http.get(`/core/topic/${topicId}/related-topics`, {params: _filter(filter)}).then(response =>
+    return http.get(`/core/topic/${topicId}/related-topics`, {params: filter}).then(response =>
       utils.instantiateMany(response.data, RelatedTopic)
     )
   },
@@ -118,7 +118,7 @@ export default {
   getAssoc (id, includeChildren, includeAssocChildren) {
     return http.get(`/core/assoc/${id}`, {params: {
       children: includeChildren,
-      assoc_children: includeAssocChildren
+      assocChildren: includeAssocChildren
     }}).then(response =>
       new Assoc(response.data)
     )
@@ -136,7 +136,7 @@ export default {
    *            If not specified no filter is applied.
    */
   getAssocRelatedTopics (assocId, filter) {
-    return http.get(`/core/assoc/${assocId}/related-topics`, {params: _filter(filter)}).then(response =>
+    return http.get(`/core/assoc/${assocId}/related-topics`, {params: filter}).then(response =>
       utils.instantiateMany(response.data, RelatedTopic)
     )
   },
@@ -247,10 +247,7 @@ export default {
 
   createTopicmap (name, topicmapTypeUri, viewProps) {
     return http.post('/topicmaps', viewProps, {
-      params: {
-        name,
-        topicmap_type_uri: topicmapTypeUri
-      }
+      params: {name, topicmapTypeUri}
     }).then(response =>
       new Topic(response.data)
     )
@@ -336,11 +333,7 @@ export default {
    */
   createWorkspace (name, uri, sharingModeUri) {
     return http.post('/workspaces', undefined, {
-      params: {
-        name,
-        uri,
-        sharing_mode_uri: sharingModeUri
-      }
+      params: {name, uri, sharingModeUri}
     }).then(response =>
       response.data
     )
@@ -349,7 +342,7 @@ export default {
   getAssignedTopics (workspaceId, topicTypeUri, includeChildren, includeAssocChildren) {
     return http.get(`/workspaces/${workspaceId}/topics/${topicTypeUri}`, {params: {
       children: includeChildren,
-      assoc_children: includeAssocChildren
+      assocChildren: includeAssocChildren
     }}).then(response =>
       utils.instantiateMany(response.data, Topic)
     )
@@ -443,7 +436,7 @@ export default {
    * @return  a promise for a Username topic
    */
   createUserAccount (username, password) {
-    return http.post('/accesscontrol/user_account', {
+    return http.post('/accesscontrol/user-account', {
       username, password
     }).then(response =>
       new Topic(response.data)
@@ -494,15 +487,6 @@ function toPath(idLists) {
     path += `/assocs/${idLists.assocIds}`
   }
   return path
-}
-
-function _filter (filter) {
-  return filter && {
-    assoc_type_uri:        filter.assocTypeUri,
-    my_role_type_uri:      filter.myRoleTypeUri,
-    others_role_type_uri:  filter.othersRoleTypeUri,
-    others_topic_type_uri: filter.othersTopicTypeUri,
-  }
 }
 
 /**
