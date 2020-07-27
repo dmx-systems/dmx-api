@@ -182,19 +182,19 @@ export default {
   // Topic Types
 
   getAllTopicTypes () {
-    return http.get('/core/topictype/all').then(response =>
+    return http.get('/core/topic-types').then(response =>
       utils.instantiateMany(response.data, TopicType)
     )
   },
 
   createTopicType (typeModel) {
-    return http.post('/core/topictype', typeModel).then(response =>
+    return http.post('/core/topic-type', typeModel).then(response =>
       new TopicType(response.data)
     )
   },
 
   updateTopicType (typeModel) {
-    return http.put('/core/topictype', typeModel).then(response =>
+    return http.put('/core/topic-type', typeModel).then(response =>
       response.data
     )
   },
@@ -202,19 +202,19 @@ export default {
   // Association Types
 
   getAllAssocTypes () {
-    return http.get('/core/assoctype/all').then(response =>
+    return http.get('/core/assoc-types').then(response =>
       utils.instantiateMany(response.data, AssocType)
     )
   },
 
   createAssocType (typeModel) {
-    return http.post('/core/assoctype', typeModel).then(response =>
+    return http.post('/core/assoc-type', typeModel).then(response =>
       new AssocType(response.data)
     )
   },
 
   updateAssocType (typeModel) {
-    return http.put('/core/assoctype', typeModel).then(response =>
+    return http.put('/core/assoc-type', typeModel).then(response =>
       response.data
     )
   },
