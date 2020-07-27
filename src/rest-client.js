@@ -370,7 +370,7 @@ export default {
    */
   login (credentials, authMethod = 'Basic') {
     // suppress error handler as the client application is supposed to present the error to the user specially
-    return _http.post('/accesscontrol/login', undefined, {
+    return _http.post('/access-control/login', undefined, {
       headers: {
         'Authorization': authMethod + ' ' + btoa(credentials.username + ':' + credentials.password)
       }
@@ -378,54 +378,54 @@ export default {
   },
 
   logout () {
-    return http.post('/accesscontrol/logout')
+    return http.post('/access-control/logout')
       .then(() => permCache.clear())
   },
 
   getUsername () {
-    return http.get('/accesscontrol/user').then(response =>
+    return http.get('/access-control/user').then(response =>
       response.data
     )
   },
 
   getPrivateWorkspace () {
-    return http.get(`/accesscontrol/user/workspace`).then(response =>
+    return http.get(`/access-control/user/workspace`).then(response =>
       new Topic(response.data)
     )
   },
 
   getWorkspaceOwner (id) {
-    return http.get(`/accesscontrol/workspace/${id}/owner`).then(response =>
+    return http.get(`/access-control/workspace/${id}/owner`).then(response =>
       response.data
     )
   },
 
   getAdminWorkspaceId () {
-    return http.get('/accesscontrol/workspace/admin/id').then(response =>
+    return http.get('/access-control/workspace/admin/id').then(response =>
       response.data
     )
   },
 
   getPermissions (id) {
-    return http.get(`/accesscontrol/object/${id}`).then(response =>
+    return http.get(`/access-control/object/${id}`).then(response =>
       response.data
     )
   },
 
   getCreator (id) {
-    return http.get(`/accesscontrol/object/${id}/creator`).then(response =>
+    return http.get(`/access-control/object/${id}/creator`).then(response =>
       response.data
     )
   },
 
   getModifier (id) {
-    return http.get(`/accesscontrol/object/${id}/modifier`).then(response =>
+    return http.get(`/access-control/object/${id}/modifier`).then(response =>
       response.data
     )
   },
 
   getAuthorizationMethods () {
-    return http.get('/accesscontrol/methods').then(response =>
+    return http.get('/access-control/methods').then(response =>
       response.data
     )
   },
@@ -436,7 +436,7 @@ export default {
    * @return  a promise for a Username topic
    */
   createUserAccount (username, password) {
-    return http.post('/accesscontrol/user-account', {
+    return http.post('/access-control/user-account', {
       username, password
     }).then(response =>
       new Topic(response.data)
