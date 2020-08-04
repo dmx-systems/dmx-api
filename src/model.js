@@ -83,25 +83,30 @@ class DMXObject {
   fillChildren () {
     this.type.compDefs.forEach(compDef => {
       let children = this.children[compDef.compDefUri]
+      let childrenExists = compDef.isOne() ? children : children && children.length
       let child
-      if (!children) {
+      if (!childrenExists) {
         // Note: child instantiation is done by the Topic constructor (recursively)
         child = new Topic(compDef.getChildType().emptyInstance())
       }
       if (compDef.isOne()) {
-        if (children) {
+        if (childrenExists) {
           children.fillChildren()
         } else {
           children = child
         }
         children.fillRelatingAssoc(compDef)
       } else {
-        if (children) {
+        if (childrenExists) {
           children.forEach(child => {
             child.fillChildren()
           })
         } else {
-          children = [child]
+          if (children) {
+            children.push(child)
+          } else {
+            children = [child]
+          }
         }
         children.forEach(child => {
           child.fillRelatingAssoc(compDef)
