@@ -1,7 +1,7 @@
 module.exports = {
   output: {
-    filename: 'dm5.min.js',
-    library: 'dm5',
+    filename: 'dmx-api.min.js',
+    library: 'dmx-api',
     libraryTarget: 'umd'
   },
   externals: ['axios', 'vue', 'clone', 'debounce'],

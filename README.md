@@ -1,6 +1,22 @@
-# DeepaMehta 5 base types and API
+# DMX 5 base types and API
 
 ## Version History
+
+**1.0** -- Aug 4, 2020
+
+* Feature: Configurable Icon Renderers
+    * new config option: `iconRenderers`
+* Model:
+    * drop `toExternalForm()` method from `Type` class
+* REST client:
+    * add `getTopicByValue()`, `getTopicsByValue()`
+    * add `queryTopics()`
+    * add `getAdminWorkspaceId()`
+    * generic `getPermissions()` method
+* Global:
+    * add `isAdmin()`
+* Fix:
+    * Model: `fillChildren()` when multi-value is empty array
 
 **0.37** -- Mar 30, 2020
 
@@ -211,4 +227,4 @@
 
 ------------
 Jörg Richter  
-Mar 30, 2020
+Aug 4, 2020
