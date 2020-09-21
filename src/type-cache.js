@@ -4,7 +4,7 @@ import utils from './utils'
 import Vue from 'vue'
 
 // Note: the type cache is reactive state. E.g. new topic types appear in the Search Widget's
-// type menu automatically (see computed property "menuTopicTypes" in dm5-webclient.vue).
+// type menu automatically (see "createTopicTypes" getter in search.js of module dmx-search).
 
 const state = {
   topicTypes: undefined,    // object: type URI (string) -> TopicType

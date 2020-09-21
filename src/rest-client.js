@@ -76,6 +76,18 @@ export default {
     })
   },
 
+  queryRelatedTopicsFulltext (topicQuery, topicTypeUri, searchTopicChildren,
+                              assocQuery, assocTypeUri, searchAssocChildren) {
+    // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
+    return _http.get('/core/topics', {params: {
+      topicQuery, topicTypeUri, searchTopicChildren,
+      assocQuery, assocTypeUri, searchAssocChildren
+    }}).then(response => ({
+      ...response.data,
+      topics: utils.instantiateMany(response.data.topics, Topic)
+    }))
+  },
+
   /**
    * @param   filter
    *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):

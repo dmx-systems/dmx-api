@@ -11,7 +11,7 @@ const DEFAULT_ICON_COLOR = 'hsl(210, 50%, 53%)'   // matches dm5-color-picker bl
 const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
 const DEFAULT_BACKGROUND_COLOR = '#f5f7fa'        // matches dm5-webclient --background-color
 
-let iconRenderers
+let iconRenderers = {}
 
 class DMXObject {
 
@@ -761,7 +761,7 @@ class Topicmap extends Topic {
     if (!(topic instanceof ViewTopic)) {
       throw Error(`addTopic() expects a ViewTopic, got ${topic.constructor.name}`)
     }
-    // reactivity is required to trigger "visibleTopicIds" getter (module dm5-cytoscape-renderer)
+    // reactivity is required to trigger "visibleTopicIds" getter (module dmx-cytoscape-renderer)
     Vue.set(this._topics, topic.id, topic)
   }
 
@@ -772,7 +772,7 @@ class Topicmap extends Topic {
     if (!(assoc instanceof ViewAssoc)) {
       throw Error(`addAssoc() expects a ViewAssoc, got ${assoc.constructor.name}`)
     }
-    // reactivity is required to trigger "visibleAssocIds" getter (module dm5-cytoscape-renderer)
+    // reactivity is required to trigger "visibleAssocIds" getter (module dmx-cytoscape-renderer)
     Vue.set(this._assocs, assoc.id, assoc)
   }
 
@@ -846,7 +846,7 @@ class Topicmap extends Topic {
    * Note: if the topic is not in this topicmap nothing is performed.
    */
   removeTopic (id) {
-    // reactivity is required to trigger "visibleTopicIds" getter (module dm5-cytoscape-renderer)
+    // reactivity is required to trigger "visibleTopicIds" getter (module dmx-cytoscape-renderer)
     Vue.delete(this._topics, id)
   }
 
@@ -854,7 +854,7 @@ class Topicmap extends Topic {
    * Note: if the assoc is not in this topicmap nothing is performed.
    */
   removeAssoc (id) {
-    // reactivity is required to trigger "visibleAssocIds" getter (module dm5-cytoscape-renderer)
+    // reactivity is required to trigger "visibleAssocIds" getter (module dmx-cytoscape-renderer)
     Vue.delete(this._assocs, id)
   }
 
