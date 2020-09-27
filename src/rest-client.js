@@ -79,12 +79,13 @@ export default {
   queryRelatedTopicsFulltext (topicQuery, topicTypeUri, searchTopicChildren,
                               assocQuery, assocTypeUri, searchAssocChildren) {
     // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
+    const assocFilter = assocQuery || assocTypeUri
     return _http.get('/core/topics', {params: {
       topicQuery, topicTypeUri, searchTopicChildren,
       assocQuery, assocTypeUri, searchAssocChildren
     }}).then(response => ({
       ...response.data,
-      topics: utils.instantiateMany(response.data.topics, Topic)
+      topics: utils.instantiateMany(response.data.topics, assocFilter ? RelatedTopic : Topic)
     }))
   },
 

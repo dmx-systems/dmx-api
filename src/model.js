@@ -407,6 +407,9 @@ class Player {
 class RelatedTopic extends Topic {
   constructor (topic) {
     super(topic)
+    if (!topic.assoc) {
+      throw Error('object passed to RelatedTopic constructor has no `assoc` property');
+    }
     this.assoc = new Assoc(topic.assoc)
   }
 }
