@@ -277,12 +277,22 @@ class Assoc extends DMXObject {
   // ---
 
   getPlayer (roleTypeUri) {
-    var match1 = this.player1.roleTypeUri === roleTypeUri
-    var match2 = this.player2.roleTypeUri === roleTypeUri
+    const match1 = this.player1.roleTypeUri === roleTypeUri
+    const match2 = this.player2.roleTypeUri === roleTypeUri
     if (match1 && match2) {
       throw Error(`both players of association ${this.id} have role type ${roleTypeUri}`)
     }
     return match1 ? this.player1 : match2 ? this.player2 : undefined
+  }
+
+  getOtherPlayerId (id) {
+    if (this.player1.id === id) {
+      return this.player2.id
+    } else if (this.player2.id === id) {
+      return this.player1.id
+    } else {
+      throw Error(`${id} is not a player in assoc ${JSON.stringify(this)}`)
+    }
   }
 
   /**
@@ -670,7 +680,7 @@ class Topicmap extends Topic {
   }
 
   getTopic (id) {
-    var topic = this.getTopicIfExists(id)
+    const topic = this.getTopicIfExists(id)
     if (!topic) {
       throw Error(`topic ${id} not found in topicmap ${this.id}`)
     }
@@ -678,7 +688,7 @@ class Topicmap extends Topic {
   }
 
   getAssoc (id) {
-    var assoc = this.getAssocIfExists(id)
+    const assoc = this.getAssocIfExists(id)
     if (!assoc) {
       throw Error(`assoc ${id} not found in topicmap ${this.id}`)
     }
@@ -900,15 +910,7 @@ class Topicmap extends Topic {
    * @param   id      a topic ID or an assoc ID
    */
   getOtherPlayer (assoc, id) {
-    let _id
-    if (assoc.player1.id === id) {
-      _id = assoc.player2.id
-    } else if (assoc.player2.id === id) {
-      _id = assoc.player1.id
-    } else {
-      throw Error(`${id} is not a player in assoc ${JSON.stringify(assoc)}`)
-    }
-    return this.getObject(_id)
+    return this.getObject(assoc.getOtherPlayerId(id))
   }
 
   // Topicmap
