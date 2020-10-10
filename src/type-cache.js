@@ -159,6 +159,10 @@ function getTypeById (id) {
 
 // ---
 
+// TODO: the following 4 functions return async data so they should return promise
+
+// IMPORTANT: call these methods only from a reactive context, otherwise you might get undefined
+
 function getAllTopicTypes () {
   return getAllTypes('topicTypes')
 }
@@ -175,8 +179,11 @@ function getAllRoleTypes () {
   return getAllTypes('roleTypes')
 }
 
+/**
+ * @return  the requested types (array), or undefined if types are not yet loaded
+ */
 function getAllTypes (prop) {
-  return Object.values(state[prop])
+  return state[prop] && Object.values(state[prop])
 }
 
 // ---
