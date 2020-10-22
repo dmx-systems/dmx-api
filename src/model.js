@@ -417,10 +417,14 @@ class Player {
 class RelatedTopic extends Topic {
   constructor (topic) {
     super(topic)
-    if (!topic.assoc) {
+    if (topic.assoc) {
+      this.assoc = new Assoc(topic.assoc)
+    } else {
       throw Error('object passed to RelatedTopic constructor has no `assoc` property');
     }
-    this.assoc = new Assoc(topic.assoc)
+    if (topic.player) {
+      this.player = new Topic(topic.player)   // TODO: support assoc players as well
+    }
   }
 }
 
