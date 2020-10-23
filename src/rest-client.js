@@ -86,7 +86,6 @@ export default {
     }}).then(response => ({
       ...response.data,
       topics: utils.instantiateMany(response.data.topics, assocFilter ? RelatedTopic : Topic)
-      // TODO: instantiate RelatedTopic for widened topic filter as well?
     }))
   },
 
