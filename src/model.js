@@ -377,6 +377,8 @@ class Player {
     this.topicUri    = player.topicUri      // optionally set for topic player. May be undefined.
     this.assocId     = player.assocId       // always set for assoc player. Undefined for topic player.
     this.roleTypeUri = player.roleTypeUri   // always set.
+    player.topic && (this.topic = new Topic(player.topic))
+    player.assoc && (this.assoc = new Assoc(player.assoc))
   }
 
   getRoleType () {
