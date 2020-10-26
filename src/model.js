@@ -264,13 +264,18 @@ class Assoc extends DMXObject {
 
   constructor (assoc) {
     super(assoc)
-    // Note: for update models the players are optional.
+    // Note 1: for update models the players are optional.
     // Compare to ModelFactoryImpl.newAssocModel(JSONObject assoc).
-    if (assoc.player1) {
-      this.player1 = new Player(assoc.player1)
+    // Note 2: when a ViewAssoc is created the Assoc constructor is invoked, and both players would
+    // be instantiated again, resulting in "DMXObject constructor expects Object, got Topic/Assoc".
+    // ### TODO: rethink about instantiation of first-class objects in conjunction with view-objects
+    const p1 = assoc.player1
+    const p2 = assoc.player2
+    if (p1) {
+      this.player1 = p1 instanceof Player ? p1 : new Player(p1)
     }
-    if (assoc.player2) {
-      this.player2 = new Player(assoc.player2)
+    if (p2) {
+      this.player2 = p2 instanceof Player ? p2 : new Player(p2)
     }
   }
 
