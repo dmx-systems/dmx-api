@@ -76,19 +76,6 @@ export default {
     })
   },
 
-  queryRelatedTopicsFulltext (topicQuery, topicTypeUri, searchTopicChildren,
-                              assocQuery, assocTypeUri, searchAssocChildren) {
-    // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
-    const assocFilter = assocQuery || assocTypeUri
-    return _http.get('/core/topics', {params: {
-      topicQuery, topicTypeUri, searchTopicChildren,
-      assocQuery, assocTypeUri, searchAssocChildren
-    }}).then(response => ({
-      ...response.data,
-      topics: utils.instantiateMany(response.data.topics, assocFilter ? RelatedTopic : Topic)
-    }))
-  },
-
   /**
    * @param   filter
    *            Optional: 1-hop traversal filtering. An object with 4 properties (each one is optional):
@@ -177,6 +164,19 @@ export default {
   },
 
   // Object
+
+  query (topicQuery, topicTypeUri, searchTopicChildren,
+         assocQuery, assocTypeUri, searchAssocChildren) {
+    // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
+    const assocFilter = assocQuery || assocTypeUri
+    return _http.get('/core/objects', {params: {
+      topicQuery, topicTypeUri, searchTopicChildren,
+      assocQuery, assocTypeUri, searchAssocChildren
+    }}).then(response => ({
+      ...response.data,
+      topics: utils.instantiateMany(response.data.topics, assocFilter ? Assoc : Topic)
+    }))
+  },
 
   getRelatedTopicsWithoutChilds (objectId) {
     return http.get(`/core/object/${objectId}/related-topics`).then(response =>
