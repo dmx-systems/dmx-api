@@ -174,7 +174,7 @@ export default {
       assocQuery, assocTypeUri, searchAssocChildren
     }}).then(response => ({
       ...response.data,
-      topics: utils.instantiateMany(response.data.topics, assocFilter ? Assoc : Topic)
+      objects: utils.instantiateMany(response.data.objects, assocFilter ? Assoc : Topic)
     }))
   },
 
