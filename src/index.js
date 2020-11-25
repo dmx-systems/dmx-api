@@ -6,8 +6,9 @@ import restClient from './rest-client'
 import typeCache  from './type-cache'
 import permCache  from './permission-cache'
 import utils      from './utils'
+import icons      from './icons'
 
-console.log('[DMX-API] 2020/11/03')
+console.log('[DMX-API] 2020/11/25')
 
 let adminWorkspaceId    // promise
 
@@ -19,6 +20,7 @@ export default {
   typeCache,
   permCache,
   utils,
+  icons,
 
   init (config) {
     config.iconRenderers && setIconRenderers(config.iconRenderers)
@@ -31,8 +33,6 @@ export default {
    * @return  a promise for a true/false value
    */
   isAdmin () {
-    return adminWorkspaceId
-      .then(id => permCache.isWritable(id))
-      // .then(isAdmin => console.log('isAdmin', isAdmin))
+    return adminWorkspaceId.then(id => permCache.isWritable(id))
   }
 }
