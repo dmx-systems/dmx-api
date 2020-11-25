@@ -17,6 +17,7 @@
   "dependencies": {
     "axios": "0.18.1",
     "clone": "2.1.2",
-    "debounce": "1.2.0"
+    "debounce": "1.2.0",
+    "font-awesome": "4.7.0"
   }
 }

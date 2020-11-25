@@ -1,3 +1,5 @@
+import 'font-awesome/css/font-awesome.css'
+
 import fa from 'font-awesome/fonts/fontawesome-webfont.svg'
 import restClient from './rest-client'
 
