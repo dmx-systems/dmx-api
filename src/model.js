@@ -499,13 +499,13 @@ class Type extends Topic {
   newFormModel (object) {
 
     function _newFormModel (object, type, level) {
-      const o = {
+      const o = type.newInstance({
         id:      object && object.id      || -1,
         uri:     object && object.uri     || '',
         typeUri: object && object.typeUri || type.uri,
         value:   object && object.value   || '',
         children: {}
-      }
+      })
       if (type.isComposite()) {
         type.compDefs.forEach(compDef => {
           const compDefUri = compDef.compDefUri
@@ -518,7 +518,7 @@ class Type extends Topic {
             if (compDef.isOne()) {
               o.children[compDefUri] = _newFormModel(child, childType, level + 1)
             } else {
-              if (child.length) {
+              if (child && child.length) {
                 o.children[compDefUri] = child.map(object => _newFormModel(object, childType, level + 1))
               } else {
                 o.children[compDefUri] = [_newFormModel(undefined, childType, level + 1)]
@@ -534,6 +534,8 @@ class Type extends Topic {
   }
 
   /**
+   * TODO: drop it in favor of newFormModel()?
+   *
    * @returns   a plain object.
    */
   emptyInstance () {
@@ -561,7 +563,7 @@ class TopicType extends Type {
 
   /**
    * TODO: drop this method.
-   * For topic creation use emptyInstance() instead and fill in the default value(s) afterwards.
+   * For topic creation use newFormModel() instead and fill in the default value(s) afterwards.
    *
    * @returns   a plain object.
    */
@@ -583,6 +585,10 @@ class TopicType extends Type {
       }
       return topic
     }
+  }
+
+  newInstance (object) {
+    return new Topic(object)
   }
 
   get icon () {
@@ -607,6 +613,10 @@ class TopicType extends Type {
 }
 
 class AssocType extends Type {
+
+  newInstance (object) {
+    return new Assoc(object)
+  }
 
   isTopicType () {
     return false
