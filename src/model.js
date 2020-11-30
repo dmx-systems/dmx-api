@@ -489,6 +489,51 @@ class Type extends Topic {
   }
 
   /**
+   * Creates a form model for this type.
+   *
+   * @param   object  optional, if given its values are filled in.
+   *                  The object is expected to be of *this* type.
+   *
+   * @return  the created form model.
+   */
+  newFormModel (object) {
+
+    function _newFormModel (object, type, level) {
+      const o = {
+        id:      object && object.id      || -1,
+        uri:     object && object.uri     || '',
+        typeUri: object && object.typeUri || type.uri,
+        value:   object && object.value   || '',
+        children: {}
+      }
+      if (type.isComposite()) {
+        type.compDefs.forEach(compDef => {
+          const compDefUri = compDef.compDefUri
+          const childType = compDef.getChildType()
+          const childTypeUri = childType.uri
+          // Reduced details: at deeper levels for entity types only their identity attributes are included
+          const include = level === 0 || type.isValue() || compDef.isIdentityAttr
+          if (include) {
+            const child = object && object.children[compDefUri]
+            if (compDef.isOne()) {
+              o.children[compDefUri] = _newFormModel(child, childType, level + 1)
+            } else {
+              if (child.length) {
+                o.children[compDefUri] = child.map(object => _newFormModel(object, childType, level + 1))
+              } else {
+                o.children[compDefUri] = [_newFormModel(undefined, childType, level + 1)]
+              }
+            }
+          }
+        })
+      }
+      return o
+    }
+
+    return _newFormModel(object, this, 0)
+  }
+
+  /**
    * @returns   a plain object.
    */
   emptyInstance () {
