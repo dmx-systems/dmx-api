@@ -203,17 +203,6 @@ class Topic extends DMXObject {
       throw Error(`not a type: ${this}`)
     }
   }
-
-  // TODO: drop it in favor of newFormModel()
-  fillRelatingAssoc (compDef) {
-    if (this.assoc) {
-      this.assoc.fillChildren()
-    } else {
-      this.assoc = new Assoc(compDef.getInstanceLevelAssocType().emptyInstance())
-      // Note: reactivity seems not be an issue here. I don't know why.
-      // Vue.set(this, 'assoc', new Assoc(compDef.getInstanceLevelAssocType().emptyInstance()))
-    }
-  }
 }
 
 class Assoc extends DMXObject {
