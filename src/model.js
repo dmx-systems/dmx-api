@@ -508,20 +508,19 @@ class Type extends Topic {
       })
       if (type.isComposite()) {
         type.compDefs.forEach(compDef => {
-          const compDefUri = compDef.compDefUri
-          const childType = compDef.getChildType()
-          const childTypeUri = childType.uri
           // Reduced details: at deeper levels for entity types only their identity attributes are included
-          const include = level === 0 || type.isValue() || compDef.isIdentityAttr
-          if (include) {
+          if (level === 0 || type.isValue() || compDef.isIdentityAttr) {
+            const compDefUri = compDef.compDefUri
+            const childType = compDef.getChildType()
             const child = object && object.children[compDefUri]
+            const nextLevel = level + 1
             if (compDef.isOne()) {
-              o.children[compDefUri] = _newFormModel(child, childType, level + 1)
+              o.children[compDefUri] = _newFormModel(child, childType, nextLevel)
             } else {
               if (child && child.length) {
-                o.children[compDefUri] = child.map(object => _newFormModel(object, childType, level + 1))
+                o.children[compDefUri] = child.map(object => _newFormModel(object, childType, nextLevel))
               } else {
-                o.children[compDefUri] = [_newFormModel(undefined, childType, level + 1)]
+                o.children[compDefUri] = [_newFormModel(undefined, childType, nextLevel)]
               }
             }
           }
