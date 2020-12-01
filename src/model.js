@@ -75,58 +75,12 @@ class DMXObject {
     return permCache.isWritable(this.id)
   }
 
-  // TODO: drop it in favor of newFormModel()
-  /**
-   * Operates in-place.
-   *
-   * @return    this object
-   */
-  fillChildren () {
-    this.type.compDefs.forEach(compDef => {
-      let children = this.children[compDef.compDefUri]
-      let childrenExists = compDef.isOne() ? children : children && children.length
-      let child
-      if (!childrenExists) {
-        // Note: child instantiation is done by the Topic constructor (recursively)
-        child = new Topic(compDef.getChildType().emptyInstance())
-      }
-      if (compDef.isOne()) {
-        if (childrenExists) {
-          children.fillChildren()
-        } else {
-          children = child
-        }
-        children.fillRelatingAssoc(compDef)
-      } else {
-        if (childrenExists) {
-          children.forEach(child => {
-            child.fillChildren()
-          })
-        } else {
-          if (children) {
-            children.push(child)
-          } else {
-            children = [child]
-          }
-        }
-        children.forEach(child => {
-          child.fillRelatingAssoc(compDef)
-        })
-      }
-      if (child) {
-        // Note: this object might be on display. Setting the children must be reactive.
-        Vue.set(this.children, compDef.compDefUri, children)
-      }
-    })
-    return this
-  }
-
   /**
    * Returns true if this object equals the given object.
    *
    * In case of composite objects this method can only be used if all child topics are present (according to type
-   * definition) in both objects. Child topics can have empty values. Consider calling fillChildren() on both objects
-   * before calling this method.
+   * definition) in both objects. Child topics can have empty values. Consider calling newFormModel() for both
+   * objects before calling this method.
    */
   equals (object) {
     return this._equals(object) && (!this.assoc || this.assoc._equals(object.assoc))
@@ -566,30 +520,27 @@ class Type extends Topic {
 
 class TopicType extends Type {
 
+  // TODO: drop this method in favor of newFormModel() and fill in the default value(s) afterwards?
   /**
-   * TODO: drop this method.
-   * For topic creation use newFormModel() instead and fill in the default value(s) afterwards.
-   *
    * @returns   a plain object.
    */
   newTopicModel (simpleValue) {
 
-    return _newTopicModel(this.uri)
-
-    function _newTopicModel (typeUri) {
-      const topic = {typeUri}
-      const type = typeCache.getTopicType(typeUri)
+    function _newTopicModel (type) {
+      const topic = {typeUri: type.uri}
       if (type.isSimple()) {
         topic.value = simpleValue
       } else {
         const compDef = type.compDefs[0]
-        const child = _newTopicModel(compDef.childTypeUri)
+        const child = _newTopicModel(compDef.getChildType())
         topic.children = {
           [compDef.compDefUri]: compDef.isOne() ? child : [child]
         }
       }
       return topic
     }
+
+    return _newTopicModel(this)
   }
 
   newInstance (object) {
