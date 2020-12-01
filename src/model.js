@@ -75,8 +75,9 @@ class DMXObject {
     return permCache.isWritable(this.id)
   }
 
+  // TODO: drop it in favor of newFormModel()
   /**
-   * Operates in-place
+   * Operates in-place.
    *
    * @return    this object
    */
@@ -249,6 +250,7 @@ class Topic extends DMXObject {
     }
   }
 
+  // TODO: drop it in favor of newFormModel()
   fillRelatingAssoc (compDef) {
     if (this.assoc) {
       this.assoc.fillChildren()
@@ -498,13 +500,14 @@ class Type extends Topic {
    */
   newFormModel (object) {
 
-    function _newFormModel (object, type, level) {
+    function _newFormModel (object, type, level, compDef) {
       const o = type.newInstance({
         id:      object && object.id      || -1,
         uri:     object && object.uri     || '',
         typeUri: object && object.typeUri || type.uri,
         value:   object && object.value   || '',
         children: {}
+        // FIXME: assoc players?
       })
       if (type.isComposite()) {
         type.compDefs.forEach(compDef => {
@@ -515,16 +518,19 @@ class Type extends Topic {
             const child = object && object.children[compDefUri]
             const nextLevel = level + 1
             if (compDef.isOne()) {
-              o.children[compDefUri] = _newFormModel(child, childType, nextLevel)
+              o.children[compDefUri] = _newFormModel(child, childType, nextLevel, compDef)
             } else {
               if (child && child.length) {
-                o.children[compDefUri] = child.map(object => _newFormModel(object, childType, nextLevel))
+                o.children[compDefUri] = child.map(object => _newFormModel(object, childType, nextLevel, compDef))
               } else {
-                o.children[compDefUri] = [_newFormModel(undefined, childType, nextLevel)]
+                o.children[compDefUri] = [_newFormModel(undefined, childType, nextLevel, compDef)]
               }
             }
           }
         })
+      }
+      if (level) {
+        o.assoc = compDef.getInstanceLevelAssocType().newFormModel(object && object.assoc)
       }
       return o
     }
