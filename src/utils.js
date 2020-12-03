@@ -103,7 +103,7 @@ function getCookie(name) {
 }
 
 function setCookie (name, value) {
-  document.cookie = `${name}=${value};path=/`
+  document.cookie = cookie(name, value)
 }
 
 function deleteCookie (name) {
@@ -112,7 +112,11 @@ function deleteCookie (name) {
     var expires = new Date()
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000)
     //
-    document.cookie = `${name}=;path=/;expires=${expires.toGMTString()}`
+    document.cookie = cookie(name, '') + `;expires=${expires.toGMTString()}`
+}
+
+function cookie(name, value) {
+  return `${name}=${value};path=/;SameSite=Strict`
 }
 
 // ---
