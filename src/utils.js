@@ -112,11 +112,11 @@ function deleteCookie (name) {
     var expires = new Date()
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000)
     //
-    document.cookie = cookie(name, '') + `;expires=${expires.toGMTString()}`
+    document.cookie = cookie(name, '') + `;Expires=${expires.toGMTString()}`
 }
 
 function cookie(name, value) {
-  return `${name}=${value};path=/;SameSite=Strict`
+  return `${name}=${value};Path=/;SameSite=Strict`
 }
 
 // ---
