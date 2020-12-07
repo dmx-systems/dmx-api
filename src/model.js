@@ -143,13 +143,13 @@ class Topic extends DMXObject {
     return this.type._getColor() || DEFAULT_ICON_COLOR
   }
 
-  isType () {
+  get isType () {
     // TODO: meta type?
     return this.typeUri === 'dmx.core.topic_type' ||
            this.typeUri === 'dmx.core.assoc_type'
   }
 
-  isCompDef () {
+  get isCompDef () {
     return false    // topics are never comp defs
   }
 
@@ -171,11 +171,11 @@ class Topic extends DMXObject {
     return restClient.updateTopic(this)
   }
 
-  isTopic () {
+  get isTopic () {
     return true
   }
 
-  isAssoc () {
+  get isAssoc () {
     return false
   }
 
@@ -262,11 +262,11 @@ class Assoc extends DMXObject {
     return this.type._getColor() || DEFAULT_ASSOC_COLOR
   }
 
-  isType () {
+  get isType () {
     return false    // assocs are never types
   }
 
-  isCompDef () {
+  get isCompDef () {
     return this.typeUri === 'dmx.core.composition_def'
   }
 
@@ -288,11 +288,11 @@ class Assoc extends DMXObject {
     return restClient.updateAssoc(this)
   }
 
-  isTopic () {
+  get isTopic () {
     return false
   }
 
-  isAssoc () {
+  get isAssoc () {
     return true
   }
 
@@ -664,7 +664,7 @@ class CompDef extends Assoc {
   // TODO: a getViewConfig() form that falls back to the child type view config?
 
   _defaultInstanceLevelAssocTypeUri () {
-    if (!this.isCompDef()) {
+    if (!this.isCompDef) {
       throw Error(`unexpected association type URI: "${this.typeUri}"`);
     }
     return 'dmx.core.composition';
@@ -762,7 +762,7 @@ class Topicmap extends Topic {
    */
   getPosition (id) {
     const o = this.getObject(id)
-    if (o.isTopic()) {
+    if (o.isTopic) {
       return o.getPosition()
     } else {
       const pos1 = this.getPosition(o.player1.id)
