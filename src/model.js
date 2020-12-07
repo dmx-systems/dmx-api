@@ -385,23 +385,23 @@ class Type extends Topic {
     this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
   }
 
-  isSimple () {
+  get isSimple () {
     return ['dmx.core.text', 'dmx.core.html', 'dmx.core.number', 'dmx.core.boolean'].includes(this.dataTypeUri)
   }
 
-  isComposite () {
-    return !this.isSimple()
+  get isComposite () {
+    return !this.isSimple
   }
 
-  isValue () {
+  get isValue () {
     return this.dataTypeUri === 'dmx.core.value'
   }
 
-  isEntity () {
+  get isEntity () {
     return this.dataTypeUri === 'dmx.core.entity'
   }
 
-  getDataType () {
+  get dataType () {
     return typeCache.getDataType(this.dataTypeUri)
   }
 
@@ -452,10 +452,10 @@ class Type extends Topic {
         children: {}
         // FIXME: assoc players?
       })
-      if (type.isComposite()) {
+      if (type.isComposite) {
         type.compDefs.forEach(compDef => {
           // Reduced details: at deeper levels for entity types only their identity attributes are included
-          if (level === 0 || type.isValue() || compDef.isIdentityAttr) {
+          if (level === 0 || type.isValue || compDef.isIdentityAttr) {
             const compDefUri = compDef.compDefUri
             const childType = compDef.childType
             const child = object && object.children[compDefUri]
@@ -517,7 +517,7 @@ class TopicType extends Type {
 
     function _newTopicModel (type) {
       const topic = {typeUri: type.uri}
-      if (type.isSimple()) {
+      if (type.isSimple) {
         topic.value = simpleValue
       } else {
         const compDef = type.compDefs[0]
