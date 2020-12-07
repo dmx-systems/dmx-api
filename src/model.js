@@ -99,7 +99,7 @@ class DMXObject {
       const compDefUri = compDef.compDefUri
       const child = this.children[compDefUri]
       const _child = children[compDefUri]
-      if (compDef.isOne()) {
+      if (compDef.isOne) {
         return !child.equals(_child)
       } else if (child.length !== _child.length) {
         return true
@@ -457,10 +457,10 @@ class Type extends Topic {
           // Reduced details: at deeper levels for entity types only their identity attributes are included
           if (level === 0 || type.isValue() || compDef.isIdentityAttr) {
             const compDefUri = compDef.compDefUri
-            const childType = compDef.getChildType()
+            const childType = compDef.childType
             const child = object && object.children[compDefUri]
             const nextLevel = level + 1
-            if (compDef.isOne()) {
+            if (compDef.isOne) {
               o.children[compDefUri] = _newFormModel(child, childType, nextLevel, compDef)
             } else {
               if (child && child.length) {
@@ -473,7 +473,7 @@ class Type extends Topic {
         })
       }
       if (level) {
-        o.assoc = compDef.getInstanceLevelAssocType().newFormModel(object && object.assoc)
+        o.assoc = compDef.instanceLevelAssocType.newFormModel(object && object.assoc)
       }
       return o
     }
@@ -491,8 +491,8 @@ class Type extends Topic {
     const emptyChildren = () => {
       const children = {}
       this.compDefs.forEach(compDef => {
-        const child = compDef.getChildType().emptyInstance()
-        children[compDef.compDefUri] = compDef.isOne() ? child : [child]
+        const child = compDef.childType.emptyInstance()
+        children[compDef.compDefUri] = compDef.isOne ? child : [child]
       })
       return children
     }
@@ -521,9 +521,9 @@ class TopicType extends Type {
         topic.value = simpleValue
       } else {
         const compDef = type.compDefs[0]
-        const child = _newTopicModel(compDef.getChildType())
+        const child = _newTopicModel(compDef.childType)
         topic.children = {
-          [compDef.compDefUri]: compDef.isOne() ? child : [child]
+          [compDef.compDefUri]: compDef.isOne ? child : [child]
         }
       }
       return topic
@@ -620,26 +620,26 @@ class CompDef extends Assoc {
 
   // ---
 
-  getChildType () {
+  get childType () {
     return typeCache.getTopicType(this.childTypeUri)
   }
 
-  getInstanceLevelAssocType () {
+  get instanceLevelAssocType () {
     return typeCache.getAssocType(this.instanceLevelAssocTypeUri)
   }
 
   /**
    * Returns the custom assoc type (a dm5.AssocType object), or undefined if no one is set.
    */
-  getCustomAssocType () {
+  get customAssocType () {
     return this.customAssocTypeUri && typeCache.getAssocType(this.customAssocTypeUri)
   }
 
-  isOne () {
+  get isOne () {
     return this.childCardinalityUri === 'dmx.core.one'
   }
 
-  isMany () {
+  get isMany () {
     return this.childCardinalityUri === 'dmx.core.many'
   }
 
@@ -671,8 +671,8 @@ class CompDef extends Assoc {
   }
 
   emptyChildInstance () {
-    const topic = this.getChildType().emptyInstance()
-    topic.assoc = this.getInstanceLevelAssocType().emptyInstance()
+    const topic = this.childType.emptyInstance()
+    topic.assoc = this.instanceLevelAssocType.emptyInstance()
     return new Topic(topic)
   }
 }
