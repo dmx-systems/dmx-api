@@ -1,5 +1,5 @@
 import { Topic, TopicType, AssocType } from './model'
-import restClient from './rest-client'
+import rpc from './rpc'
 import utils from './utils'
 import Vue from 'vue'
 
@@ -104,17 +104,17 @@ function init (store) {
   })
   // init state
   return Promise.all([
-    restClient.getAllTopicTypes().then(topicTypes => {
+    rpc.getAllTopicTypes().then(topicTypes => {
       state.topicTypes = utils.mapByUri(topicTypes)
       _putTopicType(bootstrapType())
     }),
-    restClient.getAllAssocTypes().then(assocTypes => {
+    rpc.getAllAssocTypes().then(assocTypes => {
       state.assocTypes = utils.mapByUri(assocTypes)
     }),
-    restClient.getTopicsByType('dmx.core.data_type').then(dataTypes => {
+    rpc.getTopicsByType('dmx.core.data_type').then(dataTypes => {
       state.dataTypes = utils.mapByUri(dataTypes)
     }),
-    restClient.getTopicsByType('dmx.core.role_type').then(roleTypes => {
+    rpc.getTopicsByType('dmx.core.role_type').then(roleTypes => {
       state.roleTypes = utils.mapByUri(roleTypes)
     })
   ]).then(() => {

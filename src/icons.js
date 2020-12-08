@@ -1,13 +1,13 @@
 import 'font-awesome/css/font-awesome.css'
 
 import fa from 'font-awesome/fonts/fontawesome-webfont.svg'
-import restClient from './rest-client'
+import rpc from './rpc'
 
 let svgReady            // a promise resolved once the Font Awesome SVG is loaded
 let faFont              // Font Awesome SVG <font> element
 let faDefaultWidth      // Default icon width
 
-svgReady = restClient.getXML(fa).then(svg => {
+svgReady = rpc.getXML(fa).then(svg => {
   faFont = svg.querySelector('font')
   faDefaultWidth = faFont.getAttribute('horiz-adv-x')
 })

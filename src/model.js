@@ -1,4 +1,4 @@
-import restClient from './rest-client'
+import rpc from './rpc'
 import typeCache from './type-cache'
 import permCache from './permission-cache'
 import utils from './utils'
@@ -37,35 +37,35 @@ class DMXObject {
   }
 
   getCreationTime () {
-    return restClient.getCreationTime(this.id)
+    return rpc.getCreationTime(this.id)
   }
 
   getModificationTime () {
-    return restClient.getModificationTime(this.id)
+    return rpc.getModificationTime(this.id)
   }
 
   getCreator () {
-    return restClient.getCreator(this.id)
+    return rpc.getCreator(this.id)
   }
 
   getModifier () {
-    return restClient.getModifier(this.id)
+    return rpc.getModifier(this.id)
   }
 
   getWorkspace () {
-    return restClient.getAssignedWorkspace(this.id)
+    return rpc.getAssignedWorkspace(this.id)
   }
 
   assignToWorkspace (workspaceId) {
-    return restClient.assignToWorkspace(this.id, workspaceId)
+    return rpc.assignToWorkspace(this.id, workspaceId)
   }
 
   getTopicmapTopics () {
-    return restClient.getTopicmapTopics(this.id)
+    return rpc.getTopicmapTopics(this.id)
   }
 
   getRelatedTopicsWithoutChilds () {
-    return restClient.getRelatedTopicsWithoutChilds(this.id)
+    return rpc.getRelatedTopicsWithoutChilds(this.id)
   }
 
   /**
@@ -163,12 +163,12 @@ class Topic extends DMXObject {
    *            If not specified no filter is applied.
    */
   getRelatedTopics (filter) {
-    return restClient.getTopicRelatedTopics(this.id, filter)
+    return rpc.getTopicRelatedTopics(this.id, filter)
   }
 
   update () {
     console.log('update', this)
-    return restClient.updateTopic(this)
+    return rpc.updateTopic(this)
   }
 
   get isTopic () {
@@ -280,12 +280,12 @@ class Assoc extends DMXObject {
    *            If not specified no filter is applied.
    */
   getRelatedTopics (filter) {
-    return restClient.getAssocRelatedTopics(this.id, filter)
+    return rpc.getAssocRelatedTopics(this.id, filter)
   }
 
   update () {
     console.log('update', this)
-    return restClient.updateAssoc(this)
+    return rpc.updateAssoc(this)
   }
 
   get isTopic () {
@@ -358,9 +358,9 @@ class Player {
 
   fetch () {
     if (this.isTopicPlayer()) {
-      return restClient.getTopic(this.topicId)
+      return rpc.getTopic(this.topicId)
     } else if (this.isAssocPlayer()) {
-      return restClient.getAssoc(this.assocId)
+      return rpc.getAssoc(this.assocId)
     }
     throw Error(`ID not set in player ${JSON.stringify(this)}`)
   }
@@ -553,7 +553,7 @@ class TopicType extends Type {
   }
 
   update () {
-    return restClient.updateTopicType(this)
+    return rpc.updateTopicType(this)
   }
 }
 
@@ -572,7 +572,7 @@ class AssocType extends Type {
   }
 
   update () {
-    return restClient.updateAssocType(this)
+    return rpc.updateAssocType(this)
   }
 }
 
@@ -974,7 +974,7 @@ class ViewTopic extends viewPropsMixin(Topic) {
   }
 
   fetchObject () {
-    return restClient.getTopic(this.id, true, true)
+    return rpc.getTopic(this.id, true, true)
   }
 
   // TODO: make it a "pos" getter?
@@ -1002,7 +1002,7 @@ class ViewAssoc extends viewPropsMixin(Assoc) {
   }
 
   fetchObject () {
-    return restClient.getAssoc(this.id, true, true)
+    return rpc.getAssoc(this.id, true, true)
   }
 }
 

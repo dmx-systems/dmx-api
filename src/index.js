@@ -2,13 +2,13 @@ import {
   DMXObject, Topic, Assoc, Player, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic, ViewAssoc,
   setIconRenderers
 } from './model'
-import restClient from './rest-client'
-import typeCache  from './type-cache'
-import permCache  from './permission-cache'
-import utils      from './utils'
-import icons      from './icons'
+import rpc       from './rpc'
+import typeCache from './type-cache'
+import permCache from './permission-cache'
+import utils     from './utils'
+import icons     from './icons'
 
-console.log('[DMX-API] 2020/12/07')
+console.log('[DMX-API] 2020/12/08')
 
 let adminWorkspaceId    // promise
 
@@ -16,7 +16,7 @@ export default {
 
   DMXObject, Topic, Assoc, Player, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic, ViewAssoc,
 
-  restClient,
+  rpc,
   typeCache,
   permCache,
   utils,
@@ -24,8 +24,8 @@ export default {
 
   init (config) {
     config.iconRenderers && setIconRenderers(config.iconRenderers)
-    config.onHttpError && restClient.setErrorHandler(config.onHttpError)
-    adminWorkspaceId = restClient.getAdminWorkspaceId()
+    config.onHttpError && rpc.setErrorHandler(config.onHttpError)
+    adminWorkspaceId = rpc.getAdminWorkspaceId()
     return typeCache.init(config.store)
   },
 

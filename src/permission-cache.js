@@ -1,4 +1,4 @@
-import restClient from './rest-client'
+import rpc from './rpc'
 
 export default {
   isWritable,
@@ -24,7 +24,7 @@ let permissionCache = {}
  * @return  a promise for a true/false value
  */
 function isWritable (id) {
-  return (permissionCache[id] || (permissionCache[id] = restClient.getPermissions(id))).then(permissions =>
+  return (permissionCache[id] || (permissionCache[id] = rpc.getPermissions(id))).then(permissions =>
     permissions['dmx.accesscontrol.operation.write']
   )
 }
