@@ -11,7 +11,8 @@ import _debounce from 'debounce'
  * @return  array of instantiated objects
  */
 function instantiateMany (objects, clazz) {
-  return objects.map(object => new clazz(object))
+  // TODO: conditional instantiation seems wrong
+  return objects.map(object => object instanceof clazz ? object : new clazz(object))
 }
 
 // ---
