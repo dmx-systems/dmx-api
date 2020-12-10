@@ -448,6 +448,9 @@ class Type extends Topic {
   }
 
   /**
+   * @param   object  optional, if given its values are filled in.
+   *                  The object is expected to be of *this* type.
+   *
    * @return  a newly constructed plain object
    */
   _newFormModel (object) {
@@ -493,31 +496,6 @@ class Type extends Topic {
       children: {}
     }
     return o
-  }
-
-  /**
-   * TODO: drop it in favor of newFormModel()?
-   *
-   * @returns   a plain object.
-   */
-  emptyInstance () {
-
-    const emptyChildren = () => {
-      const children = {}
-      this.compDefs.forEach(compDef => {
-        const child = compDef.childType.emptyInstance()
-        children[compDef.compDefUri] = compDef.isOne ? child : [child]
-      })
-      return children
-    }
-
-    return {
-      id: -1,
-      uri: '',
-      typeUri: this.uri,
-      value: '',
-      children: emptyChildren()
-    }
   }
 }
 
@@ -677,8 +655,8 @@ class CompDef extends Assoc {
   }
 
   emptyChildInstance () {
-    const topic = this.childType.emptyInstance()
-    topic.assoc = this.instanceLevelAssocType.emptyInstance()
+    const topic = this.childType._newFormModel()
+    topic.assoc = this.instanceLevelAssocType._newFormModel()
     return new Topic(topic)
   }
 }
