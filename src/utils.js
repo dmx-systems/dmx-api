@@ -11,12 +11,12 @@ import _debounce from 'debounce'
  * @return  array of instantiated objects
  */
 function instantiateMany (objects, clazz) {
-  // TODO: conditional instantiation seems wrong
-  return objects.map(object => object instanceof clazz ? object : new clazz(object))
+  return objects.map(object => new clazz(object))
 }
 
 // ---
 
+// Note: recursion is indirect via Topic constructor
 function instantiateChildren (children) {
   const _children = {}
   for (var compDefUri in children) {
