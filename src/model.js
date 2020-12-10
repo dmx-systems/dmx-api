@@ -436,19 +436,24 @@ class Type extends Topic {
   /**
    * Creates a form model for this type.
    *
-   * @param   object  optional, if given its values are filled in.
+   * @param   object  optional, if given its values are filled in. ### FIXDOC
    *                  The object is expected to be of *this* type.
    *
-   * @return  the created form model.
+   * @return  the created form model. ### FIXDOC
    */
   newFormModel (object) {
-    return this.instantiate(this._newFormModel(object))
+    const o = this._newFormModel(object)
+    object.children = utils.instantiateChildren(o.children)
+    return object
   }
 
+  /**
+   * @return  a newly constructed plain object
+   */
   _newFormModel (object) {
 
     function _newFormModel (object, type, level, compDef) {
-      const o = type.newInstance(object)
+      const o = type._newInstance(object)
       if (type.isComposite) {
         type.compDefs.forEach(compDef => {
           // Reduced details: at deeper levels for entity types only their identity attributes are included
@@ -478,8 +483,8 @@ class Type extends Topic {
     return _newFormModel(object, this, 0)
   }
 
-  newInstance (object) {
-    // console.log('newInstance', this, object)
+  _newInstance (object) {
+    // console.log('_newInstance', this, object)
     const o = {
       id:      object && object.id      || -1,
       uri:     object && object.uri     || '',
@@ -487,29 +492,7 @@ class Type extends Topic {
       value:   object && object.value   || '',
       children: {}
     }
-    if (this.typeUri === 'dmx.core.assoc_type') {
-      o.player1 = object && object.player1
-      o.player2 = object && object.player2
-    }
-    if (this.uri === 'dmx.core.topic_type' || this.uri === 'dmx.core.assoc_type') {
-      o.dataTypeUri      = object.dataTypeUri
-      o.compDefs         = object.compDefs
-      o.viewConfigTopics = Object.values(object.viewConfig)
-    }
     return o
-  }
-
-  instantiate (object) {
-    // console.log('instantiate', this, object)
-    if (this.typeUri === 'dmx.core.topic_type') {
-      return new Topic(object)
-    } else if (this.typeUri === 'dmx.core.assoc_type') {
-      return new Assoc(object)
-    } else if (this.uri === 'dmx.core.topic_type') {
-      return new TopicType(object)
-    } else if (this.uri === 'dmx.core.assoc_type') {
-      return new AssocType(object)
-    }
   }
 
   /**
