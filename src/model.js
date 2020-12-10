@@ -613,7 +613,7 @@ class CompDef extends Assoc {
   }
 
   /**
-   * Returns the custom assoc type (a dm5.AssocType object), or undefined if no one is set.
+   * Returns the custom assoc type (a dmx.AssocType object), or undefined if no one is set.
    */
   get customAssocType () {
     return this.customAssocTypeUri && typeCache.getAssocType(this.customAssocTypeUri)
@@ -666,8 +666,8 @@ class Topicmap extends Topic {
   constructor (topicmap) {
     super(topicmap.topic)
     this.viewProps = topicmap.viewProps
-    this._topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))   // map: ID -> dm5.ViewTopic
-    this._assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))   // map: ID -> dm5.ViewAssoc
+    this._topics = utils.mapById(utils.instantiateMany(topicmap.topics, ViewTopic))   // map: ID -> dmx.ViewTopic
+    this._assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))   // map: ID -> dmx.ViewAssoc
   }
 
   getTopic (id) {
@@ -723,14 +723,14 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @return    all topics of this topicmap, including hidden ones (array of dm5.ViewTopic)
+   * @return    all topics of this topicmap, including hidden ones (array of dmx.ViewTopic)
    */
   get topics () {
     return Object.values(this._topics)
   }
 
   /**
-   * @return    all assocs of this topicmap, including hidden ones (array of dm5.ViewAssoc)
+   * @return    all assocs of this topicmap, including hidden ones (array of dmx.ViewAssoc)
    */
   get assocs () {
     return Object.values(this._assocs)
@@ -759,7 +759,7 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @param   topic   a dm5.ViewTopic
+   * @param   topic   a dmx.ViewTopic
    */
   addTopic (topic) {
     if (!(topic instanceof ViewTopic)) {
@@ -770,7 +770,7 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @param   assoc   a dm5.ViewAssoc
+   * @param   assoc   a dmx.ViewAssoc
    */
   addAssoc (assoc) {
     if (!(assoc instanceof ViewAssoc)) {
@@ -783,7 +783,7 @@ class Topicmap extends Topic {
   /**
    * Adds a topic to this topicmap resp. set it to visible.
    *
-   * @param   topic   a dm5.Topic
+   * @param   topic   a dmx.Topic
    * @param   pos     Optional: the topic position (an object with "x", "y" properties).
    *                  If not given it's up to the topicmap renderer to position the topic.
    *
@@ -823,7 +823,7 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @param   assoc   a dm5.Assoc
+   * @param   assoc   a dmx.Assoc
    */
   revealAssoc (assoc) {
     const op = {}
@@ -869,7 +869,7 @@ class Topicmap extends Topic {
    *
    * @param   id    a topic ID or an assoc ID
    *
-   * @return  array of dm5.ViewAssoc
+   * @return  array of dmx.ViewAssoc
    */
   getAssocsWithPlayer (id) {
     return this.assocs.filter(assoc => assoc.hasPlayer(id))
@@ -897,7 +897,7 @@ class Topicmap extends Topic {
   }
 
   /**
-   * @param   assoc   a dm5.Assoc or a dm5.ViewAssoc
+   * @param   assoc   a dmx.Assoc or a dmx.ViewAssoc
    * @param   id      a topic ID or an assoc ID
    */
   getOtherPlayer (assoc, id) {
