@@ -532,11 +532,11 @@ class TopicType extends Type {
     return this.getViewConfig('dmx.webclient.icon')
   }
 
-  isTopicType () {
+  get isTopicType () {
     return true
   }
 
-  isAssocType () {
+  get isAssocType () {
     return false
   }
 
@@ -547,11 +547,11 @@ class TopicType extends Type {
 
 class AssocType extends Type {
 
-  isTopicType () {
+  get isTopicType () {
     return false
   }
 
-  isAssocType () {
+  get isAssocType () {
     return true
   }
 
