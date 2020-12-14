@@ -7,9 +7,9 @@ import Vue from 'vue'
 // TODO: inject or factor out
 const DEFAULT_TOPIC_ICON = '\uf111'               // fa-circle
 const DEFAULT_TOPIC_TYPE_ICON = '\uf10c'          // fa-circle-o
-const DEFAULT_ICON_COLOR = 'hsl(210, 50%, 53%)'   // matches dm5-color-picker blue
-const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dm5-color-picker gray
-const DEFAULT_BACKGROUND_COLOR = '#f5f7fa'        // matches dm5-webclient --background-color
+const DEFAULT_ICON_COLOR = 'hsl(210, 50%, 53%)'   // matches dmx-color-picker blue
+const DEFAULT_ASSOC_COLOR = 'hsl(0, 0%, 80%)'     // matches dmx-color-picker gray
+const DEFAULT_BACKGROUND_COLOR = '#f5f7fa'        // matches dmx-webclient --background-color
 
 let iconRenderers = {}
 

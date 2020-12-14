@@ -54,7 +54,7 @@ const actions = {
     // As a workaround processing the delete-type directive is postponed to the next tick. At that moment "object" state
     // is reset.
     // TODO: proper synchronization of route change and directives processing. This is supposed to be the sole
-    // responsibility of the webclient. The dm5 library must not participate in synchronization. The dm5 library
+    // responsibility of the webclient. The dmx-api library must not participate in synchronization. The dmx-api library
     // is supposed to have no knowledge about the webclient.
     //
     // Consider updating a type URI in the webclient. 3 directives are processed: delete-type, update-type, and
