@@ -8,7 +8,7 @@
   "unpkg": "dist/dmx-api.min.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jri/dm5.git"
+    "url": "https://github.com/dmx-systems/dmx-api.git"
   },
   "scripts": {
     "build": "../../node_modules/.bin/webpack -p --hide-modules",
