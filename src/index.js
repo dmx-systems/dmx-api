@@ -8,12 +8,13 @@ import permCache from './permission-cache'
 import utils     from './utils'
 import icons     from './icons'
 
-console.log('[DMX-API] 2020/12/10')
+console.log('[DMX-API] 2020/12/23')
 
 let adminWorkspaceId    // promise
 
 export default {
 
+  /* eslint object-property-newline: "off" */
   DMXObject, Topic, Assoc, Player, RelatedTopic, Type, TopicType, AssocType, Topicmap, ViewTopic, ViewAssoc,
 
   rpc,

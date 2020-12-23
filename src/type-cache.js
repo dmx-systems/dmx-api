@@ -1,4 +1,4 @@
-import { Topic, TopicType, AssocType } from './model'
+import {Topic, TopicType, AssocType} from './model'
 import rpc from './rpc'
 import utils from './utils'
 import Vue from 'vue'
@@ -150,7 +150,7 @@ function getType (uri, className, prop) {
 
 function getTypeById (id) {
   const types = Object.values(state.topicTypes).concat(
-                Object.values(state.assocTypes)).filter(type => type.id === id)
+                Object.values(state.assocTypes)).filter(type => type.id === id)               /* eslint indent: "off" */
   if (types.length !== 1) {
     throw Error(`${types.length} types with ID ${id} in type cache`)
   }

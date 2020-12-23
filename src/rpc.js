@@ -1,7 +1,7 @@
 import http from 'axios'
 import permCache  from './permission-cache'
 import utils from './utils'
-import { Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap } from './model'
+import {Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap} from './model'
 
 // Vanilla instance without error interceptor.
 // In contrast the default http instance allows the caller to set an error handler (see setErrorHandler()).
@@ -14,19 +14,23 @@ export default {
   // Topics
 
   getTopic (id, includeChildren, includeAssocChildren) {
-    return http.get(`/core/topic/${id}`, {params: {
-      children: includeChildren,
-      assocChildren: includeAssocChildren
-    }}).then(response =>
+    return http.get(`/core/topic/${id}`, {
+      params: {
+        children: includeChildren,
+        assocChildren: includeAssocChildren
+      }
+    }).then(response =>
       new Topic(response.data)
     )
   },
 
   getTopicByUri (uri, includeChildren, includeAssocChildren) {
-    return http.get(`/core/topic/uri/${uri}`, {params: {
-      children: includeChildren,
-      assocChildren: includeAssocChildren
-    }}).then(response =>
+    return http.get(`/core/topic/uri/${uri}`, {
+      params: {
+        children: includeChildren,
+        assocChildren: includeAssocChildren
+      }
+    }).then(response =>
       new Topic(response.data)    // FIXME: no result
     )
   },
@@ -70,7 +74,9 @@ export default {
     return _http.get(`/core/topics/query/${query}`, {params}).then(response => {
       const {query, topicTypeUri, searchChildTopics, topics} = response.data
       return {
-        query, topicTypeUri, searchChildTopics,
+        query,
+        topicTypeUri,
+        searchChildTopics,
         topics: utils.instantiateMany(topics, Topic)
       }
     })
@@ -116,10 +122,12 @@ export default {
   // Associations
 
   getAssoc (id, includeChildren, includeAssocChildren) {
-    return http.get(`/core/assoc/${id}`, {params: {
-      children: includeChildren,
-      assocChildren: includeAssocChildren
-    }}).then(response =>
+    return http.get(`/core/assoc/${id}`, {
+      params: {
+        children: includeChildren,
+        assocChildren: includeAssocChildren
+      }
+    }).then(response =>
       new Assoc(response.data)
     )
   },
@@ -166,13 +174,15 @@ export default {
   // Object
 
   query (topicQuery, topicTypeUri, searchTopicChildren,
-         assocQuery, assocTypeUri, searchAssocChildren) {
+         assocQuery, assocTypeUri, searchAssocChildren) {                                     /* eslint indent: "off" */
     // suppress error handler as for incremental search the query might be (temporarily) syntactically incorrect
     const assocFilter = assocQuery || assocTypeUri
-    return _http.get('/core/objects', {params: {
-      topicQuery, topicTypeUri, searchTopicChildren,
-      assocQuery, assocTypeUri, searchAssocChildren
-    }}).then(response => ({
+    return _http.get('/core/objects', {
+      params: {
+        topicQuery, topicTypeUri, searchTopicChildren,                       /* eslint object-property-newline: "off" */
+        assocQuery, assocTypeUri, searchAssocChildren
+      }
+    }).then(response => ({
       ...response.data,
       objects: utils.instantiateMany(response.data.objects, assocFilter ? Assoc : Topic)
     }))
@@ -353,10 +363,12 @@ export default {
   },
 
   getAssignedTopics (workspaceId, topicTypeUri, includeChildren, includeAssocChildren) {
-    return http.get(`/workspaces/${workspaceId}/topics/${topicTypeUri}`, {params: {
-      children: includeChildren,
-      assocChildren: includeAssocChildren
-    }}).then(response =>
+    return http.get(`/workspaces/${workspaceId}/topics/${topicTypeUri}`, {
+      params: {
+        children: includeChildren,
+        assocChildren: includeAssocChildren
+      }
+    }).then(response =>
       utils.instantiateMany(response.data, Topic)
     )
   },
@@ -375,7 +387,6 @@ export default {
     http.put(`/workspaces/${workspaceId}/object/${objectId}`)
   },
 
-
   // === Access Control ===
 
   /**
@@ -385,7 +396,7 @@ export default {
     // suppress error handler as the client application is supposed to present the error to the user specially
     return _http.post('/access-control/login', undefined, {
       headers: {
-        'Authorization': authMethod + ' ' + btoa(credentials.username + ':' + credentials.password)
+        Authorization: authMethod + ' ' + btoa(credentials.username + ':' + credentials.password)
       }
     }).then(() => permCache.clear())
   },
@@ -402,7 +413,7 @@ export default {
   },
 
   getPrivateWorkspace () {
-    return http.get(`/access-control/user/workspace`).then(response =>
+    return http.get('/access-control/user/workspace').then(response =>
       new Topic(response.data)
     )
   },
@@ -491,7 +502,7 @@ export default {
   }
 }
 
-function toPath(idLists) {
+function toPath (idLists) {
   let path = ''
   if (idLists.topicIds.length) {
     path += `/topics/${idLists.topicIds}`

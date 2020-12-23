@@ -370,7 +370,7 @@ class RelatedTopic extends Topic {
   constructor (topic) {
     super(topic)
     if (!topic.assoc) {
-      throw Error('object passed to RelatedTopic constructor has no `assoc` property');
+      throw Error('object passed to RelatedTopic constructor has no `assoc` property')
     }
     this.assoc = new Assoc(topic.assoc)
   }
@@ -489,7 +489,7 @@ class Type extends Topic {
   _newInstance (object) {
     // console.log('_newInstance', this, object)
     const o = {
-      id:      object && object.id      || -1,
+      id:      object && object.id      || -1,                                    /* eslint no-mixed-operators: "off" */
       uri:     object && object.uri     || '',
       typeUri: object && object.typeUri || this.uri,
       value:   object && object.value   || '',
@@ -573,7 +573,7 @@ class CompDef extends Assoc {
     //
     const customAssocType = this.children['dmx.core.assoc_type#dmx.core.custom_assoc_type']
     this.customAssocTypeUri = customAssocType && customAssocType.uri    // may be undefined
-    this.compDefUri = this.childTypeUri + (this.customAssocTypeUri ? "#" + this.customAssocTypeUri : "")
+    this.compDefUri = this.childTypeUri + (this.customAssocTypeUri ? '#' + this.customAssocTypeUri : '')
     this.instanceLevelAssocTypeUri = this.customAssocTypeUri || this._defaultInstanceLevelAssocTypeUri()
     //
     const cardinality = this.children['dmx.core.cardinality']
@@ -597,7 +597,7 @@ class CompDef extends Assoc {
       this.includeInLabel = includeInLabel.value
     } else {
       // ### TODO: should an includeInLabel child always exist?
-      //console.warn(`Comp def ${this.compDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
+      // console.warn(`Comp def ${this.compDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
       this.includeInLabel = false
     }
   }
@@ -649,9 +649,9 @@ class CompDef extends Assoc {
 
   _defaultInstanceLevelAssocTypeUri () {
     if (!this.isCompDef) {
-      throw Error(`unexpected association type URI: "${this.typeUri}"`);
+      throw Error(`unexpected association type URI: "${this.typeUri}"`)
     }
-    return 'dmx.core.composition';
+    return 'dmx.core.composition'
   }
 
   emptyChildInstance () {
