@@ -78,9 +78,10 @@ class DMXObject {
   /**
    * Returns true if this object equals the given object.
    *
-   * In case of composite objects this method can only be used if all child topics are present (according to type
-   * definition) in both objects. Child topics can have empty values. Consider calling newFormModel() for both
-   * objects before calling this method.
+   * In case of composite objects this method expects all child topics be present (according to type definition) in
+   * both objects. One exception: at deeper levels for entity types only the identitity attributes must be present.
+   * Child topics can have empty values though.
+   * Consider calling newFormModel() for both objects before calling this method.
    */
   equals (object) {
     return this._equals(object) && (!this.assoc || this.assoc._equals(object.assoc))
@@ -99,6 +100,9 @@ class DMXObject {
       const compDefUri = compDef.compDefUri
       const child = this.children[compDefUri]
       const _child = children[compDefUri]
+      if (!child) {     // TODO: at deeper levels for entity types only compare their identity attributes
+        return false
+      }
       if (compDef.isOne) {
         return !child.equals(_child)
       } else if (child.length !== _child.length) {
