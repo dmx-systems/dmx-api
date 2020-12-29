@@ -2,6 +2,27 @@
 
 ## Version History
 
+**2.0** -- Dec 30, 2020
+
+* BREAKING CHANGES
+    * rename `restClient` -> `rpc`
+    * various `dm5` -> `dmx` renamings
+    * Model:
+        * replace various `DMXObject`, `Type`, `CompDef` methods by getters
+        * drop various `DMXObject`, `Topic`, `Type` methods
+* Feature:
+    * SVG icon utility (for FontAwesome 4.7)
+    * support for `SameSite` cookie attribute
+* Model:
+    * add `newFormModel()` to `Type`
+    * add `getOtherPlayerId()` to `Assoc`
+* RPC:
+    * add `query()`
+* Chore:
+    * adapt URLs to `github.com/dmx-systems`
+    * remove `/dist` from repo
+    * code run through `eslint`
+
 **1.0** -- Aug 4, 2020
 
 * Feature: Configurable Icon Renderers
@@ -227,4 +248,4 @@
 
 ------------
 Jörg Richter  
-Aug 4, 2020
+Dec 30, 2020
