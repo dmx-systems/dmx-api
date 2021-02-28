@@ -159,6 +159,33 @@ function fulltextQuery (input, allowSingleLetterSearch) {
 
 // ---
 
+/**
+ * @param   size    File size in bytes.
+ */
+function formatFileSize (size) {
+  const units = ["bytes", "KB", "MB", "GB"]
+  let i
+  for (i = 0; i <= 2; i++) {
+    if (size < 1024) {
+      return result()
+    }
+    size /= 1024
+  }
+  return result()
+
+  function result() {
+    const decimals = Math.max(i - 1, 0)
+    return round(size, decimals) + " " + units[i]
+  }
+}
+
+function round (val, decimals) {
+  const factor = Math.pow(10, decimals)
+  return Math.round(factor * val) / factor
+}
+
+// ---
+
 export default {
   instantiateMany,
   instantiateChildren,
@@ -173,5 +200,7 @@ export default {
   getCookie,
   setCookie,
   deleteCookie,
-  fulltextQuery
+  fulltextQuery,
+  formatFileSize,
+  round
 }
