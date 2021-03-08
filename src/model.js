@@ -505,27 +505,26 @@ class Type extends Topic {
 
 class TopicType extends Type {
 
-  // TODO: drop this method in favor of newFormModel() and fill in the default value(s) afterwards?
   /**
-   * @returns   a plain object.
+   * Creates a form model for this topic type, and fills in the given value.
+   *
+   * @returns   a newly constructed plain object.
    */
   newTopicModel (simpleValue) {
+    const topic = this._newFormModel()
+    initTopicValue(topic, this)
+    return topic
 
-    function _newTopicModel (type) {
-      const topic = {typeUri: type.uri}
+    function initTopicValue (topic, type) {
       if (type.isSimple) {
         topic.value = simpleValue
       } else {
         const compDef = type.compDefs[0]
-        const child = _newTopicModel(compDef.childType)
-        topic.children = {
-          [compDef.compDefUri]: compDef.isOne ? child : [child]
-        }
+        const children = topic.children[compDef.compDefUri]
+        const child = compDef.isOne ? children : children[0]
+        initTopicValue(child, compDef.childType)
       }
-      return topic
     }
-
-    return _newTopicModel(this)
   }
 
   get icon () {
