@@ -76,7 +76,7 @@ class DMXObject {
    *          For value topics, or if "Noneditable" is set, <code>false</code> is returned.
    */
   get isEditable () {
-    return (this.isAssoc || this.isType || this.type.isEntity) && !this.type.getViewConfig('dmx.webclient.noneditable')
+    return (this.isAssoc || this.isType || this.type.isEntity) && !this.type.isNoneditable
   }
 
   /**
@@ -448,6 +448,10 @@ class Type extends Topic {
     return this.getViewConfig('dmx.webclient.color#dmx.webclient.background_color')
   }
 
+  get isNoneditable () {
+    return this.getViewConfig('dmx.webclient.noneditable')
+  }
+
   /**
    * Creates a form model for this type.
    *
@@ -601,8 +605,6 @@ class CompDef extends Assoc {
     if (isIdentityAttr) {
       this.isIdentityAttr = isIdentityAttr.value
     } else {
-      // ### TODO: should an isIdentityAttr child always exist?
-      // console.warn(`Comp def ${this.compDefUri} has no identity_attr child (parent type: ${this.parentTypeUri})`)
       this.isIdentityAttr = false
     }
     //
@@ -610,8 +612,6 @@ class CompDef extends Assoc {
     if (includeInLabel) {
       this.includeInLabel = includeInLabel.value
     } else {
-      // ### TODO: should an includeInLabel child always exist?
-      // console.warn(`Comp def ${this.compDefUri} has no include_in_label child (parent type: ${this.parentTypeUri})`)
       this.includeInLabel = false
     }
   }
