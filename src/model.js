@@ -69,6 +69,17 @@ class DMXObject {
   }
 
   /**
+   * @return  true if this object is editable *in principle*, independent of user's authorization.
+   *
+   *          For entity topics, assocs and types <code>true</code> is returned, provided "Noneditable" is
+   *          not set in the type's view config.
+   *          For value topics, or if "Noneditable" is set, <code>false</code> is returned.
+   */
+  get isEditable () {
+    return (this.isAssoc || this.isType || this.type.isEntity) && !this.type.getViewConfig('dmx.webclient.noneditable')
+  }
+
+  /**
    * @return  a promise for a true/false value
    */
   isWritable () {
