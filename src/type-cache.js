@@ -27,13 +27,7 @@ const actions = {
     _putRoleType(roleType)
   },
 
-  loggedIn () {
-    // FIXME: sync with topicmap loading
-    initTypes()
-  },
-
-  loggedOut () {
-    // FIXME: sync with topicmap loading
+  initTypeCache () {
     initTypes()
   },
 
@@ -108,16 +102,13 @@ const actions = {
 }
 
 function init (store) {
-  store.registerModule('typeCache', {
-    state,
-    actions
-  })
+  store.registerModule('typeCache', {state, actions})
   return initTypes()
 }
 
 function initTypes () {
-  // init state
   return Promise.all([
+    // init state
     rpc.getAllTopicTypes().then(topicTypes => {
       state.topicTypes = utils.mapByUri(topicTypes)
       _putTopicType(bootstrapType())
