@@ -27,6 +27,16 @@ const actions = {
     _putRoleType(roleType)
   },
 
+  loggedIn () {
+    // FIXME: sync with topicmap loading
+    initTypes()
+  },
+
+  loggedOut () {
+    // FIXME: sync with topicmap loading
+    initTypes()
+  },
+
   // WebSocket messages
 
   _newTopicType (_, {topicType}) {
@@ -102,6 +112,10 @@ function init (store) {
     state,
     actions
   })
+  return initTypes()
+}
+
+function initTypes () {
   // init state
   return Promise.all([
     rpc.getAllTopicTypes().then(topicTypes => {

@@ -8,7 +8,7 @@ import permCache from './permission-cache'
 import utils     from './utils'
 import icons     from './icons'
 
-console.log('[DMX-API] 2021/03/10')
+console.log('[DMX-API] 2021/03/15')
 
 let adminWorkspaceId    // promise
 
