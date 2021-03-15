@@ -28,7 +28,7 @@ const actions = {
   },
 
   initTypeCache () {
-    initTypes()
+    return initTypes()
   },
 
   // WebSocket messages
