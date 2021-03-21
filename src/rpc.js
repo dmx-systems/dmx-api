@@ -467,6 +467,14 @@ export default {
     )
   },
 
+  // === Config ===
+
+  getConfigDefs () {
+    return http.get(`/config`).then(response =>
+      response.data
+    )
+  },
+
   // === Timestamps ===
 
   getCreationTime (id) {
