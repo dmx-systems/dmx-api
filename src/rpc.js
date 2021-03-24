@@ -475,6 +475,17 @@ export default {
     )
   },
 
+  getConfigTopic (configTypeUri, topicId, includeChildren, includeAssocChildren) {
+    return http.get(`/config/${configTypeUri}/topic/${topicId}`, {
+      params: {
+        children: includeChildren,
+        assocChildren: includeAssocChildren
+      }
+    }).then(response =>
+      new RelatedTopic(response.data)
+    )
+  },
+
   // === Timestamps ===
 
   getCreationTime (id) {
