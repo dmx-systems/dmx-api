@@ -486,6 +486,10 @@ export default {
     )
   },
 
+  updateConfigTopic(topicId, configTopic) {
+    http.put(`/config/topic/${topicId}`, configTopic)
+  },
+
   // === Timestamps ===
 
   getCreationTime (id) {
