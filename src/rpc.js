@@ -487,7 +487,9 @@ export default {
   },
 
   updateConfigTopic(topicId, configTopic) {
-    http.put(`/config/topic/${topicId}`, configTopic)
+    return http.put(`/config/topic/${topicId}`, configTopic).then(response =>
+      response.data.directives
+    )
   },
 
   // === Timestamps ===
