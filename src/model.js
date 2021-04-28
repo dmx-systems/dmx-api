@@ -508,10 +508,10 @@ class Type extends Topic {
   _newInstance (object) {
     // console.log('_newInstance', this, object)
     const o = {
-      id:      object && object.id      || -1,                                    /* eslint no-mixed-operators: "off" */
-      uri:     object && object.uri     || '',
-      typeUri: object && object.typeUri || this.uri,
-      value:   object && object.value   || '',
+      id:      object ? object.id      : -1,
+      uri:     object ? object.uri     : '',
+      typeUri: object ? object.typeUri : this.uri,
+      value:   object ? object.value   : '',
       children: {}
     }
     return o
