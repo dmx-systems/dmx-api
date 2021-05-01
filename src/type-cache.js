@@ -119,7 +119,7 @@ function initTypes () {
     rpc.getTopicsByType('dmx.core.data_type').then(dataTypes => {
       state.dataTypes = utils.mapByUri(dataTypes)
     }),
-    rpc.getTopicsByType('dmx.core.role_type').then(roleTypes => {
+    rpc.getAllRoleTypes().then(roleTypes => {
       state.roleTypes = utils.mapByUri(roleTypes)
     })
   ]).then(() => {
