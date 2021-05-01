@@ -684,6 +684,14 @@ class CompDef extends Assoc {
   }
 }
 
+class RoleType extends Topic {
+
+  constructor (roleType) {
+    super(roleType)
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(roleType.viewConfigTopics, Topic))
+  }
+}
+
 class Topicmap extends Topic {
 
   constructor (topicmap) {
@@ -1026,6 +1034,7 @@ export {
   Type,
   TopicType,
   AssocType,
+  RoleType,
   Topicmap,
   ViewTopic,
   ViewAssoc,
