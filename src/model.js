@@ -164,6 +164,10 @@ class Topic extends DMXObject {
            this.typeUri === 'dmx.core.assoc_type'
   }
 
+  get isRoleType () {
+    return this.typeUri === 'dmx.core.role_type'
+  }
+
   get isCompDef () {
     return false    // topics are never comp defs
   }
@@ -281,6 +285,10 @@ class Assoc extends DMXObject {
     return false    // assocs are never types
   }
 
+  get isRoleType () {
+    return false    // assocs are never role types
+  }
+
   get isCompDef () {
     return this.typeUri === 'dmx.core.composition_def'
   }
@@ -391,13 +399,14 @@ class RelatedTopic extends Topic {
   }
 }
 
+// TODO: name it "DMXType"
 class Type extends Topic {
 
   constructor (type) {
     super(type)
     this.dataTypeUri = type.dataTypeUri
     this.compDefs   = utils.instantiateMany(type.compDefs, CompDef)
-    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))
   }
 
   get isSimple () {
