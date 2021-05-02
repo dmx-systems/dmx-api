@@ -222,6 +222,14 @@ class Topic extends DMXObject {
       throw Error(`not a type: ${this}`)
     }
   }
+
+  asRoleType () {
+    if (this.isRoleType) {
+      return typeCache.getRoleType(this.uri)
+    } else {
+      throw Error(`not a role type: ${this}`)
+    }
+  }
 }
 
 class Assoc extends DMXObject {

@@ -116,11 +116,11 @@ function initTypes () {
     rpc.getAllAssocTypes().then(assocTypes => {
       state.assocTypes = utils.mapByUri(assocTypes)
     }),
-    rpc.getTopicsByType('dmx.core.data_type').then(dataTypes => {
-      state.dataTypes = utils.mapByUri(dataTypes)
-    }),
     rpc.getAllRoleTypes().then(roleTypes => {
       state.roleTypes = utils.mapByUri(roleTypes)
+    }),
+    rpc.getTopicsByType('dmx.core.data_type').then(dataTypes => {
+      state.dataTypes = utils.mapByUri(dataTypes)
     })
   ]).then(() => {
     // console.log('### Type cache ready!')
