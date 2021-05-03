@@ -370,6 +370,18 @@ class Player {
     return this.getRoleType().value
   }
 
+  get arrowShape () {
+    return this.getRoleType().getViewConfig('dmx.webclient.arrow_shape') || 'none'
+  }
+
+  get arrowScale () {
+    return this.getRoleType().getViewConfig('dmx.webclient.arrow_scale') || 1
+  }
+
+  get hollow () {
+    return this.getRoleType().getViewConfig('dmx.webclient.hollow') || false
+  }
+
   isTopicPlayer () {
     return this.topicId >= 0    // Note: 0 is a valid topic ID
   }
