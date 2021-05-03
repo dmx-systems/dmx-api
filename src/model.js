@@ -186,7 +186,7 @@ class Topic extends DMXObject {
   }
 
   update () {
-    console.log('update', this)
+    // console.log('update', this)
     return rpc.updateTopic(this)
   }
 
@@ -446,6 +446,7 @@ class Type extends Topic {
   }
 
   // ### TODO: copy in CompDef
+  // ### TODO: copy in RoleType
   getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
     const configTopic = this.viewConfig['dmx.webclient.view_config']
@@ -697,6 +698,17 @@ class RoleType extends Topic {
   constructor (roleType) {
     super(roleType)
     this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(roleType.viewConfigTopics, Topic))
+  }
+
+  getViewConfig (childTypeUri) {
+    // TODO: don't hardcode config type URI
+    const configTopic = this.viewConfig['dmx.webclient.view_config']
+    if (!configTopic) {
+      // console.warn(`Type "${this.uri}" has no view config`)
+      return
+    }
+    const topic = configTopic.children[childTypeUri]
+    return topic && topic.value
   }
 }
 
