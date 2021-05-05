@@ -1,4 +1,4 @@
-import {Topic, TopicType, AssocType} from './model'
+import {Topic, TopicType, AssocType, RoleType} from './model'
 import rpc from './rpc'
 import utils from './utils'
 import Vue from 'vue'
@@ -7,10 +7,10 @@ import Vue from 'vue'
 // type menu automatically (see "createTopicTypes" getter in search.js of module dmx-search).
 
 const state = {
-  topicTypes: undefined,    // object: type URI (string) -> TopicType
-  assocTypes: undefined,    // object: type URI (string) -> AssocType
-  dataTypes:  undefined,    // object: data type URI (string) -> data type (Topic)
-  roleTypes:  undefined     // object: role type URI (string) -> role type (Topic)
+  topicTypes: undefined,    // object: topic type URI (string) -> TopicType
+  assocTypes: undefined,    // object: assoc type URI (string) -> AssocType
+  roleTypes:  undefined,    // object: role type URI (string) -> RoleType
+  dataTypes:  undefined     // object: data type URI (string) -> data type (Topic)
 }
 
 const actions = {
@@ -77,6 +77,9 @@ const actions = {
       case 'UPDATE_ASSOCIATION_TYPE':
         putAssocType(dir.arg)
         break
+      case 'UPDATE_ROLE_TYPE':
+        putRoleType(dir.arg)
+        break
       }
       // Note: role types are never updated as they are simple values and thus immutable
     })
@@ -90,7 +93,7 @@ const actions = {
         case 'DELETE_ASSOCIATION_TYPE':
           removeAssocType(dir.arg.uri)
           break
-        case 'DELETE_TOPIC':
+        case 'DELETE_TOPIC':      // TODO: DELETE_ROLE_TYPE
           if (dir.arg.typeUri === 'dmx.core.role_type') {
             removeRoleType(dir.arg.uri)
           }
@@ -202,7 +205,7 @@ function putAssocType (assocType) {
 }
 
 function putRoleType (roleType) {
-  _putRoleType(new Topic(roleType))
+  _putRoleType(new RoleType(roleType))
 }
 
 // ---
@@ -216,7 +219,7 @@ function _putAssocType (assocType) {
 }
 
 function _putRoleType (roleType) {
-  _putType(roleType, Topic, 'roleTypes')
+  _putType(roleType, RoleType, 'roleTypes')
 }
 
 function _putType (type, typeClass, prop) {
