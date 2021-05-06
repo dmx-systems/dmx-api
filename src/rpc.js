@@ -1,7 +1,7 @@
 import http from 'axios'
 import permCache  from './permission-cache'
 import utils from './utils'
-import {Topic, Assoc, RelatedTopic, TopicType, AssocType, Topicmap} from './model'
+import {Topic, Assoc, RelatedTopic, TopicType, AssocType, RoleType, Topicmap} from './model'
 
 // Vanilla instance without error interceptor.
 // In contrast the default http instance allows the caller to set an error handler (see setErrorHandler()).
@@ -243,6 +243,12 @@ export default {
   },
 
   // Role Types
+
+  getAllRoleTypes () {
+    return http.get('/core/role-types').then(response =>
+      utils.instantiateMany(response.data, RoleType)
+    )
+  },
 
   createRoleType (topicModel) {
     return http.post('/core/roletype', topicModel).then(response =>

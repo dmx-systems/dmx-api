@@ -164,6 +164,10 @@ class Topic extends DMXObject {
            this.typeUri === 'dmx.core.assoc_type'
   }
 
+  get isRoleType () {
+    return this.typeUri === 'dmx.core.role_type'
+  }
+
   get isCompDef () {
     return false    // topics are never comp defs
   }
@@ -182,7 +186,7 @@ class Topic extends DMXObject {
   }
 
   update () {
-    console.log('update', this)
+    // console.log('update', this)
     return rpc.updateTopic(this)
   }
 
@@ -216,6 +220,14 @@ class Topic extends DMXObject {
       return typeCache.getAssocType(this.uri)
     } else {
       throw Error(`not a type: ${this}`)
+    }
+  }
+
+  asRoleType () {
+    if (this.isRoleType) {
+      return typeCache.getRoleType(this.uri)
+    } else {
+      throw Error(`not a role type: ${this}`)
     }
   }
 }
@@ -279,6 +291,10 @@ class Assoc extends DMXObject {
 
   get isType () {
     return false    // assocs are never types
+  }
+
+  get isRoleType () {
+    return false    // assocs are never role types
   }
 
   get isCompDef () {
@@ -354,6 +370,14 @@ class Player {
     return this.getRoleType().value
   }
 
+  get arrowShape () {
+    return this.getRoleType().getViewConfig('dmx.webclient.arrow_shape') || 'none'
+  }
+
+  get hollow () {
+    return this.getRoleType().getViewConfig('dmx.webclient.hollow') || false
+  }
+
   isTopicPlayer () {
     return this.topicId >= 0    // Note: 0 is a valid topic ID
   }
@@ -391,13 +415,14 @@ class RelatedTopic extends Topic {
   }
 }
 
+// TODO: name it "DMXType"
 class Type extends Topic {
 
   constructor (type) {
     super(type)
     this.dataTypeUri = type.dataTypeUri
     this.compDefs   = utils.instantiateMany(type.compDefs, CompDef)
-    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))    // TODO: rename prop?
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(type.viewConfigTopics, Topic))
   }
 
   get isSimple () {
@@ -429,6 +454,7 @@ class Type extends Topic {
   }
 
   // ### TODO: copy in CompDef
+  // ### TODO: copy in RoleType
   getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
     const configTopic = this.viewConfig['dmx.webclient.view_config']
@@ -672,6 +698,25 @@ class CompDef extends Assoc {
     const topic = this.childType._newFormModel()
     topic.assoc = this.instanceLevelAssocType._newFormModel()
     return new Topic(topic)
+  }
+}
+
+class RoleType extends Topic {
+
+  constructor (roleType) {
+    super(roleType)
+    this.viewConfig = utils.mapByTypeUri(utils.instantiateMany(roleType.viewConfigTopics, Topic))
+  }
+
+  getViewConfig (childTypeUri) {
+    // TODO: don't hardcode config type URI
+    const configTopic = this.viewConfig['dmx.webclient.view_config']
+    if (!configTopic) {
+      // console.warn(`Type "${this.uri}" has no view config`)
+      return
+    }
+    const topic = configTopic.children[childTypeUri]
+    return topic && topic.value
   }
 }
 
@@ -1017,6 +1062,7 @@ export {
   Type,
   TopicType,
   AssocType,
+  RoleType,
   Topicmap,
   ViewTopic,
   ViewAssoc,
