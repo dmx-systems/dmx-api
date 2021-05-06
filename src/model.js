@@ -374,10 +374,6 @@ class Player {
     return this.getRoleType().getViewConfig('dmx.webclient.arrow_shape') || 'none'
   }
 
-  get arrowScale () {
-    return this.getRoleType().getViewConfig('dmx.webclient.arrow_scale') || 1
-  }
-
   get hollow () {
     return this.getRoleType().getViewConfig('dmx.webclient.hollow') || false
   }
