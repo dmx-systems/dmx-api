@@ -250,9 +250,9 @@ export default {
     )
   },
 
-  createRoleType (topicModel) {
-    return http.post('/core/roletype', topicModel).then(response =>
-      new Topic(response.data)
+  createRoleType (roleTypeModel) {
+    return http.post('/core/roletype', roleTypeModel).then(response =>
+      new RoleType(response.data)
     )
   },
 
