@@ -74,7 +74,7 @@ const actions = {
       case 'UPDATE_TOPIC_TYPE':
         putTopicType(dir.arg)
         break
-      case 'UPDATE_ASSOCIATION_TYPE':
+      case 'UPDATE_ASSOC_TYPE':
         putAssocType(dir.arg)
         break
       case 'UPDATE_ROLE_TYPE':
@@ -90,7 +90,7 @@ const actions = {
         case 'DELETE_TOPIC_TYPE':
           removeTopicType(dir.arg.uri)
           break
-        case 'DELETE_ASSOCIATION_TYPE':
+        case 'DELETE_ASSOC_TYPE':
           removeAssocType(dir.arg.uri)
           break
         case 'DELETE_TOPIC':      // TODO: DELETE_ROLE_TYPE
