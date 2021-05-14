@@ -251,7 +251,7 @@ export default {
   },
 
   createRoleType (roleTypeModel) {
-    return http.post('/core/roletype', roleTypeModel).then(response =>
+    return http.post('/core/role-type', roleTypeModel).then(response =>
       new RoleType(response.data)
     )
   },
