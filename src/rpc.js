@@ -256,6 +256,12 @@ export default {
 
   // Role Types
 
+  getRoleTypeImplicitly (assocId, roleTypeUri) {
+    return http.get(`/core/role-type/${roleTypeUri}/assoc/${assocId}`).then(response =>
+      new RoleType(response.data)
+    )
+  },
+
   getAllRoleTypes () {
     return http.get('/core/role-types').then(response =>
       utils.instantiateMany(response.data, RoleType)
