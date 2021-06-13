@@ -1,11 +1,10 @@
 {
   "name": "dmx-api",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "DMX 5 base types and API",
   "author": "Jörg Richter <jri@dmx.berlin>",
   "license": "AGPL-3.0",
   "main": "src/index.js",
-  "unpkg": "dist/dmx-api.min.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dmx-systems/dmx-api.git"

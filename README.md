@@ -2,6 +2,27 @@
 
 ## Version History
 
+**2.1** -- Jun 13, 2021
+
+* Model:
+    * add class `RoleType`
+    * add `isEditable` getter to `DMXObject`
+    * add `isRoleType` getter to `DMXObject`
+    * add `asRoleType()` to `Topic`
+    * add `arrowShape` and `hollow` getters to `Player`
+    * add `isNoneditable` getter to `Type`
+* RPC:
+    * add `getAllRoleTypes()`
+    * add `getTopicTypeImplicitly()`, `getAssocTypeImplicitly()`, `getRoleTypeImplicitly()`
+    * add `getConfigDefs()`, `getConfigTopic()`, `updateConfigTopic()`
+* Utils:
+    * add `formatFileSize()`
+    * add `round()`
+* Fixes:
+    * Model: fix `TopicType.newTopicModel()` regarding identity attributes
+    * Model: `_newInstance()` fills in `0` object value as is (not as `''`)
+    * Type cache: `initTypeCache` action returns promise
+
 **2.0** -- Dec 30, 2020
 
 * BREAKING CHANGES
@@ -248,4 +269,4 @@
 
 ------------
 Jörg Richter  
-Dec 30, 2020
+Jun 13, 2021
