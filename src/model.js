@@ -186,7 +186,6 @@ class Topic extends DMXObject {
   }
 
   update () {
-    // console.log('update', this)
     return rpc.updateTopic(this)
   }
 
@@ -315,7 +314,6 @@ class Assoc extends DMXObject {
   }
 
   update () {
-    console.log('update', this)
     return rpc.updateAssoc(this)
   }
 
@@ -532,7 +530,6 @@ class Type extends Topic {
   }
 
   _newInstance (object) {
-    // console.log('_newInstance', this, object)
     const o = {
       id:      object ? object.id      : -1,
       uri:     object ? object.uri     : '',
@@ -964,6 +961,23 @@ class Topicmap extends Topic {
   }
 
   // Topicmap
+
+  get panX () {
+    return this.viewProps['dmx.topicmaps.pan_x']
+  }
+
+  get panY () {
+    return this.viewProps['dmx.topicmaps.pan_y']
+  }
+
+  get zoom () {
+    return this.viewProps['dmx.topicmaps.zoom']
+  }
+
+  get bgImagePath () {
+    const file = this.children['dmx.files.file#dmx.topicmaps.background_image']
+    return file && file.children['dmx.files.path'].value
+  }
 
   setViewport (pan, zoom) {
     this.viewProps['dmx.topicmaps.pan_x'] = pan.x
