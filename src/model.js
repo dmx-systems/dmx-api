@@ -974,9 +974,9 @@ class Topicmap extends Topic {
     return this.viewProps['dmx.topicmaps.zoom']
   }
 
-  get bgImagePath () {
-    const file = this.children['dmx.files.file#dmx.topicmaps.background_image']
-    return file && file.children['dmx.files.path'].value
+  get bgImageUrl () {
+    const url = this.children['dmx.base.url#dmx.topicmaps.background_image']
+    return url && url.value
   }
 
   setViewport (pan, zoom) {
