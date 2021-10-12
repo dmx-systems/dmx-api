@@ -902,6 +902,21 @@ class Topicmap extends Topic {
     return op
   }
 
+  // the following 4 methods are part of the Topicmap Panel protocol
+
+  updateTopic (topic) {
+    if (this.id === topic.id) {
+      Vue.set(
+        this.children,
+        'dmx.base.url#dmx.topicmaps.background_image',
+        topic.children['dmx.base.url#dmx.topicmaps.background_image']
+      )
+    }
+  }
+
+  updateAssoc (assoc) {
+  }
+
   /**
    * Note: if the topic is not in this topicmap nothing is performed.
    */
