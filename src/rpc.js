@@ -300,8 +300,12 @@ export default {
     )
   },
 
-  getTopicmap (topicmapId) {
-    return http.get(`/topicmaps/${topicmapId}`).then(response =>
+  getTopicmap (topicmapId, includeChildren) {
+    return http.get(`/topicmaps/${topicmapId}`, {
+      params: {
+        children: includeChildren,
+      }
+    }).then(response =>
       new Topicmap(response.data)
     )
   },
