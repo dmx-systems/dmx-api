@@ -1049,8 +1049,12 @@ class ViewTopic extends viewPropsMixin(Topic) {
     return rpc.getTopic(this.id, true, true)
   }
 
-  // TODO: make it a "pos" getter?
+  // ### Deprecated, use pos getter
   getPosition () {
+    return this.pos
+  }
+
+  get pos () {
     return {
       x: this.getViewProp('dmx.topicmaps.x'),
       y: this.getViewProp('dmx.topicmaps.y')
