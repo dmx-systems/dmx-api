@@ -372,7 +372,6 @@ export default {
   },
 
   setTopicmapViewport: utils.debounce((topicmapId, pan, zoom) => {
-    // console.log('setTopicmapViewport')
     roundPos(pan, 'x', 'y')
     http.put(`/topicmaps/${topicmapId}/pan/${pan.x}/${pan.y}/zoom/${zoom}`)
   }, 3000),
@@ -404,8 +403,13 @@ export default {
   /**
    * @return  the workspace topic, or empty string if no workspace is assigned
    */
-  getAssignedWorkspace (objectId) {
-    return http.get(`/workspaces/object/${objectId}`).then(response =>
+  getAssignedWorkspace (objectId, includeChildren, includeAssocChildren) {
+    return http.get(`/workspaces/object/${objectId}`, {
+      params: {
+        children: includeChildren,
+        assocChildren: includeAssocChildren
+      }
+    }).then(response =>
       // Note: if no workspace is assigned the response is 204 No Content; "data" is the empty string then
       response.data && new Topic(response.data)
     )
