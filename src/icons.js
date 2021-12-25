@@ -6,11 +6,17 @@ import rpc from './rpc'
 let faFont              // Font Awesome SVG <font> element
 let faDefaultWidth      // Default icon width
 
-// a promise resolved once the Font Awesome SVG is loaded
-const svgReady = rpc.getXML(fa).then(svg => {
-  faFont = svg.querySelector('font')
-  faDefaultWidth = faFont.getAttribute('horiz-adv-x')
-})
+/**
+ * Initializes the Icons-Toolkit.
+ *
+ * @returns   a promise resolved once the toolkit is ready for `faGlyph()` calls (Font Awesome SVG is loaded).
+ */
+function init () {
+  return rpc.getXML(fa).then(svg => {
+    faFont = svg.querySelector('font')
+    faDefaultWidth = faFont.getAttribute('horiz-adv-x')
+  })
+}
 
 function faGlyph (unicode) {
   try {
@@ -25,6 +31,6 @@ function faGlyph (unicode) {
 }
 
 export default {
-  ready: svgReady,
+  init,
   faGlyph
 }
