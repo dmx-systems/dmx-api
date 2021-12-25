@@ -104,11 +104,6 @@ const actions = {
   }
 }
 
-function init (store) {
-  store.registerModule('typeCache', {state, actions})
-  return initTypes()
-}
-
 function initTypes () {
   return Promise.all([
     // init state
@@ -261,7 +256,6 @@ function bootstrapType () {
 }
 
 export default {
-  init,
   getTopicType,
   getAssocType,
   getDataType,
@@ -270,5 +264,6 @@ export default {
   getAllTopicTypes,
   getAllAssocTypes,
   getAllDataTypes,
-  getAllRoleTypes
+  getAllRoleTypes,
+  storeModule: {state, actions}
 }
