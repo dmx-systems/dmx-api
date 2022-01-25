@@ -7,10 +7,10 @@ import Vue from 'vue'
 // type menu automatically (see "createTopicTypes" getter in search.js of module dmx-search).
 
 const state = {
-  topicTypes: undefined,    // object: topic type URI (string) -> TopicType
-  assocTypes: undefined,    // object: assoc type URI (string) -> AssocType
-  roleTypes:  undefined,    // object: role type URI (string) -> RoleType
-  dataTypes:  undefined     // object: data type URI (string) -> data type (Topic)
+  topicTypes: {},     // object: topic type URI (string) -> TopicType
+  assocTypes: {},     // object: assoc type URI (string) -> AssocType
+  roleTypes:  {},     // object: role type URI (string) -> RoleType
+  dataTypes:  {}      // object: data type URI (string) -> data type (Topic)
 }
 
 const actions = {
@@ -146,7 +146,7 @@ function getRoleType (uri) {
 function getType (uri, className, prop) {
   const type = state[prop] && state[prop][uri]
   if (!type) {
-    throw Error(`unknown ${className} "${uri}"`)
+    throw Error(`${className} "${uri}" not in type cache`)
   }
   return type
 }

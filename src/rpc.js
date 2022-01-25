@@ -204,6 +204,12 @@ export default {
 
   // Topic Types
 
+  getTopicType (topicTypeUri) {
+    return http.get(`/core/topic-type/${topicTypeUri}`).then(response =>
+      new TopicType(response.data)
+    )
+  },
+
   getTopicTypeImplicitly (topicId) {
     return http.get(`/core/topic-type/topic/${topicId}`).then(response =>
       new TopicType(response.data)
@@ -229,6 +235,12 @@ export default {
   },
 
   // Association Types
+
+  getAssocType (assocTypeUri) {
+    return http.get(`/core/assoc-type/${assocTypeUri}`).then(response =>
+      new AssocType(response.data)
+    )
+  },
 
   getAssocTypeImplicitly (assocId) {
     return http.get(`/core/assoc-type/assoc/${assocId}`).then(response =>

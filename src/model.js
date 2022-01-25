@@ -17,7 +17,7 @@ class DMXObject {
 
   constructor (object) {
     if (!object) {
-      throw Error(`invalid object passed to DMXObject constructor: ${object}`)
+      throw Error(`invalid object passed to DMXObject constructor: ${JSON.stringify(object)}`)
     } else if (object.constructor.name !== 'Object') {
       throw Error(`DMXObject constructor expects Object, got ${object.constructor.name} ${JSON.stringify(object)}`)
     }
