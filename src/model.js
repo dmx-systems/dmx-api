@@ -479,17 +479,25 @@ class Type extends Topic {
   /**
    * Creates a form model for this type.
    *
-   * @param   object        optional, if given its values are filled in. ### FIXDOC: mandatory
-   *                        The object is expected to be of *this* type.
+   * @param   object        optional, if given 1) its values are filled in, and 2) is manipulated in-place, that
+   *                        includes a) adding empty fields, and b) removing fields when "Reduced Details" is
+   *                        switched on (the default, see "allChildren" parameter).
+   *                        The given object is expected to be of *this* type.
    * @param   allChildren   optional, if true all children are included in the form model, that is "Reduced Details"
    *                        is switched off. Default is false.
    *
-   * @return  the created form model. ### FIXDOC
+   * @return  the created form model. If "object" is given the (in-place manipulated) object is returned.
+   *          Otherwise a newly created form model with empty values is returned.
    */
   newFormModel (object, allChildren) {
     const o = this._newFormModel(object, allChildren)
-    object.children = utils.instantiateChildren(o.children)   // FIXME: object=undefined
-    return object
+    if (object) {
+      object.children = utils.instantiateChildren(o.children)
+      // FIXME: o.assoc is not used
+      return object
+    } else {
+      return o
+    }
   }
 
   /**
