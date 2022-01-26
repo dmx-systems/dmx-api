@@ -125,6 +125,18 @@ function initTypes () {
   })
 }
 
+function initTopicType (uri) {
+  return rpc.getTopicType(uri).then(topicType => {
+    _putTopicType(topicType)
+  })
+}
+
+function initAssocType (uri) {
+  return rpc.getAssocType(uri).then(assocType => {
+    _putAssocType(assocType)
+  })
+}
+
 // ---
 
 function getTopicType (uri) {
@@ -265,5 +277,7 @@ export default {
   getAllAssocTypes,
   getAllDataTypes,
   getAllRoleTypes,
+  initTopicType,
+  initAssocType,
   storeModule: {state, actions}
 }
