@@ -479,14 +479,16 @@ class Type extends Topic {
   /**
    * Creates a form model for this type.
    *
-   * @param   object  optional, if given its values are filled in. ### FIXDOC
-   *                  The object is expected to be of *this* type.
+   * @param   object        optional, if given its values are filled in. ### FIXDOC: mandatory
+   *                        The object is expected to be of *this* type.
+   * @param   allChildren   optional, if true all children are included in the form model, that is "Reduced Details"
+   *                        is switched off. Default is false.
    *
    * @return  the created form model. ### FIXDOC
    */
-  newFormModel (object) {
-    const o = this._newFormModel(object)
-    object.children = utils.instantiateChildren(o.children)
+  newFormModel (object, allChildren) {
+    const o = this._newFormModel(object, allChildren)
+    object.children = utils.instantiateChildren(o.children)   // FIXME: object=undefined
     return object
   }
 
@@ -496,14 +498,14 @@ class Type extends Topic {
    *
    * @return  a newly constructed plain object
    */
-  _newFormModel (object) {
+  _newFormModel (object, allChildren) {
 
     function _newFormModel (object, type, level, compDef) {
       const o = type._newInstance(object)
       if (type.isComposite) {
         type.compDefs.forEach(compDef => {
           // Reduced details: at deeper levels for entity types only their identity attributes are included
-          if (level === 0 || type.isValue || compDef.isIdentityAttr) {
+          if (allChildren || level === 0 || type.isValue || compDef.isIdentityAttr) {
             const compDefUri = compDef.compDefUri
             const childType = compDef.childType
             const child = object && object.children[compDefUri]
@@ -530,14 +532,13 @@ class Type extends Topic {
   }
 
   _newInstance (object) {
-    const o = {
+    return {
       id:      object ? object.id      : -1,
       uri:     object ? object.uri     : '',
       typeUri: object ? object.typeUri : this.uri,
       value:   object ? object.value   : '',
       children: {}
     }
-    return o
   }
 }
 
