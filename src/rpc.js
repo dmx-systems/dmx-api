@@ -468,6 +468,12 @@ export default {
     )
   },
 
+  getMemberships (id) {
+    return http.get(`/access-control/workspace/${id}/memberships`).then(response =>
+      utils.instantiateMany(response.data, RelatedTopic)
+    )
+  },
+
   getAdminWorkspaceId () {
     return http.get('/access-control/workspace/admin/id').then(response =>
       response.data

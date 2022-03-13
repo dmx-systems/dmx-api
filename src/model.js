@@ -483,8 +483,8 @@ class Type extends Topic {
    *                        includes a) adding empty fields, and b) removing fields when "Reduced Details" is
    *                        switched on (the default, see "allChildren" parameter).
    *                        The given object is expected to be of *this* type.
-   * @param   allChildren   optional, if true all children are included in the form model, that is "Reduced Details"
-   *                        is switched off. Default is false.
+   * @param   allChildren   optional, if true all children are included in the returned form model, that is
+   *                        "Reduced Details" is switched off. Default is false.
    *
    * @return  the created form model. If "object" is given the (in-place manipulated) object is returned.
    *          Otherwise a newly created form model with empty values is returned.
