@@ -474,6 +474,17 @@ export default {
     )
   },
 
+  bulkUpdateWorkspaceMemberships (workspaceId, addUserIds, removeUserIds) {
+    return http.put(`/access-control/workspace/${workspaceId}`, undefined, {
+      params: {
+        addUserIds: addUserIds.join(','),
+        removeUserIds: removeUserIds.join(',')
+      }
+    }).then(response =>
+      utils.instantiateMany(response.data, RelatedTopic)
+    )
+  },
+
   getAdminWorkspaceId () {
     return http.get('/access-control/workspace/admin/id').then(response =>
       response.data
