@@ -474,6 +474,17 @@ export default {
     )
   },
 
+  bulkUpdateUserMemberships (username, addWorkspaceIds, removeWorkspaceIds) {
+    return http.put(`/access-control/user/${username}`, undefined, {
+      params: {
+        addWorkspaceIds: addWorkspaceIds.join(','),
+        removeWorkspaceIds: removeWorkspaceIds.join(',')
+      }
+    }).then(response =>
+      utils.instantiateMany(response.data, RelatedTopic)
+    )
+  },
+
   bulkUpdateWorkspaceMemberships (workspaceId, addUserIds, removeUserIds) {
     return http.put(`/access-control/workspace/${workspaceId}`, undefined, {
       params: {
