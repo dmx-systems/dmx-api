@@ -108,9 +108,11 @@ export default {
   },
 
   updateTopic (topicModel) {
-    return http.put(`/core/topic/${topicModel.id}`, topicModel).then(response =>
-      response.data
-    )
+    return http.put(`/core/topic/${topicModel.id}`, topicModel).then(response => {
+      const topic = new Topic(response.data)
+      topic.directives = response.data.directives
+      return topic
+    })
   },
 
   deleteTopic (id) {
