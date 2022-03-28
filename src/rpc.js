@@ -444,7 +444,10 @@ export default {
       headers: {
         Authorization: authMethod + ' ' + btoa(credentials.username + ':' + credentials.password)
       }
-    }).then(() => permCache.clear())
+    }).then(() => {
+      permCache.clear()
+      return credentials.username
+    })
   },
 
   logout () {
