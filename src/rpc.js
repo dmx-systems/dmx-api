@@ -601,7 +601,9 @@ export default {
         return Promise.reject(error)
       }
     )
-  }
+  },
+
+  _http
 }
 
 function toPath (idLists) {
