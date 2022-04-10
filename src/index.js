@@ -8,7 +8,7 @@ import permCache from './permission-cache'
 import utils     from './utils'
 import icons     from './icons'
 
-console.log('[DMX-API] 2022/04/10')
+console.log('[DMX-API] 2022/04/10-2')
 
 let adminWorkspaceId    // promise
 
@@ -27,7 +27,7 @@ export default {
     config.store.registerModule('typeCache', typeCache.storeModule)
     config.onHttpError && rpc.setErrorHandler(config.onHttpError)
     config.iconRenderers && setIconRenderers(config.iconRenderers)
-    config.topicTypes?.forEach(fetchTopicType)
+    config.topicTypes && config.topicTypes.forEach(fetchTopicType)
     adminWorkspaceId = rpc.getAdminWorkspaceId()
   },
 
