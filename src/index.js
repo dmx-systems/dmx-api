@@ -8,7 +8,7 @@ import permCache from './permission-cache'
 import utils     from './utils'
 import icons     from './icons'
 
-console.log('[DMX-API] 2022/03/30')
+console.log('[DMX-API] 2022/04/10')
 
 let adminWorkspaceId    // promise
 
@@ -27,6 +27,7 @@ export default {
     config.store.registerModule('typeCache', typeCache.storeModule)
     config.onHttpError && rpc.setErrorHandler(config.onHttpError)
     config.iconRenderers && setIconRenderers(config.iconRenderers)
+    config.topicTypes?.forEach(fetchTopicType)
     adminWorkspaceId = rpc.getAdminWorkspaceId()
   },
 
@@ -36,4 +37,23 @@ export default {
   isAdmin () {
     return adminWorkspaceId.then(id => permCache.isWritable(id))
   }
+}
+
+// FIXME: do not fetch multiple times
+function fetchTopicType (typeUri) {
+  typeCache.initTopicType(typeUri).then(() => {
+    typeCache.getTopicType(typeUri).compDefs.forEach(compDef => {
+      fetchTopicType(compDef.childTypeUri)
+      fetchAssocType(compDef.instanceLevelAssocTypeUri)
+    })
+  })
+}
+
+// FIXME: do not fetch multiple times
+function fetchAssocType (typeUri) {
+  typeCache.initAssocType(typeUri).then(() => {
+    typeCache.getAssocType(typeUri).compDefs.forEach(compDef => {
+      fetchTopicType(compDef.childTypeUri)
+    })
+  })
 }
