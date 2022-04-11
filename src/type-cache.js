@@ -28,9 +28,8 @@ const actions = {
     _putRoleType(roleType)
   },
 
-  // TODO: drop it
   initTypeCache () {
-    return initTypes()
+    return initAllTypes()
   },
 
   // WebSocket messages
@@ -106,7 +105,20 @@ const actions = {
   }
 }
 
-function initTypes () {
+function init (topicTypes) {
+  if (topicTypes) {
+    let p
+    if (topicTypes === 'all') {
+      p = initAllTypes()
+    } else {
+      topicTypes.forEach(fetchTopicType)
+      // TODO: return promise
+    }
+    return p
+  }
+}
+
+function initAllTypes () {
   return Promise.all([
     // init state
     rpc.getAllTopicTypes().then(topicTypes => {
@@ -122,9 +134,7 @@ function initTypes () {
     rpc.getTopicsByType('dmx.core.data_type').then(dataTypes => {
       state.dataTypes = utils.mapByUri(dataTypes)
     })
-  ]).then(() => {
-    // console.log('### Type cache ready!')
-  })
+  ])
 }
 
 function initTopicType (uri) {
@@ -135,24 +145,21 @@ function initAssocType (uri) {
   return _initType(uri, 'assocTypes', AssocType, rpc.getAssocType)
 }
 
-function _initType (uri, prop, typeClass, fetchFunc) {
-  const type = _getType(uri, prop)
-  if (type) {
-    return Promise.resolve(type)
-  } else {
-    let p = typeP[uri]
-    if (p) {
-      return p
-    } else {
-      p = fetchFunc(uri).then(type => {
-        _putType(type, typeClass, prop)
-        delete typeP[uri]
-        return type
-      })
-      typeP[uri] = p
-      return p
-    }
-  }
+function fetchTopicType (typeUri) {
+  initTopicType(typeUri).then(topicType => {
+    topicType.compDefs.forEach(compDef => {
+      fetchTopicType(compDef.childTypeUri)
+      fetchAssocType(compDef.instanceLevelAssocTypeUri)
+    })
+  })
+}
+
+function fetchAssocType (typeUri) {
+  initAssocType(typeUri).then(assocType => {
+    assocType.compDefs.forEach(compDef => {
+      fetchTopicType(compDef.childTypeUri)
+    })
+  })
 }
 
 // ---
@@ -221,6 +228,26 @@ function getAllRoleTypes () {
  */
 function getAllTypes (prop) {
   return state[prop] && Object.values(state[prop])
+}
+
+// ---
+
+function _initType (uri, prop, typeClass, fetchFunc) {
+  const type = _getType(uri, prop)
+  if (type) {
+    return Promise.resolve(type)
+  } else {
+    let p = typeP[uri]
+    if (!p) {
+      p = fetchFunc(uri).then(type => {
+        _putType(type, typeClass, prop)
+        delete typeP[uri]
+        return type
+      })
+      typeP[uri] = p
+    }
+    return p
+  }
 }
 
 // ---
@@ -299,6 +326,8 @@ export default {
   getAllAssocTypes,
   getAllDataTypes,
   getAllRoleTypes,
+  init,
+  initAllTypes,
   initTopicType,
   initAssocType,
   storeModule: {state, actions}
