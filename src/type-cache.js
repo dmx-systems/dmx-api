@@ -3,9 +3,10 @@ import rpc from './rpc'
 import utils from './utils'
 import Vue from 'vue'
 
+const typeP = {}      // intermediate type promises
+
 // Note: the type cache is reactive state. E.g. new topic types appear in the Search Widget's
 // type menu automatically (see "createTopicTypes" getter in search.js of module dmx-search).
-
 const state = {
   topicTypes: {},     // object: topic type URI (string) -> TopicType
   assocTypes: {},     // object: assoc type URI (string) -> AssocType
@@ -27,6 +28,7 @@ const actions = {
     _putRoleType(roleType)
   },
 
+  // TODO: drop it
   initTypeCache () {
     return initTypes()
   },
@@ -126,15 +128,31 @@ function initTypes () {
 }
 
 function initTopicType (uri) {
-  return rpc.getTopicType(uri).then(topicType => {
-    _putTopicType(topicType)
-  })
+  return _initType(uri, 'topicTypes', TopicType, rpc.getTopicType)
 }
 
 function initAssocType (uri) {
-  return rpc.getAssocType(uri).then(assocType => {
-    _putAssocType(assocType)
-  })
+  return _initType(uri, 'assocTypes', AssocType, rpc.getAssocType)
+}
+
+function _initType (uri, prop, typeClass, fetchFunc) {
+  const type = _getType(uri, prop)
+  if (type) {
+    return Promise.resolve(type)
+  } else {
+    let p = typeP[uri]
+    if (p) {
+      return p
+    } else {
+      p = fetchFunc(uri).then(type => {
+        _putType(type, typeClass, prop)
+        delete typeP[uri]
+        return type
+      })
+      typeP[uri] = p
+      return p
+    }
+  }
 }
 
 // ---
@@ -156,11 +174,15 @@ function getRoleType (uri) {
 }
 
 function getType (uri, className, prop) {
-  const type = state[prop] && state[prop][uri]
+  const type = _getType(uri, prop)
   if (!type) {
     throw Error(`${className} "${uri}" not in type cache`)
   }
   return type
+}
+
+function _getType (uri, prop) {
+  return state[prop] && state[prop][uri]
 }
 
 function getTypeById (id) {
