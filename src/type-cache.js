@@ -111,7 +111,7 @@ function init (topicTypes) {
     if (topicTypes === 'all') {
       p = initAllTypes()
     } else {
-      topicTypes.forEach(fetchTopicType)
+      topicTypes.forEach(_initTopicType)
       // TODO: return promise
     }
     return p
@@ -143,23 +143,6 @@ function initTopicType (uri) {
 
 function initAssocType (uri) {
   return _initType(uri, 'assocTypes', AssocType, rpc.getAssocType)
-}
-
-function fetchTopicType (typeUri) {
-  initTopicType(typeUri).then(topicType => {
-    topicType.compDefs.forEach(compDef => {
-      fetchTopicType(compDef.childTypeUri)
-      fetchAssocType(compDef.instanceLevelAssocTypeUri)
-    })
-  })
-}
-
-function fetchAssocType (typeUri) {
-  initAssocType(typeUri).then(assocType => {
-    assocType.compDefs.forEach(compDef => {
-      fetchTopicType(compDef.childTypeUri)
-    })
-  })
 }
 
 // ---
@@ -231,6 +214,23 @@ function getAllTypes (prop) {
 }
 
 // ---
+
+function _initTopicType (uri) {
+  initTopicType(uri).then(topicType => {
+    topicType.compDefs.forEach(compDef => {
+      _initTopicType(compDef.childTypeUri)
+      _initAssocType(compDef.instanceLevelAssocTypeUri)
+    })
+  })
+}
+
+function _initAssocType (uri) {
+  initAssocType(uri).then(assocType => {
+    assocType.compDefs.forEach(compDef => {
+      _initTopicType(compDef.childTypeUri)
+    })
+  })
+}
 
 function _initType (uri, prop, typeClass, fetchFunc) {
   const type = _getType(uri, prop)
