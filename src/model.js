@@ -824,22 +824,28 @@ class Topicmap extends Topic {
   }
 
   /**
+   * Adds the given topic to this topicmap.
+   * If the topic is contained in the topicmap already (ID-check) it is replaced.
+   *
    * @param   topic   a dmx.ViewTopic
    */
   addTopic (topic) {
     if (!(topic instanceof ViewTopic)) {
-      throw Error(`addTopic() expects a ViewTopic, got ${topic.constructor.name}`)
+      throw Error(`addTopic() expects ViewTopic, got ${topic.constructor.name}`)
     }
     // reactivity is required to trigger "visibleTopicIds" getter (module dmx-cytoscape-renderer)
     Vue.set(this._topics, topic.id, topic)
   }
 
   /**
+   * Adds the given assoc to this topicmap.
+   * If the assoc is contained in the topicmap already (ID-check) it is replaced.
+   *
    * @param   assoc   a dmx.ViewAssoc
    */
   addAssoc (assoc) {
     if (!(assoc instanceof ViewAssoc)) {
-      throw Error(`addAssoc() expects a ViewAssoc, got ${assoc.constructor.name}`)
+      throw Error(`addAssoc() expects ViewAssoc, got ${assoc.constructor.name}`)
     }
     // reactivity is required to trigger "visibleAssocIds" getter (module dmx-cytoscape-renderer)
     Vue.set(this._assocs, assoc.id, assoc)
