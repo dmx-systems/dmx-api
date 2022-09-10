@@ -21,9 +21,8 @@ export default class DMXWebSocket {
     this.messageHandler = messageHandler
     config.then(config => {
       this.url = config['dmx.websockets.url']
-      // DEV && console.log('[DMX] CONFIG: WebSocket server is reachable at', this.url)
+      DEV && console.log('[DMX] CONFIG: WebSocket server is reachable at', this.url)
       this._connect()
-      this._keepAlive()
     })
   }
 
@@ -40,6 +39,7 @@ export default class DMXWebSocket {
     this.ws = new WebSocket(this.url)
     this.ws.onopen = e => {
       DEV && console.log('[DMX] Opening WebSocket connection to', e.target.url)
+      this._keepAlive()
     }
     this.ws.onmessage = e => {
       const message = JSON.parse(e.data)
@@ -47,12 +47,10 @@ export default class DMXWebSocket {
       this.messageHandler(message)
     }
     this.ws.onclose = e => {
-      DEV && console.log(`[DMX] Closing WebSocket connection (${e.reason})`)
+      DEV && console.log(`[DMX] Closing WebSocket connection (${e.reason}), reconnecting ...`)
       clearInterval(this.idleId)
       //
-      // auto-reconnect (disabled)
-      // DEV && console.log(`[DMX] Closing WebSocket connection (${e.reason}), reopening ...`)
-      // setTimeout(this._connect.bind(this), 1000)
+      setTimeout(this._connect.bind(this), 1000)    // reconnect after 1 sec
     }
   }
 
