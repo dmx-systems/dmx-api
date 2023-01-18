@@ -184,6 +184,10 @@ function round (val, decimals) {
   return Math.round(factor * val) / factor
 }
 
+function stripHtml (html) {
+  return html.replace(/<.*?>/g, '')     // *? is the reluctant version of the * quantifier (which is greedy)
+}
+
 // ---
 
 export default {
@@ -202,5 +206,6 @@ export default {
   deleteCookie,
   fulltextQuery,
   formatFileSize,
-  round
+  round,
+  stripHtml
 }
