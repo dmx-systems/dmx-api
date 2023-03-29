@@ -9,7 +9,7 @@ import utils        from './utils'
 import icons        from './icons'
 import DMXWebSocket from './websocket'
 
-console.log('[DMX-API] 2023/01/18')
+console.log('[DMX-API] 2023/03/30')
 
 let adminWorkspaceId    // promise
 

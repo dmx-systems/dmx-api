@@ -403,6 +403,10 @@ export default {
     )
   },
 
+  deleteWorkspace (workspaceId) {
+    http.delete(`/workspaces/${workspaceId}`)
+  },
+
   getAssignedTopics (workspaceId, topicTypeUri, includeChildren, includeAssocChildren) {
     return http.get(`/workspaces/${workspaceId}/topics/${topicTypeUri}`, {
       params: {
