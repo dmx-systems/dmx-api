@@ -506,7 +506,7 @@ class Type extends Topic {
    *
    * @return  a newly constructed plain object
    */
-  _newFormModel (object, allChildren) {
+  _newFormModel (object, allChildren, level = 0, compDef) {
 
     function _newFormModel (object, type, level, compDef) {
       const o = type._newInstance(object)
@@ -536,7 +536,7 @@ class Type extends Topic {
       return o
     }
 
-    return _newFormModel(object, this, 0)
+    return _newFormModel(object, this, level, compDef)
   }
 
   _newInstance (object) {
@@ -700,8 +700,8 @@ class CompDef extends Assoc {
     return 'dmx.core.composition'
   }
 
-  emptyChildInstance () {
-    const topic = this.childType._newFormModel()
+  emptyChildInstance (level) {
+    const topic = this.childType._newFormModel(undefined, false, level, this)
     topic.assoc = this.instanceLevelAssocType._newFormModel()
     return new Topic(topic)
   }
