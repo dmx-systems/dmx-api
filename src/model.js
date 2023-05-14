@@ -802,17 +802,16 @@ class Topicmap extends Topic {
   }
 
   /**
-   * Returns the position of the given topic/assoc.
-   *
-   * Note: ViewTopic has getPosition() too but ViewAssoc has not
-   * as a ViewAssoc doesn't know the Topicmap it belongs to.
+   * Returns the position of the given topic/assoc of this topicmap.
    *
    * @param   id      a topic ID or an assoc ID
    */
   getPosition (id) {
+    // Note: a ViewAssoc can't have a `pos` getter (like ViewTopic) as assoc pos is calculated from the player objects
+    // and the assoc only has its IDs and no reference to the Topicmap. So we make `getPosition()` a Topicmap method.
     const o = this.getObject(id)
     if (o.isTopic) {
-      return o.getPosition()
+      return o.pos
     } else {
       const pos1 = this.getPosition(o.player1.id)
       const pos2 = this.getPosition(o.player2.id)
@@ -1062,11 +1061,6 @@ class ViewTopic extends viewPropsMixin(Topic) {
 
   fetchObject () {
     return rpc.getTopic(this.id, true, true)
-  }
-
-  // ### Deprecated, use pos getter
-  getPosition () {
-    return this.pos
   }
 
   get pos () {
