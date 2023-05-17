@@ -118,33 +118,6 @@ function init (topicTypes) {
   }
 }
 
-function initAllTypes () {
-  return Promise.all([
-    // init state
-    rpc.getAllTopicTypes().then(topicTypes => {
-      state.topicTypes = utils.mapByUri(topicTypes)
-      _putTopicType(bootstrapType())
-    }),
-    rpc.getAllAssocTypes().then(assocTypes => {
-      state.assocTypes = utils.mapByUri(assocTypes)
-    }),
-    rpc.getAllRoleTypes().then(roleTypes => {
-      state.roleTypes = utils.mapByUri(roleTypes)
-    }),
-    rpc.getTopicsByType('dmx.core.data_type').then(dataTypes => {
-      state.dataTypes = utils.mapByUri(dataTypes)
-    })
-  ])
-}
-
-function initTopicType (uri) {
-  return _initType(uri, 'topicTypes', TopicType, rpc.getTopicType)
-}
-
-function initAssocType (uri) {
-  return _initType(uri, 'assocTypes', AssocType, rpc.getAssocType)
-}
-
 // ---
 
 function getTopicType (uri) {
@@ -169,10 +142,6 @@ function getType (uri, className, prop) {
     throw Error(`${className} "${uri}" not in type cache`)
   }
   return type
-}
-
-function _getType (uri, prop) {
-  return state[prop] && state[prop][uri]
 }
 
 function getTypeById (id) {
@@ -215,6 +184,25 @@ function getAllTypes (prop) {
 
 // ---
 
+function initAllTypes () {
+  return Promise.all([
+    // init state
+    rpc.getAllTopicTypes().then(topicTypes => {
+      state.topicTypes = utils.mapByUri(topicTypes)
+      _putTopicType(bootstrapType())
+    }),
+    rpc.getAllAssocTypes().then(assocTypes => {
+      state.assocTypes = utils.mapByUri(assocTypes)
+    }),
+    rpc.getAllRoleTypes().then(roleTypes => {
+      state.roleTypes = utils.mapByUri(roleTypes)
+    }),
+    rpc.getTopicsByType('dmx.core.data_type').then(dataTypes => {
+      state.dataTypes = utils.mapByUri(dataTypes)
+    })
+  ])
+}
+
 function _initTopicType (uri) {
   initTopicType(uri).then(topicType => {
     topicType.compDefs.forEach(compDef => {
@@ -230,6 +218,14 @@ function _initAssocType (uri) {
       _initTopicType(compDef.childTypeUri)
     })
   })
+}
+
+function initTopicType (uri) {
+  return _initType(uri, 'topicTypes', TopicType, rpc.getTopicType)
+}
+
+function initAssocType (uri) {
+  return _initType(uri, 'assocTypes', AssocType, rpc.getAssocType)
 }
 
 function _initType (uri, prop, typeClass, fetchFunc) {
@@ -248,6 +244,10 @@ function _initType (uri, prop, typeClass, fetchFunc) {
     }
     return p
   }
+}
+
+function _getType (uri, prop) {
+  return state[prop] && state[prop][uri]
 }
 
 // ---
@@ -316,6 +316,8 @@ function bootstrapType () {
   })
 }
 
+// public API
+
 export default {
   getTopicType,
   getAssocType,
@@ -325,10 +327,10 @@ export default {
   getAllTopicTypes,
   getAllAssocTypes,
   getAllDataTypes,
-  getAllRoleTypes,
-  init,
-  initAllTypes,
-  initTopicType,
-  initAssocType,
-  storeModule: {state, actions}
+  getAllRoleTypes
 }
+
+// module internal API
+
+export {init}
+export const storeModule = {state, actions}
