@@ -1,19 +1,12 @@
-import {
-  DMXObject, Topic, Assoc, Player, RelatedTopic, Type, TopicType, AssocType, RoleType, Topicmap, ViewTopic, ViewAssoc,
-  setIconRenderers
-} from './model'
-import {
-  default as typeCache,
-  init as initTypeCache,
-  storeModule
-} from './type-cache'
+import * as model   from './model'
 import rpc          from './rpc'
 import permCache    from './permission-cache'
 import utils        from './utils'
 import icons        from './icons'
 import DMXWebSocket from './websocket'
+import {default as typeCache, init as initTypeCache, storeModule} from './type-cache'
 
-console.log('[DMX-API] 2023/05/17')
+console.log('[DMX-API] 2023/05/18')
 
 let adminWorkspaceId    // promise
 
@@ -24,9 +17,7 @@ window.addEventListener('focus', updateClientIdCookie)
 
 export default {
 
-  /* eslint object-property-newline: "off" */
-  DMXObject, Topic, Assoc, Player, RelatedTopic, Type, TopicType, AssocType, RoleType, Topicmap, ViewTopic, ViewAssoc,
-
+  ...model,
   rpc,
   typeCache,
   permCache,
@@ -38,7 +29,7 @@ export default {
     config.store.registerModule('typeCache', storeModule)
     config.messageHandler && new DMXWebSocket(rpc.getWebsocketConfig(), config.messageHandler)
     config.onHttpError && rpc.setErrorHandler(config.onHttpError)
-    config.iconRenderers && setIconRenderers(config.iconRenderers)
+    config.iconRenderers && model.setIconRenderers(config.iconRenderers)
     return initTypeCache(config.topicTypes)
   },
 
