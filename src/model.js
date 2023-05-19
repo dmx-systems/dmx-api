@@ -413,8 +413,7 @@ class RelatedTopic extends Topic {
   }
 }
 
-// TODO: name it "DMXType"
-class Type extends Topic {
+class DMXType extends Topic {
 
   constructor (type) {
     super(type)
@@ -550,7 +549,7 @@ class Type extends Topic {
   }
 }
 
-class TopicType extends Type {
+class TopicType extends DMXType {
 
   /**
    * Creates a form model for this topic type, and fills in the given value.
@@ -595,7 +594,7 @@ class TopicType extends Type {
   }
 }
 
-class AssocType extends Type {
+class AssocType extends DMXType {
 
   get isTopicType () {
     return false
@@ -680,7 +679,7 @@ class CompDef extends Assoc {
     return topic && topic.value
   }
 
-  // ### TODO: principal copy in Type
+  // ### TODO: principal copy in DMXType
   _getViewConfig (childTypeUri) {
     // TODO: don't hardcode config type URI
     const configTopic = this.viewConfig['dmx.webclient.view_config']
@@ -1101,7 +1100,7 @@ export {
   Assoc,
   Player,
   RelatedTopic,
-  Type,
+  DMXType,
   TopicType,
   AssocType,
   RoleType,
