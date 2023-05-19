@@ -28,6 +28,9 @@ const actions = {
     _putRoleType(roleType)
   },
 
+  /**
+   * Re-populates the type cache with *all* types readable by current user.
+   */
   initTypeCache () {
     return initAllTypes()
   },
@@ -157,7 +160,7 @@ function getTypeById (id) {
 
 // TODO: the following 4 functions return async data so they should return promise
 
-// IMPORTANT: call these methods only from a reactive context, otherwise you might get undefined
+// IMPORTANT: calling these methods must be synced, otherwise you might get undefined
 
 function getAllTopicTypes () {
   return getAllTypes('topicTypes')
@@ -204,7 +207,7 @@ function initAllTypes () {
 }
 
 function _initTopicType (uri) {
-  initTopicType(uri).then(topicType => {
+  _initType(uri, 'topicTypes', TopicType, rpc.getTopicType).then(topicType => {
     topicType.compDefs.forEach(compDef => {
       _initTopicType(compDef.childTypeUri)
       _initAssocType(compDef.instanceLevelAssocTypeUri)
@@ -213,19 +216,12 @@ function _initTopicType (uri) {
 }
 
 function _initAssocType (uri) {
-  initAssocType(uri).then(assocType => {
+  _initType(uri, 'assocTypes', AssocType, rpc.getAssocType).then(assocType => {
     assocType.compDefs.forEach(compDef => {
       _initTopicType(compDef.childTypeUri)
+      // TODO: call _initAssocType()?
     })
   })
-}
-
-function initTopicType (uri) {
-  return _initType(uri, 'topicTypes', TopicType, rpc.getTopicType)
-}
-
-function initAssocType (uri) {
-  return _initType(uri, 'assocTypes', AssocType, rpc.getAssocType)
 }
 
 function _initType (uri, prop, typeClass, fetchFunc) {

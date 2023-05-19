@@ -1,4 +1,5 @@
-const IDLE_INTERVAL = 60 * 1000  // 60s
+const IDLE_INTERVAL   = 60 * 1000     // 60s
+const RECONNECT_DELAY =  5 * 1000     // 5s
 
 /**
  * A WebSocket connection to the DMX server.
@@ -21,7 +22,7 @@ export default class DMXWebSocket {
     this.messageHandler = messageHandler
     config.then(config => {
       this.url = config['dmx.websockets.url']
-      DEV && console.log('[DMX] CONFIG: WebSocket server is reachable at', this.url)
+      // DEV && console.log('[DMX] CONFIG: WebSocket server is reachable at', this.url)
       this._connect()
     })
   }
@@ -36,10 +37,10 @@ export default class DMXWebSocket {
   }
 
   _connect () {
+    DEV && console.log('[DMX] Opening WebSocket connection to', this.url)
     this.ws = new WebSocket(this.url)
     this.ws.onopen = e => {
-      DEV && console.log('[DMX] Opening WebSocket connection to', e.target.url)
-      this._keepAlive()
+      this._startIdling()
     }
     this.ws.onmessage = e => {
       const message = JSON.parse(e.data)
@@ -47,15 +48,26 @@ export default class DMXWebSocket {
       this.messageHandler(message)
     }
     this.ws.onclose = e => {
-      DEV && console.log(`[DMX] Closing WebSocket connection (${e.reason}), reconnecting ...`)
-      clearInterval(this.idleId)
-      //
-      setTimeout(this._connect.bind(this), 1000)    // reconnect after 1 sec
+      DEV && console.log('[DMX] Closing WebSocket connection (' + e.reason + '), try reconnect in ' +
+        RECONNECT_DELAY / 1000 + ' seconds')
+      this._stopIdling()
+      this._reconnect()
+    }
+    this.ws.onerror = e => {
+      DEV && console.warn('[DMX] WebSocket error')
     }
   }
 
-  _keepAlive () {
+  _reconnect () {
+    setTimeout(this._connect.bind(this), RECONNECT_DELAY)
+  }
+
+  _startIdling () {
     this.idleId = setInterval(this._idle.bind(this), IDLE_INTERVAL)
+  }
+
+  _stopIdling () {
+    clearInterval(this.idleId)
   }
 
   _idle () {
