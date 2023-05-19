@@ -2,6 +2,52 @@
 
 ## Version History
 
+**3.0** -- May 19, 2023
+
+Version 3.0 of the `dmx-api` library extends/modifies the API in order to support a wider variety of frontend
+applications. Additionally, depending on application type, the launch time is reduced as less data is transferred from
+server ([#497](https://git.dmx.systems/dmx-platform/dmx-platform/-/issues/497),
+[#501](https://git.dmx.systems/dmx-platform/dmx-platform/-/issues/501)). This required some breaking changes in the
+library's `init()` function.
+
+* BREAKING CHANGES
+    - changed behavior of the library's `init()` function:
+        - The client-side type cache is not fully pre-populated by default anymore. Instead the application pass
+          `topicTypes` config to pre-populate selectively, or pass `all`. Depending on application type this results in
+          less data transfer at application launch.
+        - The SVG utility for FontAwesome icons is not initialized by default anymore. Instead an application can
+          initialize it on-demand (by calling `dmx.icons.init()`). Applications who don't need it launch quicker as
+          downloading the FontAwesome SVG data (450K) is omitted.
+    - rename class `Type` -> `DMXType`
+    - remove `getPosition()` from `ViewTopic`. Use the new `pos` getter instead.
+* Improvement:
+    - The library's `init()` function optionally opens the WebSocket for client-synchronization (if `messageHandler`
+      config is passed). The application no longer depends on
+      [dmx-websocket](https://github.com/dmx-systems/dmx-websocket) module then.
+    - Vanilla [axios](https://github.com/axios/axios) http instance (without error interceptor set by application) is
+      exported as `rpc._http`.
+* Model:
+    - change `Type`'s `newFormModel()`:
+        - `object` parameter is now optional
+        - add `allChildren` parameter (optional)
+    - add `panX`, `panY`, `zoom`, `bgImageUrl` getters to `Topicmap`
+    - add `updateTopic()`, `updateAssoc()` to `Topicmap` (part of
+      [dmx-topicmap-panel](https://github.com/dmx-systems/dmx-topicmap-panel) protocol)
+    - add `pos` getter to `ViewTopic`
+* RPC:
+    - add `getTopicType()` and `getAssocType()`
+    - add `includeChildren` parameter to `getTopicmap()`
+    - add `includeChildren` and `includeAssocChildren` parameters to `getAssignedWorkspace()`
+    - add `getMemberships()` to get the members of a workspace
+    - add `bulkUpdateUserMemberships()` and `bulkUpdateWorkspaceMemberships()`
+    - add `deleteWorkspace()`
+    - change `updateTopic()`: returns `Topic` plus directives (formerly just directives)
+    - change `login()`: returned promise resolves with username (formerly undefined)
+* Utils:
+    - add `stripHtml()`
+* Fix:
+    - fixed a bug where nested entities loose their child values while update request
+
 **2.1** -- Jun 13, 2021
 
 * Model:
@@ -219,7 +265,8 @@
 
 **0.13** -- Mar 25, 2018
 
-* Model: `Topicmap.revealTopic()`'s `pos` param is optional. If not given it's up to the topicmap renderer to position the topic.
+* Model: `Topicmap.revealTopic()`'s `pos` param is optional. If not given it's up to the topicmap renderer to position
+  the topic.
 * Utils: `clone()` for deep-cloning arbitrary objects
 * Depends on module `clone` instead `lodash.clonedeep`
 

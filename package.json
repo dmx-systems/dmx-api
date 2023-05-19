@@ -1,7 +1,7 @@
 {
   "name": "dmx-api",
-  "version": "2.1.0",
-  "description": "DMX 5 base types and API",
+  "version": "3.0.0",
+  "description": "API and utilities for DMX 5 based frontends",
   "author": "Jörg Richter <jri@dmx.berlin>",
   "license": "AGPL-3.0",
   "main": "src/index.js",
