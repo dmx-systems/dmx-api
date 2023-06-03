@@ -1,5 +1,4 @@
-const IDLE_INTERVAL   = 60 * 1000     // 60s
-const RECONNECT_DELAY =  5 * 1000     // 5s
+const IDLE_INTERVAL = 60 * 1000     // 60s
 
 /**
  * A WebSocket connection to the DMX server.
@@ -48,18 +47,12 @@ export default class DMXWebSocket {
       this.messageHandler(message)
     }
     this.ws.onclose = e => {
-      DEV && console.log('[DMX] Closing WebSocket connection (' + e.reason + '), try reconnect in ' +
-        RECONNECT_DELAY / 1000 + ' seconds')
+      DEV && console.log('[DMX] WebSocket connection closed (' + e.reason + ')')
       this._stopIdling()
-      this._reconnect()
     }
     this.ws.onerror = e => {
       DEV && console.warn('[DMX] WebSocket error')
     }
-  }
-
-  _reconnect () {
-    setTimeout(this._connect.bind(this), RECONNECT_DELAY)
   }
 
   _startIdling () {

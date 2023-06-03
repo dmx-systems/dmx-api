@@ -30,6 +30,7 @@ library's `init()` function.
     - change `Type`'s `newFormModel()`:
         - `object` parameter is now optional
         - add `allChildren` parameter (optional)
+    - add (optional) `level` parameter to `CompDef`'s `emptyChildInstance()`
     - add `panX`, `panY`, `zoom`, `bgImageUrl` getters to `Topicmap`
     - add `updateTopic()`, `updateAssoc()` to `Topicmap` (part of
       [dmx-topicmap-panel](https://github.com/dmx-systems/dmx-topicmap-panel) protocol)
