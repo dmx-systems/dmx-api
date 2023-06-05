@@ -71,7 +71,8 @@ export default class DMXWebSocket {
 
   _reload () {
     setTimeout(() => {
-      alert('Press OK to reload page.\n\nIf it fails try manual page reload.')
+      alert('There is a server or network problem.\n\nPlease press OK to reload page.\n' +
+        'If it fails try manual page reload.')
       location.reload()
     }, 1000)    // timeout to not interfere with interactive page reload (which also closes websocket connection)
   }
