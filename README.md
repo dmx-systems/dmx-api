@@ -2,6 +2,11 @@
 
 ## Version History
 
+**3.0.1** -- Jun 6, 2023
+
+* Improvement:
+    - In case of a dropped WebSocket connection an alert is shown and the page is reloaded
+
 **3.0** -- May 19, 2023
 
 Version 3.0 of the `dmx-api` library extends/modifies the API in order to support a wider variety of frontend
@@ -47,7 +52,7 @@ library's `init()` function.
 * Utils:
     - add `stripHtml()`
 * Fix:
-    - fixed a bug where nested entities loose their child values while update request
+    - fixed a bug where nested entities loose their child values while update request (thanks to @gevlish)
 
 **2.1** -- Jun 13, 2021
 
@@ -317,4 +322,4 @@ library's `init()` function.
 
 ------------
 Jörg Richter  
-Jun 13, 2021
+Jun 6, 2023

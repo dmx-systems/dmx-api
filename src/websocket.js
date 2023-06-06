@@ -36,23 +36,23 @@ export default class DMXWebSocket {
   }
 
   _connect () {
-    console.log('[DMX] Opening WebSocket connection to', this.url)
+    DEV && console.log('[DMX] Opening WebSocket connection to', this.url)
     this.ws = new WebSocket(this.url)
     this.ws.onopen = e => {
       this._startIdling()
     }
     this.ws.onmessage = e => {
       const message = JSON.parse(e.data)
-      console.log('[DMX] Receiving message', message)
+      DEV && console.log('[DMX] Receiving message', message)
       this.messageHandler(message)
     }
     this.ws.onclose = e => {
-      console.log('[DMX] WebSocket connection closed (' + e.reason + ')')
+      DEV && console.log('[DMX] WebSocket connection closed (' + e.reason + ')')
       this._stopIdling()
       this._reload()      // a closed ws connection is regarded an (backend/network) error which requires page reloading
     }
     this.ws.onerror = e => {
-      console.warn('[DMX] WebSocket error')
+      DEV && console.warn('[DMX] WebSocket error')
     }
   }
 
@@ -65,13 +65,13 @@ export default class DMXWebSocket {
   }
 
   _idle () {
-    console.log('[DMX] WebSocket connection idle')
+    DEV && console.log('[DMX] WebSocket connection idle')
     this.send({type: 'idle'})
   }
 
   _reload () {
     setTimeout(() => {
-      alert('There is a server or network problem.\n\nPlease press OK to reload page.\n' +
+      alert('There is a problem with the server or network.\n\nPlease press OK to reload page.\n' +
         'If it fails try manual page reload.')
       location.reload()
     }, 1000)    // timeout to not interfere with interactive page reload (which also closes websocket connection)
