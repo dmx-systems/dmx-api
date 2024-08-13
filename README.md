@@ -2,6 +2,10 @@
 
 ## Version History
 
+**3.1** -- unreleased
+
+* Adapted to DMX 5.3.5 (account management)
+
 **3.0.1** -- Jun 6, 2023
 
 * Improvement:
@@ -322,4 +326,4 @@ library's `init()` function.
 
 ------------
 Jörg Richter  
-Jun 6, 2023
+Aug 13, 2024

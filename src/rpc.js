@@ -541,7 +541,7 @@ export default {
    * @return  a promise for a Username topic
    */
   createUserAccount (username, password) {
-    return http.post('/access-control/user-account', {
+    return http.post('/account-management/user-account', {
       username, password
     }).then(response =>
       new Topic(response.data)
