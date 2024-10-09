@@ -456,7 +456,10 @@ export default {
 
   logout () {
     return http.post('/access-control/logout')
-      .then(() => permCache.clear())
+      .then((response) => {
+        permCache.clear()
+        return response.data
+      })
   },
 
   getUsername () {
@@ -545,6 +548,12 @@ export default {
       username, password
     }).then(response =>
       new Topic(response.data)
+    )
+  },
+
+  getIdentityProviderRedirectConfiguration () {
+    return http.get('/access-control/identity-provider-redirect/configuration').then(response =>
+      response.data
     )
   },
 
