@@ -1,7 +1,7 @@
-import {Topic, TopicType, AssocType, RoleType} from './model'
+import { nextTick } from 'vue'
+import { Topic, TopicType, AssocType, RoleType } from './model'
 import rpc from './rpc'
 import utils from './utils'
-import Vue from 'vue'
 
 const typeP = {}      // intermediate type promises
 
@@ -87,7 +87,7 @@ const actions = {
       }
       // Note: role types are never updated as they are simple values and thus immutable
     })
-    Vue.nextTick(() => {
+    nextTick(() => {
       // console.log(`Type-cache: processing ${directives.length} directives (DELETE_TYPE)`)
       directives.forEach(dir => {
         switch (dir.type) {
@@ -278,25 +278,21 @@ function _putType (type, typeClass, prop) {
   if (!(type instanceof typeClass)) {
     throw Error(`can't cache "${type.constructor.name}", expected is "${typeClass.name}", ${JSON.stringify(type)}`)
   }
-  // Note: type cache must be reactive
-  Vue.set(state[prop], type.uri, type)
+  state[prop][type.uri] = type
 }
 
 // ---
 
 function removeTopicType (uri) {
-  // Note: type cache must be reactive
-  Vue.delete(state.topicTypes, uri)
+  delete state.topicTypes[uri]
 }
 
 function removeAssocType (uri) {
-  // Note: type cache must be reactive
-  Vue.delete(state.assocTypes, uri)
+  delete state.assocTypes[uri]
 }
 
 function removeRoleType (uri) {
-  // Note: type cache must be reactive
-  Vue.delete(state.roleTypes, uri)
+  delete state.roleTypes[uri]
 }
 
 // ---

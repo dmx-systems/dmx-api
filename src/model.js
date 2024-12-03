@@ -2,7 +2,6 @@ import rpc from './rpc'
 import typeCache from './type-cache'
 import permCache from './permission-cache'
 import utils from './utils'
-import Vue from 'vue'
 
 // TODO: inject or factor out
 const DEFAULT_TOPIC_ICON = '\uf111'               // fa-circle
@@ -831,8 +830,7 @@ class Topicmap extends Topic {
     if (!(topic instanceof ViewTopic)) {
       throw Error(`addTopic() expects ViewTopic, got ${topic.constructor.name}`)
     }
-    // reactivity is required to trigger "visibleTopicIds" getter (module dmx-cytoscape-renderer)
-    Vue.set(this._topics, topic.id, topic)
+    this._topics[topic.id] = topic
   }
 
   /**
@@ -845,8 +843,7 @@ class Topicmap extends Topic {
     if (!(assoc instanceof ViewAssoc)) {
       throw Error(`addAssoc() expects ViewAssoc, got ${assoc.constructor.name}`)
     }
-    // reactivity is required to trigger "visibleAssocIds" getter (module dmx-cytoscape-renderer)
-    Vue.set(this._assocs, assoc.id, assoc)
+    this._assocs[assoc.id] = assoc
   }
 
   /**
@@ -919,11 +916,8 @@ class Topicmap extends Topic {
 
   updateTopic (topic) {
     if (this.id === topic.id) {
-      Vue.set(
-        this.children,
-        'dmx.base.url#dmx.topicmaps.background_image',
-        topic.children['dmx.base.url#dmx.topicmaps.background_image']
-      )
+      const uri = 'dmx.base.url#dmx.topicmaps.background_image'
+      this.children[uri] = topic.children[uri]
     }
   }
 
@@ -934,16 +928,14 @@ class Topicmap extends Topic {
    * Note: if the topic is not in this topicmap nothing is performed.
    */
   removeTopic (id) {
-    // reactivity is required to trigger "visibleTopicIds" getter (module dmx-cytoscape-renderer)
-    Vue.delete(this._topics, id)
+    delete this._topics[id]
   }
 
   /**
    * Note: if the assoc is not in this topicmap nothing is performed.
    */
   removeAssoc (id) {
-    // reactivity is required to trigger "visibleAssocIds" getter (module dmx-cytoscape-renderer)
-    Vue.delete(this._assocs, id)
+    delete this._assocs[id]
   }
 
   // Associations
@@ -1042,9 +1034,7 @@ const viewPropsMixin = Base => class extends Base {
   }
 
   setViewProp (propUri, value) {
-    // Note: some view props must be reactive, e.g. 'dmx.topicmaps.pinned' reflects pin button state.
-    // Test it with topics/assocs which don't have a 'dmx.topicmaps.pinned' setting yet. ### FIXDOC
-    Vue.set(this.viewProps, propUri, value)
+    this.viewProps[propUri] = value
   }
 }
 
