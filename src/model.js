@@ -733,6 +733,9 @@ class Topicmap extends Topic {
     this._assocs = utils.mapById(utils.instantiateMany(topicmap.assocs, ViewAssoc))   // map: ID -> dmx.ViewAssoc
   }
 
+  /**
+   * @param   id    Number or String
+   */
   getTopic (id) {
     const topic = this.getTopicIfExists(id)
     if (!topic) {
@@ -741,6 +744,9 @@ class Topicmap extends Topic {
     return topic
   }
 
+  /**
+   * @param   id    Number or String
+   */
   getAssoc (id) {
     const assoc = this.getAssocIfExists(id)
     if (!assoc) {
@@ -760,26 +766,44 @@ class Topicmap extends Topic {
     return o
   }
 
+  /**
+   * @param   id    Number or String
+   */
   getTopicIfExists (id) {
     return this._topics[id]
   }
 
+  /**
+   * @param   id    Number or String
+   */
   getAssocIfExists (id) {
     return this._assocs[id]
   }
 
+  /**
+   * @param   id    Number or String
+   */
   hasTopic (id) {
     return this.getTopicIfExists(id)
   }
 
+  /**
+   * @param   id    Number or String
+   */
   hasAssoc (id) {
     return this.getAssocIfExists(id)
   }
 
+  /**
+   * @param   id    Number or String
+   */
   hasObject (id) {
     return this.hasTopic(id) || this.hasAssoc(id)
   }
 
+  /**
+   * @param   id    Number or String
+   */
   hasVisibleObject (id) {
     const o = this.getTopicIfExists(id) || this.getAssocIfExists(id)
     return o && o.isVisible()
