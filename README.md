@@ -2,6 +2,11 @@
 
 ## Version History
 
+**4.0** -- Oct 16, 2024
+
+* BREAKING CHANGES
+    - requires Vue 3 (instead Vue 2)
+
 **3.1** -- Oct 16, 2024
 
 * Adapted to DMX 5.3.5 (account management)
