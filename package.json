@@ -1,6 +1,6 @@
 {
   "name": "dmx-api",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "API and utilities for DMX 5 based frontends",
   "author": "Jörg Richter <jri@dmx.berlin>",
   "license": "AGPL-3.0",
@@ -8,10 +8,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/dmx-systems/dmx-api.git"
-  },
-  "scripts": {
-    "build": "../../node_modules/.bin/webpack -p --hide-modules",
-    "stats": "../../node_modules/.bin/webpack -p --json > stats.json && ../../node_modules/.bin/webpack-bundle-analyzer stats.json dist"
   },
   "dependencies": {
     "axios": "0.18.1",
