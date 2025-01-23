@@ -901,7 +901,11 @@ class Topicmap extends Topic {
       viewTopic.children = topic.children   // ### TODO, see comment in newViewTopic() above
       this.addTopic(viewTopic)
       op.type = 'add'
-      op.viewTopic = viewTopic
+      op.viewTopic = this.getTopic(topic.id)
+      // Note: we don't assign plain "viewTopic" to op.viewTopic but must re-access it by this.getTopic(). In case of a
+      // Vue 3 application both are not the same as addTopic() implicitly wraps viewTopic into a JS Proxy object
+      // (provided this Topicmap instance is reactive state). All subsequent modifications of viewTopic (in particular
+      // the initialization of its position) must be applied to the Proxy object then, not the original viewTopic.
     } else {
       if (!viewTopic.isVisible()) {
         viewTopic.setVisibility(true)

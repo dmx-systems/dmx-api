@@ -4,7 +4,7 @@
 
 **4.0** -- Oct 16, 2024
 
-* BREAKING CHANGES
+* BREAKING CHANGE
     - requires Vue 3 (instead Vue 2)
 
 **3.1** -- Oct 16, 2024

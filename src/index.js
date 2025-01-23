@@ -6,7 +6,7 @@ import icons        from './icons'
 import DMXWebSocket from './websocket'
 import {default as typeCache, init as initTypeCache, storeModule} from './type-cache'
 
-console.log('[DMX-API] 4.0')
+console.log('[DMX-API] 2025/01/23')
 
 let adminWorkspaceId    // promise
 
