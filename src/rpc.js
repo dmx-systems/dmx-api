@@ -536,7 +536,7 @@ export default {
   },
 
   /**
-   * @param   password   expected to be SHA256 encoded
+   * @param   password   plain text
    *
    * @return  a promise for a Username topic
    */

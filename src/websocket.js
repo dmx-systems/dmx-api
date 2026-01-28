@@ -1,4 +1,4 @@
-const IDLE_INTERVAL = 60 * 1000     // 60s
+const HEARTBEAT_INTERVAL = 25 * 1000     // 25s
 
 /**
  * A WebSocket connection to the DMX server.
@@ -13,6 +13,8 @@ const IDLE_INTERVAL = 60 * 1000     // 60s
 export default class DMXWebSocket {
 
   /**
+   * @param   config
+   *              a promise for an object having a `dmx.websockets.url` property.
    * @param   messageHandler
    *              the function that processes incoming messages.
    *              One argument is passed: the message pushed by the server (a deserialzed JSON object).
@@ -20,8 +22,8 @@ export default class DMXWebSocket {
   constructor (config, messageHandler) {
     this.messageHandler = messageHandler
     config.then(config => {
+      document.addEventListener('visibilitychange', this._handleVisibilityChange.bind(this))
       this.url = config['dmx.websockets.url']
-      // DEV && console.log('[DMX] CONFIG: WebSocket server is reachable at', this.url)
       this._connect()
     })
   }
@@ -35,11 +37,21 @@ export default class DMXWebSocket {
     this.ws.send(JSON.stringify(message))
   }
 
+  _handleVisibilityChange () {
+    DEV && console.log('[DMX] Document visibility:', document.visibilityState, new Date())
+    if (document.visibilityState === "hidden") {
+      // mobile browsers often kill background sockets anyway
+      this._close()
+    } else {
+      this._connect()
+    }
+  }
+
   _connect () {
-    DEV && console.log('[DMX] Opening WebSocket connection to', this.url)
+    DEV && console.log('[DMX] Connecting', this.url)
     this.ws = new WebSocket(this.url)
     this.ws.onopen = e => {
-      this._startIdling()
+      this._startHeartbeat()
     }
     this.ws.onmessage = e => {
       const message = JSON.parse(e.data)
@@ -47,33 +59,32 @@ export default class DMXWebSocket {
       this.messageHandler(message)
     }
     this.ws.onclose = e => {
-      DEV && console.log('[DMX] WebSocket connection closed (' + e.reason + ')')
-      this._stopIdling()
-      this._reload()      // a closed ws connection is regarded an (backend/network) error which requires page reloading
+      DEV && console.log('[DMX] WebSocket closed', e.reason)
+      this._cleanup()
     }
     this.ws.onerror = e => {
       DEV && console.warn('[DMX] WebSocket error')
     }
   }
 
-  _startIdling () {
-    this.idleId = setInterval(this._idle.bind(this), IDLE_INTERVAL)
+  _startHeartbeat () {
+    this.heartbeatTimer = setInterval(this._ping.bind(this), HEARTBEAT_INTERVAL)
   }
 
-  _stopIdling () {
-    clearInterval(this.idleId)
+  _stopHeartbeat () {
+    clearInterval(this.heartbeatTimer)
   }
 
-  _idle () {
-    DEV && console.log('[DMX] WebSocket connection idle')
-    this.send({type: 'idle'})
+  _ping () {
+    DEV && console.log('[DMX] WebSocket ping')
+    this.send({type: 'ping'})
   }
 
-  _reload () {
-    setTimeout(() => {
-      alert('There is a problem with the server or network.\n\nPlease press OK to reload page.\n' +
-        'If it fails try manual page reload.')
-      location.reload()
-    }, 1000)    // timeout to not interfere with interactive page reload (which also closes websocket connection)
+  _close () {
+    this.ws.close()
+  }
+
+  _cleanup () {
+    this._stopHeartbeat()
   }
 }
