@@ -2,6 +2,13 @@
 
 ## Version History
 
+**4.0.1** -- Jan 31, 2026
+
+* Improvement:
+    - No alert box appears when WebSocket connection is dropped. Reopens when browser is "foregrounded".
+* Fix:
+    - Topic positioning for `Topicmap` instances hold as reactive Vue 3 state.
+
 **4.0** -- Oct 16, 2024
 
 * BREAKING CHANGE
@@ -331,4 +338,4 @@ library's `init()` function.
 
 ------------
 Jörg Richter  
-Oct 16, 2024
+Jan 31, 2026
