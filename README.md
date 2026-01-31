@@ -2,6 +2,11 @@
 
 ## Version History
 
+**4.0.2** -- Jan 31, 2026
+
+* Fix:
+    - Log proper dmx-api version in browser console
+
 **4.0.1** -- Jan 31, 2026
 
 * Improvement:
