@@ -10,7 +10,7 @@
     "url": "git+https://github.com/dmx-systems/dmx-api.git"
   },
   "dependencies": {
-    "axios": "0.18.1",
+    "axios": "1.6.0",
     "clone": "2.1.2",
     "debounce": "1.2.0",
     "font-awesome": "4.7.0"
